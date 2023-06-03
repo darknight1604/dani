@@ -44,3 +44,7 @@ app.*.map.json
 /android/app/release
 
 /android/google-services.json
+
+/lib/gen/
+
+*.g.dart

@@ -1,0 +1,9 @@
+{
+    "common": {
+        "appName": "Dani",
+        "welcomeTitle":"Welcome"
+    },
+    "loginScreen":{
+        "welcomeContent": "Welcome to Dani.\nCurrently, we only support login with Gmail"
+    }
+}

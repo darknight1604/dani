@@ -1,16 +1,11 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalRepository {
-  LocalRepository._internal() {
+  late SharedPreferences? _prefs;
+
+  LocalRepository() {
     _prefs = null;
   }
-
-  static LocalRepository? _instance;
-
-  static LocalRepository get instance =>
-      _instance ??= LocalRepository._internal();
-
-  late SharedPreferences? _prefs;
 
   Future<SharedPreferences> getPref() async {
     if (_prefs != null) return _prefs!;

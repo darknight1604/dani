@@ -2,6 +2,7 @@ import 'package:alpha/features/home_screen/presentations/home_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../features/login/presentations/login_screen.dart';
+import '../features/spending/presentations/spending_screen.dart';
 import 'app_config.dart';
 
 class AppRoute {
@@ -9,6 +10,8 @@ class AppRoute {
   static const String loginScreen = "/loginScreen";
 
   static const String homeScreen = "/homeScreen";
+
+  static const String spendingScreen = "/spendingScreen";
 
   static String initialRoute(AppConfig appConfig) {
     if (appConfig.isLogged) {
@@ -25,6 +28,8 @@ class AppRoute {
         return MaterialPageRoute(builder: (context) => const LoginScreen());
       case homeScreen:
         return MaterialPageRoute(builder: (context) => const HomeScreen());
+      case spendingScreen:
+        return MaterialPageRoute(builder: (context) => const SpendingScreen());
       default:
         return null;
     }

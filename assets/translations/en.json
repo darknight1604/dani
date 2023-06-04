@@ -1,9 +1,18 @@
 {
     "common": {
         "appName": "Dani",
-        "welcomeTitle":"Welcome"
+        "welcomeTitle":"Welcome",
+        "confirm": "Confirm",
+        "cancel": "Cancel",
+        "note": "Note"
     },
     "loginScreen":{
         "welcomeContent": "Welcome to Dani.\nCurrently, we only support login with Gmail"
+    },
+    "spendingScreen":{
+        "appBarTitle":"Create Spending",
+        "whatDidYouSpendToday": "What did you spend today?",
+        "spendingType": "Type",
+        "cost": "Cost" 
     }
 }

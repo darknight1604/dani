@@ -1,8 +1,9 @@
-import 'package:alpha/core/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalRepository {
-  LocalRepository._internal();
+  LocalRepository._internal() {
+    _prefs = null;
+  }
 
   static LocalRepository? _instance;
 
@@ -11,19 +12,18 @@ class LocalRepository {
 
   late SharedPreferences? _prefs;
 
-  void saveToken(String token) async {
-    SharedPreferences prefs = await getPref();
-    prefs.setString(Constants.token, token);
-  }
-
-  Future<String> fetchToken() async {
-    SharedPreferences prefs = await getPref();
-    return prefs.getString(Constants.token) ?? '';
-  }
-
   Future<SharedPreferences> getPref() async {
     if (_prefs != null) return _prefs!;
-    _prefs = await SharedPreferences.getInstance();
-    return _prefs!;
+    return _prefs ??= await SharedPreferences.getInstance();
+  }
+
+  Future<bool> setString(String key, String value) async {
+    SharedPreferences prefs = await getPref();
+    return prefs.setString(key, value);
+  }
+
+  Future<String> getString(String key) async {
+    SharedPreferences prefs = await getPref();
+    return prefs.getString(key) ?? '';
   }
 }

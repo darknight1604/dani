@@ -1,3 +1,4 @@
+import 'package:alpha/core/app_config.dart';
 import 'package:alpha/core/app_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await EasyLocalization.ensureInitialized();
-
+  await AppConfig.instance.initial();
   runApp(
     EasyLocalization(
       supportedLocales: [
@@ -34,8 +35,9 @@ class MyApp extends StatelessWidget {
       ],
       localizationsDelegates: context.localizationDelegates,
       locale: context.locale,
-      initialRoute: AppRoute.loginScreen,
+      initialRoute: AppRoute.initialRoute(AppConfig.instance),
       onGenerateRoute: AppRoute.onGenerateRoute,
+      color: Colors.amberAccent,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

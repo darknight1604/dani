@@ -1,3 +1,4 @@
+import 'package:alpha/core/app_route.dart';
 import 'package:alpha/core/constants.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
             }
             if (state is LoginSuccessState) {
               print('LoginSuccessState');
+              Navigator.pushReplacementNamed(context, AppRoute.homeScreen);
             }
           },
           child: _BodyScreen(),

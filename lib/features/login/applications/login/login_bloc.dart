@@ -1,4 +1,5 @@
 import 'package:alpha/core/repositories/local/local_repository.dart';
+import 'package:alpha/core/services/local_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -10,7 +11,7 @@ part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final LoginService _loginService = LoginService();
-  final LocalRepository _localRepository = LocalRepository.instance;
+  final LocalService _localService = LocalService.instance;
 
   LoginBloc() : super(LoginInitial()) {
     on<LoginWithGmailEvent>((event, emit) async {
@@ -26,7 +27,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(LoginFailState());
         return;
       }
-      _localRepository.saveToken(authen.accessToken!);
+      _localService.saveToken(authen.accessToken!);
       emit(LoginSuccessState());
     });
   }

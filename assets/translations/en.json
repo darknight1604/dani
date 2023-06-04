@@ -4,7 +4,9 @@
         "welcomeTitle":"Welcome",
         "confirm": "Confirm",
         "cancel": "Cancel",
-        "note": "Note"
+        "note": "Note",
+        "loading": "Loading",
+        "requireField": "This field is require"
     },
     "loginScreen":{
         "welcomeContent": "Welcome to Dani.\nCurrently, we only support login with Gmail"
@@ -13,6 +15,7 @@
         "appBarTitle":"Create Spending",
         "whatDidYouSpendToday": "What did you spend today?",
         "spendingType": "Type",
-        "cost": "Cost" 
+        "cost": "Cost",
+        "purpose": "What is your purpose?" 
     }
 }

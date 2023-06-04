@@ -1,9 +1,15 @@
-import 'package:alpha/core/repositories/core_repository_injection.dart';
-import 'package:alpha/core/services/core_service_injection.dart';
+import 'package:alpha/features/spending/spending_di_container.dart';
+import 'package:get_it/get_it.dart';
+
+import 'core/core_dependency_container.dart';
+
+abstract class DiContainer {
+  void setup(GetIt instance);
+}
 
 class DependencyContainer {
-  static void setup() {
-    CoreRepositoryInjection.setup();
-    CoreServiceInjection.setup();
+  static void setup(GetIt instance) {
+    CoreDependencyContainer.setup(instance);
+    SpendingDiContainer().setup(instance);
   }
 }

@@ -5,12 +5,13 @@ import 'package:alpha/dependency_container.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await EasyLocalization.ensureInitialized();
-  DependencyContainer.setup();
+  DependencyContainer.setup(GetIt.instance);
   await AppConfig.instance.initial();
   await Firebase.initializeApp();
 

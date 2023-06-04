@@ -1,18 +1,21 @@
 {
     "common": {
         "appName": "Dani",
-        "welcomeTitle":"Welcome",
-        "confirm": "Confirm",
-        "cancel": "Cancel",
-        "note": "Note"
+        "welcomeTitle":"Chào mừng",
+        "confirm": "Xác nhận",
+        "cancel": "Hủy bỏ",
+        "note": "Ghi chú",
+        "loading": "Đang tải",
+        "requireField": "Field này là bắt buộc"
     },
     "loginScreen":{
-        "welcomeContent": "Welcome to Dani.\nCurrently, we only support login with Gmail"
+        "welcomeContent": "Chào mừng bạn đến với Dani.\nHiện tại, app chỉ hỗ trợ đăng nhập với Gmail"
     },
     "spendingScreen":{
-        "appBarTitle":"Create Spending",
-        "whatDidYouSpendToday": "What did you spend today?",
-        "spendingType": "Type",
-        "cost": "Cost" 
+        "appBarTitle":"Thêm chi tiêu",
+        "whatDidYouSpendToday": "Bạn đã tiêu gì hôm nay?",
+        "spendingType": "Danh mục",
+        "cost": "Số tiền",
+        "purpose": "Bạn dùng số tiền cho mục đích gì?"  
     }
 }

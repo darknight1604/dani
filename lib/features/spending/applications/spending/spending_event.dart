@@ -6,3 +6,9 @@ class SpendingEvent extends Equatable {
 }
 
 class FetchSpendingCategoryEvent extends SpendingEvent {}
+
+class CreateSpendingEvent extends SpendingEvent {
+  final SpendingRequest request;
+
+  CreateSpendingEvent(this.request);
+}

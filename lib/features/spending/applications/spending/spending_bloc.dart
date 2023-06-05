@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../models/spending_category.dart';
+import '../../models/spending_request.dart';
 
 part 'spending_event.dart';
 part 'spending_state.dart';
@@ -17,6 +18,14 @@ class SpendingBloc extends Bloc<SpendingEvent, SpendingState> {
       emit(
         SpendingLoaded(spendingCategories: spendingCategories),
       );
+    });
+    on<CreateSpendingEvent>((event, emit) async {
+      final result = await _spendingService.addSpendingRequest(event.request);
+      if (result) {
+        emit(CreateSpendingRequestSuccess());
+        return;
+      }
+      emit(CreateSpendingRequestFailure());
     });
   }
 }

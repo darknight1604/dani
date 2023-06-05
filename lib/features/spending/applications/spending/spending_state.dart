@@ -17,3 +17,7 @@ class SpendingLoaded extends SpendingState {
   @override
   List<Object> get props => [spendingCategories];
 }
+
+class CreateSpendingRequestSuccess extends SpendingState {}
+
+class CreateSpendingRequestFailure extends SpendingState {}

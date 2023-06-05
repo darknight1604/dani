@@ -1,4 +1,5 @@
 import 'package:alpha/core/constants.dart';
+import 'package:alpha/core/utils/extensions/text_style_extension.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/text_theme_util.dart';
@@ -47,24 +48,19 @@ class InputTextField extends StatelessWidget {
         // border: InputBorder()
         alignLabelWithHint: true,
         hintText: hintText,
-        hintStyle: TextThemeUtil.instance.bodyMedium?.copyWith(
-          color: Constants.disableColor,
-        ),
+        hintStyle: TextThemeUtil.instance.bodyMedium?.regular.disable,
         label: labelWidget,
         labelText: labelText,
-        labelStyle: TextThemeUtil.instance.bodyMedium?.copyWith(
-          color: Colors.black,
-        ),
+        labelStyle: TextThemeUtil.instance.bodyMedium?.regular,
         prefixText: prefixText,
-        prefixStyle: TextThemeUtil.instance.bodyMedium?.copyWith(
-          color: Constants.disableColor,
-        ),
+        prefixStyle: TextThemeUtil.instance.bodyMedium?.regular.disable,
         suffixText: suffixText,
-        suffixStyle: TextThemeUtil.instance.bodyMedium?.copyWith(
-          color: Constants.disableColor,
-        ),
+        suffixStyle: TextThemeUtil.instance.bodyMedium?.regular.disable,
         contentPadding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-        border: OutlineInputBorder(),
+        border: OutlineInputBorder(
+          borderSide: BorderSide(color: Constants.borderColor),
+          borderRadius: BorderRadius.circular(Constants.radius),
+        ),
         errorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.red),
         ),

@@ -2,6 +2,7 @@ import 'package:alpha/core/services/firestore_service.dart';
 import 'package:alpha/core/services/local_service.dart';
 import 'package:get_it/get_it.dart';
 
+import 'applications/loading/loading_bloc.dart';
 import 'repositories/local/local_repository.dart';
 import 'repositories/remote/firestore_repository.dart';
 
@@ -18,5 +19,8 @@ class CoreDependencyContainer {
       () => FirestoreService(instance.get()),
     );
     instance.registerLazySingleton<LocalService>(() => LocalService());
+
+    /// Applications
+    instance.registerFactory<LoadingBloc>(() => LoadingBloc());
   }
 }

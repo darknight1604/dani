@@ -1,5 +1,5 @@
-import 'package:alpha/core/repositories/local/local_repository.dart';
 import 'package:alpha/core/services/local_service.dart';
+import 'package:alpha/features/login/models/user.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -28,6 +28,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(LoginFailState());
         return;
       }
+      _localService.saveUser(
+        User(
+          displayName: googleSignInAcc.displayName,
+          email: googleSignInAcc.email,
+          accessToken: authen.accessToken!,
+        ),
+      );
       _localService.saveToken(authen.accessToken!);
       emit(LoginSuccessState());
     });

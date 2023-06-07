@@ -3,6 +3,7 @@ import 'package:alpha/core/constants.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../gen/locale_keys.g.dart';
 import '../applications/login/login_bloc.dart';
@@ -19,14 +20,13 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider<LoginBloc>(
-        create: (context) => LoginBloc(),
+        create: (context) => LoginBloc(GetIt.I.get()),
         child: BlocListener<LoginBloc, LoginState>(
           listener: (context, state) {
             if (state is LoginFailState) {
               print('LoginFailState');
             }
             if (state is LoginSuccessState) {
-              print('LoginSuccessState');
               Navigator.pushReplacementNamed(context, AppRoute.homeScreen);
             }
           },

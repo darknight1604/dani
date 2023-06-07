@@ -2,6 +2,8 @@ import 'package:alpha/core/services/local_service.dart';
 import 'package:alpha/core/utils/string_util.dart';
 import 'package:get_it/get_it.dart';
 
+import '../features/login/domains/models/user.dart';
+
 class AppConfig {
   late String? _token;
 
@@ -14,7 +16,8 @@ class AppConfig {
   static AppConfig get instance => _instance ??= AppConfig._internal();
 
   Future<void> initial() async {
-    _token = await GetIt.I.get<LocalService>().fetchToken();
+    User? user = await GetIt.I.get<LocalService>().getUser();
+    _token = user?.accessToken ?? '';
   }
 
   bool get isLogged => StringUtil.isNotNullOrEmpty(_token);

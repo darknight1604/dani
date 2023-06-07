@@ -51,9 +51,13 @@ class MyApp extends StatelessWidget {
         textTheme: TextTheme(
           titleLarge: TextStyle(
             color: Constants.defaultTextColor,
-            fontSize: 24,
+            fontSize: 28,
           ),
           titleMedium: TextStyle(
+            color: Constants.defaultTextColor,
+            fontSize: 24,
+          ),
+          titleSmall: TextStyle(
             color: Constants.defaultTextColor,
             fontSize: 20,
           ),

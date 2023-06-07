@@ -12,7 +12,8 @@
         "login": "Login"
     },
     "loginScreen":{
-        "welcomeContent": "Welcome to Dani.\nCurrently, we only support login with Gmail"
+        "welcomeContent": "Welcome to Dani.\nCurrently, we only support login with Gmail",
+        "continueWithGmail":"Continue with Gmail"
     },
     "spendingScreen":{
         "appBarTitle":"Create Spending",

@@ -5,18 +5,20 @@ import '../utils/text_theme_util.dart';
 import 'package:dani/core/utils/extensions/text_style_extension.dart';
 
 abstract class MyBtn extends StatelessWidget {
-  final String title;
+  final Widget child;
   final VoidCallback onTap;
   MyBtn({
-    required this.title,
+    required this.child,
     required this.onTap,
   });
 }
 
-class MyFilledBtn extends MyBtn {
+class MyFilledBtn extends StatelessWidget {
+  final String title;
+  final VoidCallback onTap;
   MyFilledBtn({
-    required super.title,
-    required super.onTap,
+    required this.title,
+    required this.onTap,
   });
 
   @override
@@ -33,12 +35,10 @@ class MyFilledBtn extends MyBtn {
   }
 }
 
-class MyFilledWithChildBtn extends StatelessWidget {
-  final Widget child;
-  final VoidCallback onTap;
+class MyFilledWithChildBtn extends MyBtn {
   MyFilledWithChildBtn({
-    required this.onTap,
-    required this.child,
+    required super.onTap,
+    required super.child,
   });
 
   @override
@@ -74,17 +74,41 @@ class MyFilledWithChildBtn extends StatelessWidget {
   }
 }
 
-class MyOutlineBtn extends MyBtn {
+class MyOutlineBtn extends StatelessWidget {
+  final String title;
+  final VoidCallback onTap;
   MyOutlineBtn({
-    required super.title,
+    required this.title,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return MyOutlineWithChildBtn(
+      onTap: onTap,
+      child: Text(
+        title,
+        style: TextThemeUtil.instance.bodyMedium?.semiBold.copyWith(
+          color: Theme.of(context).colorScheme.primary,
+        ),
+      ),
+    );
+  }
+}
+
+class MyOutlineWithChildBtn extends MyBtn {
+  MyOutlineWithChildBtn({
+    required super.child,
     required super.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
+    final Size size = Size(120, 50);
     final ButtonStyle outlineButtonStyle = OutlinedButton.styleFrom(
       foregroundColor: Constants.defaultTextColor,
-      fixedSize: Size(120, 50),
+      minimumSize: size,
+      maximumSize: Size(300, 50),
       padding: EdgeInsets.symmetric(horizontal: 16),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(Constants.radius)),
@@ -107,12 +131,7 @@ class MyOutlineBtn extends MyBtn {
     return OutlinedButton(
       style: outlineButtonStyle,
       onPressed: onTap,
-      child: Text(
-        title,
-        style: TextThemeUtil.instance.bodyMedium?.semiBold.copyWith(
-          color: Theme.of(context).colorScheme.primary,
-        ),
-      ),
+      child: child,
     );
   }
 }

@@ -10,6 +10,7 @@ class TextThemeUtil {
   void initial(BuildContext context) {
     titleLarge = Theme.of(context).textTheme.titleLarge;
     titleMedium = Theme.of(context).textTheme.titleMedium;
+    titleSmall = Theme.of(context).textTheme.titleSmall;
 
     bodyLarge = Theme.of(context).textTheme.bodyLarge;
     bodyMedium = Theme.of(context).textTheme.bodyMedium;
@@ -18,6 +19,7 @@ class TextThemeUtil {
 
   TextStyle? titleLarge;
   TextStyle? titleMedium;
+  TextStyle? titleSmall;
 
   TextStyle? bodyLarge;
   TextStyle? bodyMedium;

@@ -1,10 +1,13 @@
 import 'package:dani/core/app_route.dart';
 import 'package:dani/core/constants.dart';
+import 'package:dani/gen/assets.gen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-
+import 'package:dani/core/utils/extensions/text_style_extension.dart';
+import '../../../core/utils/text_theme_util.dart';
+import '../../../core/widgets/my_btn.dart';
 import '../../../gen/locale_keys.g.dart';
 import '../applications/login/login_bloc.dart';
 
@@ -42,30 +45,76 @@ class _BodyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            tr(LocaleKeys.common_welcomeTitle),
-            style: Theme.of(context).textTheme.bodyLarge,
+    return Stack(
+      children: [
+        Column(
+          children: [
+            Expanded(
+              child: DecoratedBox(
+                decoration: BoxDecoration(color: Colors.blue),
+                child: SizedBox(
+                  width: double.infinity,
+                ),
+              ),
+            ),
+            Expanded(
+              child: DecoratedBox(
+                decoration: BoxDecoration(color: Colors.white),
+                child: SizedBox(
+                  width: double.infinity,
+                ),
+              ),
+            ),
+          ],
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(vertical: 200, horizontal: 20),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(Constants.radius),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.blueGrey,
+                offset: Offset(0, 1),
+                blurRadius: 1,
+              ),
+            ],
           ),
-          InkWell(
-            onTap: () async {
-              BlocProvider.of<LoginBloc>(context).add(
-                LoginWithGmailEvent(),
-              );
-            },
-            child: const Icon(
-              Icons.mail_outlined,
-              color: Colors.blueGrey,
-              size: Constants.iconSizeLarge,
+          child: SizedBox(
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  tr(LocaleKeys.common_welcomeTitle),
+                  style: TextThemeUtil.instance.titleLarge?.semiBold,
+                ),
+                MyOutlineWithChildBtn(
+                  onTap: () {
+                    BlocProvider.of<LoginBloc>(context).add(
+                      LoginWithGmailEvent(),
+                    );
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Assets.images.icGmail.image(width: Constants.iconSize),
+                      const SizedBox(
+                        width: 12,
+                      ),
+                      Text(
+                        tr(LocaleKeys.loginScreen_continueWithGmail),
+                        style: TextThemeUtil.instance.bodyMedium?.regular,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
-        ],
-      ),
+        )
+      ],
     );
   }
 }

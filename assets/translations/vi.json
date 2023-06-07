@@ -12,7 +12,8 @@
         "login": "Đăng nhập"
     },
     "loginScreen":{
-        "welcomeContent": "Chào mừng bạn đến với Dani.\nHiện tại, app chỉ hỗ trợ đăng nhập với Gmail"
+        "welcomeContent": "Chào mừng bạn đến với Dani.\nHiện tại, app chỉ hỗ trợ đăng nhập với Gmail",
+        "continueWithGmail":"Tiếp tục với Gmail"
     },
     "spendingScreen":{
         "appBarTitle":"Thêm chi tiêu",

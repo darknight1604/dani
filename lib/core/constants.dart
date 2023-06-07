@@ -27,4 +27,6 @@ class Constants {
   static const double radius = 8.0;
 
   static Color borderColor = Colors.grey.shade400;
+
+  static double iconSize = 24;
 }

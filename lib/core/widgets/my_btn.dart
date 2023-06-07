@@ -21,6 +21,28 @@ class MyFilledBtn extends MyBtn {
 
   @override
   Widget build(BuildContext context) {
+    return MyFilledWithChildBtn(
+      onTap: onTap,
+      child: Text(
+        title,
+        style: TextThemeUtil.instance.bodyMedium?.semiBold.copyWith(
+          color: Colors.white,
+        ),
+      ),
+    );
+  }
+}
+
+class MyFilledWithChildBtn extends StatelessWidget {
+  final Widget child;
+  final VoidCallback onTap;
+  MyFilledWithChildBtn({
+    required this.onTap,
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     final ButtonStyle outlineButtonStyle = OutlinedButton.styleFrom(
       backgroundColor: Theme.of(context).colorScheme.primary,
       foregroundColor: Theme.of(context).colorScheme.primary,
@@ -47,12 +69,7 @@ class MyFilledBtn extends MyBtn {
     return OutlinedButton(
       style: outlineButtonStyle,
       onPressed: onTap,
-      child: Text(
-        title,
-        style: TextThemeUtil.instance.bodyMedium?.semiBold.copyWith(
-          color: Colors.white,
-        ),
-      ),
+      child: child,
     );
   }
 }

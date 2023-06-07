@@ -34,4 +34,22 @@ class AppRoute {
         return null;
     }
   }
+
+  static pushReplacement(BuildContext context, final String name,
+      {final Object? arguments}) {
+    Navigator.of(context).popUntil((route) => route.isFirst);
+
+    final Route<dynamic>? newRoute = onGenerateRoute(
+      RouteSettings(
+        name: name,
+        arguments: arguments,
+      ),
+    );
+    if (newRoute != null) {
+      Navigator.pushReplacement(
+        context,
+        newRoute,
+      );
+    }
+  }
 }

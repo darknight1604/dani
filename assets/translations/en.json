@@ -7,7 +7,9 @@
         "note": "Note",
         "loading": "Loading",
         "requireField": "This field is require",
-        "featureWorkInProgress": "Feature is progressing"
+        "featureWorkInProgress": "Feature is progressing",
+        "logout": "Logout",
+        "login": "Login"
     },
     "loginScreen":{
         "welcomeContent": "Welcome to Dani.\nCurrently, we only support login with Gmail"

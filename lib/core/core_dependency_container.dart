@@ -1,5 +1,5 @@
-import 'package:alpha/core/services/firestore_service.dart';
-import 'package:alpha/core/services/local_service.dart';
+import 'package:dani/core/services/firestore_service.dart';
+import 'package:dani/core/services/local_service.dart';
 import 'package:get_it/get_it.dart';
 
 import 'applications/loading/loading_bloc.dart';

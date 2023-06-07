@@ -1,4 +1,4 @@
-import 'package:alpha/features/home_screen/presentations/home_screen.dart';
+import 'package:dani/features/home_screen/presentations/home_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../features/login/presentations/login_screen.dart';

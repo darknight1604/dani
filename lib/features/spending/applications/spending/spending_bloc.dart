@@ -1,4 +1,4 @@
-import 'package:alpha/features/spending/services/spending_service.dart';
+import 'package:dani/features/spending/services/spending_service.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get_it/get_it.dart';

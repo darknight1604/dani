@@ -1,5 +1,5 @@
-import 'package:alpha/core/constants.dart';
-import 'package:alpha/core/utils/extensions/text_style_extension.dart';
+import 'package:dani/core/constants.dart';
+import 'package:dani/core/utils/extensions/text_style_extension.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/text_theme_util.dart';

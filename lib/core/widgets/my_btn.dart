@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../constants.dart';
 import '../utils/text_theme_util.dart';
-import 'package:alpha/core/utils/extensions/text_style_extension.dart';
+import 'package:dani/core/utils/extensions/text_style_extension.dart';
 
 abstract class MyBtn extends StatelessWidget {
   final String title;

@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:alpha/core/constants.dart';
-import 'package:alpha/core/repositories/local/local_repository.dart';
-import 'package:alpha/core/utils/string_util.dart';
+import 'package:dani/core/constants.dart';
+import 'package:dani/core/repositories/local/local_repository.dart';
+import 'package:dani/core/utils/string_util.dart';
 
 import '../../features/login/domains/models/user.dart';
 

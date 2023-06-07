@@ -1,6 +1,6 @@
-import 'package:alpha/dependency_container.dart';
-import 'package:alpha/features/login/domains/businesses/login_business.dart';
-import 'package:alpha/features/login/services/login_service.dart';
+import 'package:dani/dependency_container.dart';
+import 'package:dani/features/login/domains/businesses/login_business.dart';
+import 'package:dani/features/login/services/login_service.dart';
 import 'package:get_it/get_it.dart';
 
 class LoginDiContainer extends DiContainer {

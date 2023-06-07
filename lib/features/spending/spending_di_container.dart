@@ -1,4 +1,4 @@
-import 'package:alpha/dependency_container.dart';
+import 'package:dani/dependency_container.dart';
 import 'package:get_it/get_it.dart';
 
 import 'services/spending_service.dart';

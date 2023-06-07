@@ -1,10 +1,10 @@
-import 'package:alpha/core/applications/loading/loading_bloc.dart';
-import 'package:alpha/core/constants.dart';
-import 'package:alpha/core/utils/extensions/text_style_extension.dart';
-import 'package:alpha/core/utils/text_theme_util.dart';
-import 'package:alpha/core/widgets/base_stateful.dart';
-import 'package:alpha/features/spending/models/spending_category.dart';
-import 'package:alpha/gen/locale_keys.g.dart';
+import 'package:dani/core/applications/loading/loading_bloc.dart';
+import 'package:dani/core/constants.dart';
+import 'package:dani/core/utils/extensions/text_style_extension.dart';
+import 'package:dani/core/utils/text_theme_util.dart';
+import 'package:dani/core/widgets/base_stateful.dart';
+import 'package:dani/features/spending/models/spending_category.dart';
+import 'package:dani/gen/locale_keys.g.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';

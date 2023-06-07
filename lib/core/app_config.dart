@@ -1,5 +1,5 @@
-import 'package:alpha/core/services/local_service.dart';
-import 'package:alpha/core/utils/string_util.dart';
+import 'package:dani/core/services/local_service.dart';
+import 'package:dani/core/utils/string_util.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';

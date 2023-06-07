@@ -1,5 +1,5 @@
-import 'package:alpha/core/services/local_service.dart';
-import 'package:alpha/features/login/services/login_service.dart';
+import 'package:dani/core/services/local_service.dart';
+import 'package:dani/features/login/services/login_service.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../models/user.dart';

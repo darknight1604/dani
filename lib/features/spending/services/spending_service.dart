@@ -1,5 +1,5 @@
-import 'package:alpha/core/repositories/remote/firestore_repository.dart';
-import 'package:alpha/features/spending/models/spending_category.dart';
+import 'package:dani/core/repositories/remote/firestore_repository.dart';
+import 'package:dani/features/spending/models/spending_category.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/spending_request.dart';

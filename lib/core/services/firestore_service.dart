@@ -1,4 +1,4 @@
-import 'package:alpha/core/repositories/remote/firestore_repository.dart';
+import 'package:dani/core/repositories/remote/firestore_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirestoreService {

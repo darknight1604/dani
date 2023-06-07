@@ -1,7 +1,7 @@
-import 'package:alpha/core/app_config.dart';
-import 'package:alpha/core/app_route.dart';
-import 'package:alpha/core/utils/text_theme_util.dart';
-import 'package:alpha/dependency_container.dart';
+import 'package:dani/core/app_config.dart';
+import 'package:dani/core/app_route.dart';
+import 'package:dani/core/utils/text_theme_util.dart';
+import 'package:dani/dependency_container.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

@@ -1,26 +1,29 @@
-import 'package:dani/core/repositories/remote/firestore_repository.dart';
-import 'package:dani/features/spending/models/spending_category.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dani/core/constants.dart';
+import 'package:dani/core/services/firestore_service.dart';
+import 'package:dani/features/spending/models/spending.dart';
+import 'package:dani/features/spending/models/spending_category.dart';
 
 import '../models/spending_request.dart';
 
 class SpendingService {
-  final FirestoreRepository firestoreRepository;
+  final FirestoreService firestoreService;
 
-  SpendingService(this.firestoreRepository);
+  SpendingService(this.firestoreService);
 
   List<SpendingCategory> result = [];
 
   final String _collectionName = 'spending_category';
+  final String _collectionSpending = 'spending_request';
 
   Future<List<SpendingCategory>> getListSpendingCategory() async {
     if (result.isNotEmpty) return result;
 
     QuerySnapshot querySnapshot =
-        await firestoreRepository.getCollection(_collectionName);
+        await firestoreService.getCollection(_collectionName);
     querySnapshot.docs.forEach((element) {
       Map<String, dynamic> data = element.data() as Map<String, dynamic>;
-      data['id'] = element.id;
+      data[Constants.id] = element.id;
       result.add(
         SpendingCategory.fromJson(data),
       );
@@ -29,8 +32,23 @@ class SpendingService {
     return result;
   }
 
+  Future<List<Spending>> getListSpending() async {
+    List<Spending> listSpendingRequest = [];
+    QuerySnapshot querySnapshot =
+        await firestoreService.getCollection(_collectionSpending);
+    querySnapshot.docs.forEach((element) {
+      Map<String, dynamic> data = element.data() as Map<String, dynamic>;
+      data[Constants.id] = element.id;
+      listSpendingRequest.add(
+        Spending.fromJson(data),
+      );
+    });
+
+    return listSpendingRequest;
+  }
+
   Future<bool> addSpendingRequest(SpendingRequest spendingRequest) async {
-    return await firestoreRepository.createDocument(
+    return await firestoreService.createDocument(
       collectionPath: 'spending_request',
       data: spendingRequest.toJson(),
     );

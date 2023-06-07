@@ -10,6 +10,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/utils/my_snackbar.dart';
 import '../../../core/utils/string_util.dart';
 import '../../../core/widgets/input_text_field.dart';
 import '../../../core/widgets/my_btn.dart';
@@ -38,8 +39,8 @@ class _SpendingScreenState extends BaseStatefulState {
       appBar: AppBar(
         title: Text(
           tr(LocaleKeys.spendingScreen_appBarTitle),
-          style:
-              TextThemeUtil.instance.titleMedium?.semiBold.copyWith(color: Colors.white),
+          style: TextThemeUtil.instance.titleMedium?.semiBold
+              .copyWith(color: Colors.white),
         ),
       ),
       body: BlocProvider<SpendingBloc>(
@@ -51,6 +52,22 @@ class _SpendingScreenState extends BaseStatefulState {
           listener: (context, state) {
             if (state is SpendingLoaded) {
               loadingBloc.add(LoadingDismissEvent());
+              return;
+            }
+            if (state is CreateSpendingRequestSuccess) {
+              MySnackBarUtil.show(
+                context,
+                tr(LocaleKeys.common_createRequestSuccess),
+              );
+              Navigator.pop(context);
+              return;
+            }
+            if (state is CreateSpendingRequestFailure) {
+              MySnackBarUtil.show(
+                context,
+                tr(LocaleKeys.common_createRequestFailure),
+              );
+              return;
             }
           },
           child: _BodyScreen(),
@@ -135,8 +152,9 @@ class _BodyScreenState extends State<_BodyScreen> {
                   },
                   onSaved: (value) {
                     if (StringUtil.isNullOrEmpty(value)) return;
-                    _spendingRequest.cost =
-                        int.parse(value!.replaceAll(',', 'replace'));
+                    _spendingRequest.cost = int.parse(
+                      value!.replaceAll(',', ''),
+                    );
                   },
                 ),
                 SizedBox(

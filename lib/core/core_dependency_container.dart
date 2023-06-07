@@ -16,7 +16,10 @@ class CoreDependencyContainer {
 
     /// Services
     instance.registerLazySingleton<FirestoreService>(
-      () => FirestoreService(instance.get()),
+      () => FirestoreService(
+        instance.get(),
+        instance.get(),
+      ),
     );
     instance.registerLazySingleton<LocalService>(
         () => LocalService(instance.get()));

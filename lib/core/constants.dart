@@ -6,8 +6,12 @@ class Constants {
   static const double iconSizeLarge = 100;
 
   static const String token = 'token';
+  static const String empty = '--';
 
   static const String user = 'user';
+
+  static const String userEmail = 'userEmail';
+  static const String id = 'id';
 
   static const double padding = 16.0;
 

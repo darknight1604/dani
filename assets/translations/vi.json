@@ -9,7 +9,9 @@
         "requireField": "Field này là bắt buộc",
         "featureWorkInProgress": "Tính năng đang được phát triển",
         "logout": "Đăng xuất",
-        "login": "Đăng nhập"
+        "login": "Đăng nhập",
+        "createRequestSuccess": "Yêu cầu của bạn đã được thành công",
+        "createRequestFailure": "Yêu cầu của bạn đã được thất bại"
     },
     "loginScreen":{
         "welcomeContent": "Chào mừng bạn đến với Dani.\nHiện tại, app chỉ hỗ trợ đăng nhập với Gmail",

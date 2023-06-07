@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../core/utils/text_theme_util.dart';
+import '../../spending/presentations/spending_listing_screen.dart';
 import '../applications/cubit/home_cubit.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -33,16 +34,11 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Scaffold(
           appBar: AppBar(),
           drawer: _MyDrawer(),
-          body: Center(
-            child: Text(
-              tr(LocaleKeys.common_featureWorkInProgress),
-              style: TextThemeUtil.instance.titleMedium?.regular,
-            ),
-          ),
+          body: SpendingListingScreen(),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
               // Add your onPressed code here!
-              Navigator.pushNamed(context, AppRoute.spendingScreen);
+              Navigator.pushNamed(context, AppRoute.spendingScreen).then((value) => null);
             },
             backgroundColor: Theme.of(context).primaryColor,
             child: const Icon(Icons.add),

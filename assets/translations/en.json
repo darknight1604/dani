@@ -9,7 +9,9 @@
         "requireField": "This field is require",
         "featureWorkInProgress": "Feature is progressing",
         "logout": "Logout",
-        "login": "Login"
+        "login": "Login",
+        "createRequestSuccess": "Your request was successful",
+        "createRequestFailure": "Your request was failed"
     },
     "loginScreen":{
         "welcomeContent": "Welcome to Dani.\nCurrently, we only support login with Gmail",

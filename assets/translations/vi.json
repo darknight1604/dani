@@ -6,7 +6,8 @@
         "cancel": "Hủy bỏ",
         "note": "Ghi chú",
         "loading": "Đang tải",
-        "requireField": "Field này là bắt buộc"
+        "requireField": "Field này là bắt buộc",
+        "featureWorkInProgress": "Tính năng đang được phát triển"
     },
     "loginScreen":{
         "welcomeContent": "Chào mừng bạn đến với Dani.\nHiện tại, app chỉ hỗ trợ đăng nhập với Gmail"

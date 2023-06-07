@@ -39,7 +39,7 @@ class _SpendingScreenState extends BaseStatefulState {
         title: Text(
           tr(LocaleKeys.spendingScreen_appBarTitle),
           style:
-              TextThemeUtil.instance.titleMedium?.copyWith(color: Colors.white),
+              TextThemeUtil.instance.titleMedium?.semiBold.copyWith(color: Colors.white),
         ),
       ),
       body: BlocProvider<SpendingBloc>(
@@ -91,7 +91,7 @@ class _BodyScreenState extends State<_BodyScreen> {
         children: [
           Text(
             tr(LocaleKeys.spendingScreen_whatDidYouSpendToday),
-            style: TextThemeUtil.instance.bodyMedium,
+            style: TextThemeUtil.instance.bodyMedium?.regular,
           ),
           SizedBox(
             height: 50,

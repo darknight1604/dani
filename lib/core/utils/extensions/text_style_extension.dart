@@ -7,5 +7,5 @@ extension TextStyleExtension on TextStyle {
 
   TextStyle get regular => this.copyWith(fontWeight: FontWeight.w400);
   TextStyle get semiBold => this.copyWith(fontWeight: FontWeight.w600);
-  TextStyle get bold => this.copyWith(fontWeight: FontWeight.w800);
+  TextStyle get bold => this.copyWith(fontWeight: FontWeight.w700);
 }

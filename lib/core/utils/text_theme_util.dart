@@ -1,4 +1,3 @@
-import 'package:alpha/core/constants.dart';
 import 'package:flutter/material.dart';
 
 class TextThemeUtil {
@@ -9,27 +8,12 @@ class TextThemeUtil {
   static TextThemeUtil get instance => _instance ??= TextThemeUtil._internal();
 
   void initial(BuildContext context) {
-    titleLarge = Theme.of(context)
-        .textTheme
-        .titleLarge
-        ?.copyWith(color: Constants.defaultTextColor);
-    titleMedium = Theme.of(context)
-        .textTheme
-        .titleMedium
-        ?.copyWith(color: Constants.defaultTextColor);
+    titleLarge = Theme.of(context).textTheme.titleLarge;
+    titleMedium = Theme.of(context).textTheme.titleMedium;
 
-    bodyLarge = Theme.of(context)
-        .textTheme
-        .bodyLarge
-        ?.copyWith(color: Constants.defaultTextColor);
-    bodyMedium = Theme.of(context)
-        .textTheme
-        .bodyMedium
-        ?.copyWith(color: Constants.defaultTextColor);
-    bodySmall = Theme.of(context)
-        .textTheme
-        .bodySmall
-        ?.copyWith(color: Constants.defaultTextColor);
+    bodyLarge = Theme.of(context).textTheme.bodyLarge;
+    bodyMedium = Theme.of(context).textTheme.bodyMedium;
+    bodySmall = Theme.of(context).textTheme.bodySmall;
   }
 
   TextStyle? titleLarge;

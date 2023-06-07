@@ -7,6 +7,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
+import 'core/constants.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -31,8 +33,6 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  
-
   @override
   Widget build(BuildContext context) {
     TextThemeUtil.instance.initial(context);
@@ -46,9 +46,30 @@ class MyApp extends StatelessWidget {
       locale: context.locale,
       initialRoute: AppRoute.initialRoute(AppConfig.instance),
       onGenerateRoute: AppRoute.onGenerateRoute,
-      color: Colors.amberAccent,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.blue,
+        textTheme: TextTheme(
+          titleLarge: TextStyle(
+            color: Constants.defaultTextColor,
+            fontSize: 24,
+          ),
+          titleMedium: TextStyle(
+            color: Constants.defaultTextColor,
+            fontSize: 20,
+          ),
+          bodySmall: TextStyle(
+            color: Constants.defaultTextColor,
+            fontSize: 12,
+          ),
+          bodyMedium: TextStyle(
+            color: Constants.defaultTextColor,
+            fontSize: 14,
+          ),
+          bodyLarge: TextStyle(
+            color: Constants.defaultTextColor,
+            fontSize: 16,
+          ),
+        ),
       ),
     );
   }

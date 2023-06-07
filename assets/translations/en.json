@@ -6,7 +6,8 @@
         "cancel": "Cancel",
         "note": "Note",
         "loading": "Loading",
-        "requireField": "This field is require"
+        "requireField": "This field is require",
+        "featureWorkInProgress": "Feature is progressing"
     },
     "loginScreen":{
         "welcomeContent": "Welcome to Dani.\nCurrently, we only support login with Gmail"

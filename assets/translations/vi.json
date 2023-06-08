@@ -23,6 +23,7 @@
         "appBarTitle":"Thêm chi tiêu",
         "whatDidYouSpendToday": "Bạn đã tiêu gì hôm nay?",
         "spendingType": "Danh mục",
+        "spendingTypeOther": "Danh mục khác",
         "cost": "Số tiền",
         "purpose": "Bạn dùng số tiền cho mục đích gì?",
         "spendingListing":"Danh sách chi tiêu"   

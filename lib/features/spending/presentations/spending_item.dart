@@ -45,6 +45,49 @@ class SpendingItem extends StatelessWidget {
           Row(
             children: [
               Icon(
+                Icons.category_outlined,
+                size: Constants.iconSize,
+                color: Theme.of(context).primaryColor,
+              ),
+              SizedBox(
+                width: 8,
+              ),
+              Text(
+                spending.categoryName ?? Constants.empty,
+                style: TextThemeUtil.instance.titleMedium,
+              ),
+            ],
+          ),
+          SizedBox(
+            height: Constants.padding,
+          ),
+          if (spending.categoryId == Constants.otherCategoryId) ...[
+            Row(
+              children: [
+                SizedBox(
+                  width: Constants.iconSize,
+                ),
+                Icon(
+                  Icons.subdirectory_arrow_right_outlined,
+                  size: Constants.iconSize,
+                  color: Theme.of(context).primaryColor,
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  spending.otherCategory ?? Constants.empty,
+                  style: TextThemeUtil.instance.titleMedium,
+                ),
+              ],
+            ),
+            SizedBox(
+              height: Constants.padding,
+            ),
+          ],
+          Row(
+            children: [
+              Icon(
                 Icons.date_range_outlined,
                 size: Constants.iconSize,
                 color: Theme.of(context).primaryColor,

@@ -21,6 +21,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late SpendingListingBloc spendingListingBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    spendingListingBloc = GetIt.I.get<SpendingListingBloc>();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider<HomeCubit>(
@@ -41,15 +49,17 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           drawer: _MyDrawer(),
-          body: SpendingListingScreen(),
+          body: BlocProvider<SpendingListingBloc>(
+            create: (context) => spendingListingBloc..add(FetchSpendingListingEvent()),
+            lazy: false,
+            child: SpendingListingScreen(),
+          ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
               // Add your onPressed code here!
               Navigator.pushNamed(context, AppRoute.spendingScreen)
                   .then((value) {
-                GetIt.I
-                    .get<SpendingListingBloc>()
-                    .add(FetchSpendingListingEvent());
+                spendingListingBloc.add(FetchSpendingListingEvent());
               });
             },
             backgroundColor: Theme.of(context).primaryColor,

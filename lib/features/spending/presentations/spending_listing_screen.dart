@@ -6,7 +6,6 @@ import 'package:dani/features/spending/models/spending.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 import '../../../core/widgets/empty_widget.dart';
 import '../applications/spending_listing/spending_listing_bloc.dart';
@@ -24,11 +23,7 @@ class _SpendingListingScreenState extends State<SpendingListingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider<SpendingListingBloc>(
-        create: (context) => GetIt.I.get<SpendingListingBloc>()
-          ..add(FetchSpendingListingEvent()),
-        child: _ScreenBody(),
-      ),
+      body: _ScreenBody(),
     );
   }
 }
@@ -39,11 +34,6 @@ class _ScreenBody extends StatefulWidget {
 }
 
 class _ScreenBodyState extends State<_ScreenBody> {
-  @override
-  void didUpdateWidget(oldWidget) {
-    super.didUpdateWidget(oldWidget);
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SpendingListingBloc, SpendingListingState>(

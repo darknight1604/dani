@@ -23,6 +23,7 @@
         "appBarTitle":"Create Spending",
         "whatDidYouSpendToday": "What did you spend today?",
         "spendingType": "Type",
+        "spendingTypeOther": "Other type",
         "cost": "Cost",
         "purpose": "What is your purpose?",
         "spendingListing":"Spending listing" 

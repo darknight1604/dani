@@ -5,13 +5,17 @@ part 'spending_request.g.dart';
 class SpendingRequest {
   int cost;
   String? categoryId;
+  String? categoryName;
   String? note;
   DateTime? createdDate;
+  String? otherCategory;
 
   SpendingRequest({
     required this.cost,
     this.categoryId,
     this.note,
+    this.otherCategory,
+    this.categoryName,
   }) {
     this.createdDate = DateTime.now();
   }

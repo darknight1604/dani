@@ -9,9 +9,11 @@ class Spending extends Equatable {
   final String id;
   final int? cost;
   final String? categoryId;
+  final String? categoryName;
+  final String? otherCategory;
   final String? userEmail;
   final String? note;
-  
+
   @DateTimeConverter()
   final DateTime? createdDate;
 
@@ -22,6 +24,8 @@ class Spending extends Equatable {
     this.userEmail,
     this.note,
     this.createdDate,
+    this.categoryName,
+    this.otherCategory,
   );
 
   factory Spending.fromJson(Map<String, dynamic> json) =>

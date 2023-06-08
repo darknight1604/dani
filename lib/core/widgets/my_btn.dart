@@ -46,7 +46,8 @@ class MyFilledWithChildBtn extends MyBtn {
     final ButtonStyle outlineButtonStyle = OutlinedButton.styleFrom(
       backgroundColor: Theme.of(context).colorScheme.primary,
       foregroundColor: Theme.of(context).colorScheme.primary,
-      fixedSize: Size(120, 50),
+      maximumSize: Size(220, 50),
+      minimumSize: Size(70, 50),
       padding: EdgeInsets.symmetric(horizontal: 16),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(Constants.radius)),

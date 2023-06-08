@@ -274,7 +274,9 @@ class _BodyScreenState extends State<_BodyScreen> {
                 children: [
                   MyOutlineBtn(
                     title: tr(LocaleKeys.common_cancel),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
                   ),
                   MyFilledBtn(
                     title: tr(LocaleKeys.common_confirm),

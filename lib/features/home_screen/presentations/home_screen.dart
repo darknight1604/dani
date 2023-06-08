@@ -90,6 +90,7 @@ class _MyDrawer extends StatelessWidget {
               BlocProvider.of<HomeCubit>(context).logout();
             },
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
                   Icons.logout_outlined,

@@ -1,14 +1,17 @@
 import 'package:dani/core/constants.dart';
+import 'package:dani/core/utils/extensions/date_time_extension.dart';
 import 'package:dani/core/utils/string_util.dart';
 import 'package:dani/core/utils/text_theme_util.dart';
 import 'package:dani/features/spending/models/spending.dart';
-import 'package:dani/gen/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../../core/widgets/empty_widget.dart';
 import '../applications/spending_listing/spending_listing_bloc.dart';
+
+part './spending_item.dart';
 
 class SpendingListingScreen extends StatefulWidget {
   const SpendingListingScreen({super.key});
@@ -22,7 +25,7 @@ class _SpendingListingScreenState extends State<SpendingListingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider<SpendingListingBloc>(
-        create: (context) => SpendingListingBloc(GetIt.I.get())
+        create: (context) => GetIt.I.get<SpendingListingBloc>()
           ..add(FetchSpendingListingEvent()),
         child: _ScreenBody(),
       ),
@@ -35,23 +38,10 @@ class _ScreenBody extends StatefulWidget {
   State<_ScreenBody> createState() => _ScreenBodyState();
 }
 
-class _ScreenBodyState extends State<_ScreenBody> with WidgetsBindingObserver {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-    print(WidgetsBinding.instance.lifecycleState);
-  }
-
+class _ScreenBodyState extends State<_ScreenBody> {
   @override
   void didUpdateWidget(oldWidget) {
     super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState appLifecycleState) {
-    super.didChangeAppLifecycleState(appLifecycleState);
-    print(appLifecycleState);
   }
 
   @override
@@ -59,6 +49,9 @@ class _ScreenBodyState extends State<_ScreenBody> with WidgetsBindingObserver {
     return BlocBuilder<SpendingListingBloc, SpendingListingState>(
       builder: (context, state) {
         if (state is SpendingListingLoaded) {
+          if (state.listSpending.isEmpty) {
+            return EmptyWidget();
+          }
           List<Spending> listSpending = state.listSpending;
           return ListView.separated(
             padding: EdgeInsets.all(Constants.padding),
@@ -66,47 +59,8 @@ class _ScreenBodyState extends State<_ScreenBody> with WidgetsBindingObserver {
               height: Constants.spacingBetweenWidget,
             ),
             itemCount: listSpending.length,
-            itemBuilder: (_, index) => Container(
-              padding: EdgeInsets.all(Constants.padding),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Constants.radius),
-                border: Border.all(color: Constants.borderColor),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        '${tr(LocaleKeys.spendingScreen_cost)}: ',
-                        style: TextThemeUtil.instance.bodyLarge,
-                      ),
-                      Text(
-                        listSpending[index].cost.toString(),
-                        style: TextThemeUtil.instance.titleMedium,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: Constants.padding,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        '${tr(LocaleKeys.common_note)}: ',
-                        style: TextThemeUtil.instance.bodyLarge,
-                      ),
-                      Text(
-                        StringUtil.isNullOrEmpty(listSpending[index].note)
-                            ? listSpending[index].note.toString()
-                            : Constants.empty,
-                        style: TextThemeUtil.instance.titleMedium,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+            itemBuilder: (_, index) => SpendingItem(
+              spending: listSpending[index],
             ),
           );
         }

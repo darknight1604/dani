@@ -2,6 +2,7 @@ import 'package:dani/core/app_route.dart';
 import 'package:dani/core/constants.dart';
 import 'package:dani/core/utils/extensions/text_style_extension.dart';
 import 'package:dani/core/widgets/my_btn.dart';
+import 'package:dani/features/spending/applications/spending_listing/spending_listing_bloc.dart';
 import 'package:dani/gen/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -32,13 +33,24 @@ class _HomeScreenState extends State<HomeScreen> {
           }
         },
         child: Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+            title: Text(
+              tr(LocaleKeys.spendingScreen_spendingListing),
+              style: TextThemeUtil.instance.titleMedium?.semiBold
+                  .copyWith(color: Colors.white),
+            ),
+          ),
           drawer: _MyDrawer(),
           body: SpendingListingScreen(),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
               // Add your onPressed code here!
-              Navigator.pushNamed(context, AppRoute.spendingScreen).then((value) => null);
+              Navigator.pushNamed(context, AppRoute.spendingScreen)
+                  .then((value) {
+                GetIt.I
+                    .get<SpendingListingBloc>()
+                    .add(FetchSpendingListingEvent());
+              });
             },
             backgroundColor: Theme.of(context).primaryColor,
             child: const Icon(Icons.add),

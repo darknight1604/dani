@@ -33,4 +33,14 @@ class Constants {
   static Color borderColor = Colors.grey.shade400;
 
   static double iconSize = 24;
+
+  static List<BoxShadow> shadow = [
+    BoxShadow(
+      color: Colors.blueGrey,
+      offset: Offset(0, 1),
+      blurRadius: 1,
+    ),
+  ];
+
+  static const int maxLines = 3;
 }

@@ -72,13 +72,7 @@ class _BodyScreen extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(Constants.radius),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.blueGrey,
-                offset: Offset(0, 1),
-                blurRadius: 1,
-              ),
-            ],
+            boxShadow: Constants.shadow,
           ),
           child: SizedBox(
             width: double.infinity,

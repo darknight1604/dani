@@ -47,6 +47,7 @@ class MyApp extends StatelessWidget {
       initialRoute: AppRoute.initialRoute(AppConfig.instance),
       onGenerateRoute: AppRoute.onGenerateRoute,
       theme: ThemeData(
+        fontFamily: 'NotoSans',
         primaryColor: Colors.blue,
         textTheme: TextTheme(
           titleLarge: TextStyle(

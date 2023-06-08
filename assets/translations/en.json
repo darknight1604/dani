@@ -11,7 +11,9 @@
         "logout": "Logout",
         "login": "Login",
         "createRequestSuccess": "Your request was successful",
-        "createRequestFailure": "Your request was failed"
+        "createRequestFailure": "Your request was failed",
+        "emptyData": "Your data is empty",
+        "createdDate": "Created data"
     },
     "loginScreen":{
         "welcomeContent": "Welcome to Dani.\nCurrently, we only support login with Gmail",
@@ -22,6 +24,7 @@
         "whatDidYouSpendToday": "What did you spend today?",
         "spendingType": "Type",
         "cost": "Cost",
-        "purpose": "What is your purpose?" 
+        "purpose": "What is your purpose?",
+        "spendingListing":"Spending listing" 
     }
 }

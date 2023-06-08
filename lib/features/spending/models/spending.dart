@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import '../../../core/utils/converters/date_time_converter.dart';
 part 'spending.g.dart';
 
 @JsonSerializable()
@@ -9,8 +11,18 @@ class Spending extends Equatable {
   final String? categoryId;
   final String? userEmail;
   final String? note;
+  
+  @DateTimeConverter()
+  final DateTime? createdDate;
 
-  Spending(this.id, this.cost, this.categoryId, this.userEmail, this.note);
+  const Spending(
+    this.id,
+    this.cost,
+    this.categoryId,
+    this.userEmail,
+    this.note,
+    this.createdDate,
+  );
 
   factory Spending.fromJson(Map<String, dynamic> json) =>
       _$SpendingFromJson(json);

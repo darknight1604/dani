@@ -6,12 +6,15 @@ class SpendingRequest {
   int cost;
   String? categoryId;
   String? note;
+  DateTime? createdDate;
 
   SpendingRequest({
     required this.cost,
     this.categoryId,
     this.note,
-  });
+  }) {
+    this.createdDate = DateTime.now();
+  }
 
   factory SpendingRequest.fromJson(Map<String, dynamic> json) =>
       _$SpendingRequestFromJson(json);

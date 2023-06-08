@@ -34,8 +34,9 @@ class SpendingService {
 
   Future<List<Spending>> getListSpending() async {
     List<Spending> listSpendingRequest = [];
-    QuerySnapshot querySnapshot =
-        await firestoreService.getCollection(_collectionSpending);
+    QuerySnapshot? querySnapshot =
+        await firestoreService.getCollectionByUser(_collectionSpending);
+    if (querySnapshot == null) return listSpendingRequest;
     querySnapshot.docs.forEach((element) {
       Map<String, dynamic> data = element.data() as Map<String, dynamic>;
       data[Constants.id] = element.id;

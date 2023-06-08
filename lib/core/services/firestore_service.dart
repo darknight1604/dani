@@ -4,6 +4,7 @@ import 'package:dani/core/repositories/remote/firestore_repository.dart';
 import 'package:dani/core/services/local_service.dart';
 
 import '../../features/login/domains/models/user.dart';
+import '../utils/firestore/firestore_query.dart';
 
 class FirestoreService {
   final FirestoreRepository firestoreRepository;
@@ -14,8 +15,27 @@ class FirestoreService {
     this.localService,
   );
 
-  Future<QuerySnapshot> getCollection(String collectionPath) async {
-    return await firestoreRepository.getCollection(collectionPath);
+  Future<QuerySnapshot> getCollection(
+    String collectionPath, {
+    List<FirestoreQuery>? queries,
+  }) async {
+    return await firestoreRepository.getCollection(collectionPath, queries);
+  }
+
+  Future<QuerySnapshot?> getCollectionByUser(String collectionPath) async {
+    User? user = await localService.getUser();
+    if (user == null) return null;
+    return await firestoreRepository.getCollection(
+      collectionPath,
+      [
+        FirestoreQueryEqualTo(
+          Constants.userEmail,
+          [
+            user.email ?? '',
+          ],
+        ),
+      ],
+    );
   }
 
   Future<bool> createDocument({

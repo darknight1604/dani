@@ -9,6 +9,7 @@ part 'spending_listing_state.dart';
 class SpendingListingBloc
     extends Bloc<SpendingListingEvent, SpendingListingState> {
   final SpendingService spendingService;
+  
   SpendingListingBloc(
     this.spendingService,
   ) : super(SpendingListingInitial()) {

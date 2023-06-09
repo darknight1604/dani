@@ -19,7 +19,10 @@ class FirestoreService {
     String collectionPath, {
     List<FirestoreQuery>? queries,
   }) async {
-    return await firestoreRepository.getCollection(collectionPath, queries);
+    return await firestoreRepository.getCollection(
+      collectionPath,
+      queries: queries,
+    );
   }
 
   Future<QuerySnapshot?> getCollectionByUser(String collectionPath) async {
@@ -27,7 +30,7 @@ class FirestoreService {
     if (user == null) return null;
     return await firestoreRepository.getCollection(
       collectionPath,
-      [
+      queries: [
         FirestoreQueryEqualTo(
           Constants.userEmail,
           [

@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dani/features/login/domains/models/user.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../core/services/local_service.dart';
@@ -18,5 +19,11 @@ class HomeCubit extends Cubit<HomeState> {
       return;
     }
     emit(HomeLogoutSuccessState());
+  }
+
+  Future fetchUser() async {
+    User? user = await localService.getUser();
+    if (user == null) return;
+    emit(HomeCurrentUserState(user));
   }
 }

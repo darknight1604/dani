@@ -9,6 +9,11 @@ abstract class HomeState extends Equatable {
 
 class HomeInitial extends HomeState {}
 
+class HomeCurrentUserState extends HomeState {
+  final User user;
+  HomeCurrentUserState(this.user);
+}
+
 class HomeLogoutFailureState extends HomeState {}
 
 class HomeLogoutSuccessState extends HomeState {}

@@ -27,6 +27,7 @@ class LoginBusiness {
         displayName: googleSignInAcc.displayName,
         email: googleSignInAcc.email,
         accessToken: authen.accessToken!,
+        photoUrl: googleSignInAcc.photoUrl,
       ),
     );
   }

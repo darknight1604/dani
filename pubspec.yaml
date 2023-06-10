@@ -83,6 +83,9 @@ dependencies:
   # A Flutter package to use fonts from fonts.google.com
   google_fonts: ^4.0.4
 
+  # https://pub.dev/packages/cached_network_image
+  cached_network_image: ^3.2.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

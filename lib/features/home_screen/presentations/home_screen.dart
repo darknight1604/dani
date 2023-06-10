@@ -10,8 +10,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../../core/utils/text_theme_util.dart';
+import '../../../core/widgets/my_cache_image.dart';
 import '../../spending/presentations/spending_listing_screen.dart';
 import '../applications/cubit/home_cubit.dart';
 
@@ -100,14 +102,15 @@ class _MyDrawer extends StatelessWidget {
                           ),
                           child: Row(
                             children: [
-                              CircleAvatar(
-                                radius: avtSize,
-                                backgroundColor: Colors.transparent,
-                                backgroundImage: user != null &&
-                                        StringUtil.isNotNullOrEmpty(
-                                            user.photoUrl)
-                                    ? NetworkImage(user.photoUrl!)
-                                    : null,
+                              MyCacheImage(
+                                imageUrl: user?.photoUrl ?? '',
+                                imageBuilder: (context, imageProvider) {
+                                  return CircleAvatar(
+                                    radius: avtSize,
+                                    backgroundColor: Colors.transparent,
+                                    backgroundImage: imageProvider,
+                                  );
+                                },
                               ),
                               SizedBox(
                                 width: Constants.padding,

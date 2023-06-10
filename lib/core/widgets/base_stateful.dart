@@ -40,11 +40,11 @@ abstract class BaseStatefulState extends State<BaseStateful> {
             return;
           }
         },
-        child: buildChild(),
+        child: buildChild(context),
       ),
     );
   }
 
   @mustCallSuper
-  Widget buildChild();
+  Widget buildChild(BuildContext context);
 }

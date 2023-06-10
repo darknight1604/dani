@@ -28,13 +28,13 @@ class _SpendingScreenState extends BaseStatefulState {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       loadingBloc.add(LoadingShowEvent());
     });
   }
 
   @override
-  Widget buildChild() {
+  Widget buildChild(context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(

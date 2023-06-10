@@ -10,7 +10,7 @@ abstract class SpendingListingState extends Equatable {
 class SpendingListingInitial extends SpendingListingState {}
 
 class SpendingListingLoaded extends SpendingListingState {
-  final List<Spending> listSpending;
+  final Map<DateTime, List<Spending>> listSpending;
   SpendingListingLoaded(this.listSpending);
   @override
   List<Object> get props => [listSpending];

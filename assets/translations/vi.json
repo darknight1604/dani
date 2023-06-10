@@ -13,7 +13,8 @@
         "createRequestSuccess": "Yêu cầu của bạn đã được thành công",
         "createRequestFailure": "Yêu cầu của bạn đã được thất bại",
         "emptyData": "Không tồn tại dữ liệu",
-        "createdDate": "Ngày tạo"
+        "createdDate": "Ngày tạo",
+        "date": "Ngày"
     },
     "loginScreen":{
         "welcomeContent": "Chào mừng bạn đến với Dani.\nHiện tại, app chỉ hỗ trợ đăng nhập với Gmail",

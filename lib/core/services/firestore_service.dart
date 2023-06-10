@@ -4,6 +4,7 @@ import 'package:dani/core/repositories/remote/firestore_repository.dart';
 import 'package:dani/core/services/local_service.dart';
 
 import '../../features/login/domains/models/user.dart';
+import '../utils/firestore/firestore_order_by.dart';
 import '../utils/firestore/firestore_query.dart';
 
 class FirestoreService {
@@ -25,7 +26,10 @@ class FirestoreService {
     );
   }
 
-  Future<QuerySnapshot?> getCollectionByUser(String collectionPath) async {
+  Future<QuerySnapshot?> getCollectionByUser(
+    String collectionPath, {
+    List<FirestoreOrderBy>? listOrderBy,
+  }) async {
     User? user = await localService.getUser();
     if (user == null) return null;
     return await firestoreRepository.getCollection(
@@ -38,6 +42,7 @@ class FirestoreService {
           ],
         ),
       ],
+      listOrderBy: listOrderBy,
     );
   }
 

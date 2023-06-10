@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dani/core/constants.dart';
 import 'package:dani/core/services/firestore_service.dart';
+import 'package:dani/core/utils/firestore/firestore_order_by.dart';
 import 'package:dani/features/spending/models/spending.dart';
 import 'package:dani/features/spending/models/spending_category.dart';
 
@@ -34,8 +35,10 @@ class SpendingService {
 
   Future<List<Spending>> getListSpending() async {
     List<Spending> listSpendingRequest = [];
-    QuerySnapshot? querySnapshot =
-        await firestoreService.getCollectionByUser(_collectionSpending);
+    QuerySnapshot? querySnapshot = await firestoreService
+        .getCollectionByUser(_collectionSpending, listOrderBy: [
+      FirestoreOrderByDesending('createdDate'),
+    ]);
     if (querySnapshot == null) return listSpendingRequest;
     querySnapshot.docs.forEach((element) {
       Map<String, dynamic> data = element.data() as Map<String, dynamic>;

@@ -8,4 +8,15 @@ extension DateTimeExtension on DateTime {
   String formatHHMMSSDDMMYYYY() {
     return DateFormat("hh:mm:ss yyyy-MM-dd").format(this);
   }
+
+  String formatDDMMYYYY() {
+    return DateFormat("yyyy-MM-dd").format(this);
+  }
+
+  /// Compare two days by yyyy-mm-dd
+  ///
+  bool isEqualByYYYYMMDD(DateTime? other) {
+    if (other == null) return false;
+    return year == other.year && month == other.month && day == other.day;
+  }
 }

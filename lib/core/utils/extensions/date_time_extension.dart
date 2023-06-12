@@ -13,6 +13,10 @@ extension DateTimeExtension on DateTime {
     return DateFormat("yyyy-MM-dd").format(this);
   }
 
+  String formatYYYYMMPlain() {
+    return DateFormat("yyyyMM").format(this);
+  }
+
   /// Compare two days by yyyy-mm-dd
   ///
   bool isEqualByYYYYMMDD(DateTime? other) {

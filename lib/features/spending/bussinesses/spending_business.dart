@@ -1,3 +1,4 @@
+import 'package:dani/core/utils/string_util.dart';
 import 'package:dani/features/spending/services/spending_service.dart';
 import 'package:dani/core/utils/extensions/date_time_extension.dart';
 
@@ -38,6 +39,10 @@ class SpendingBusiness {
   Future<List<SpendingCategory>> getListSpendingCategory() async =>
       spendingService.getListSpendingCategory();
 
-  Future<bool> addSpendingRequest(SpendingRequest spendingRequest) async =>
-      spendingService.addSpendingRequest(spendingRequest);
+  Future<bool> addSpendingRequest(SpendingRequest spendingRequest) async {
+    if (StringUtil.isNullOrEmpty(spendingRequest.id)) {
+      return spendingService.addSpendingRequest(spendingRequest);
+    }
+    return spendingService.updateSpendingRequest(spendingRequest);
+  }
 }

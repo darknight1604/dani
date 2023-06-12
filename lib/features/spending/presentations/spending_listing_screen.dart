@@ -1,5 +1,4 @@
-import 'dart:math';
-
+import 'package:dani/core/app_route.dart';
 import 'package:dani/core/constants.dart';
 import 'package:dani/core/utils/extensions/date_time_extension.dart';
 import 'package:dani/core/utils/extensions/text_style_extension.dart';
@@ -66,14 +65,6 @@ class _ScreenBodyState extends BaseStatefulState {
               MapEntry<DateTime, List<Spending>> entry =
                   listSpending.entries.toList()[index];
               List<Spending> _listSpending = entry.value;
-              Color color = Color.fromRGBO(
-                Random().nextInt(255),
-                Random().nextInt(255),
-                Random().nextInt(255),
-                1,
-              );
-              print(
-                  'red: ${color.red}, green: ${color.green}, blue: ${color.blue}');
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [

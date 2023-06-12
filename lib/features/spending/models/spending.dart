@@ -17,8 +17,10 @@ class Spending extends Equatable {
   @DateTimeConverter()
   final DateTime? createdDate;
 
-  const Spending(
-    this.id,
+  final String? index;
+
+  const Spending({
+    required this.id,
     this.cost,
     this.categoryId,
     this.userEmail,
@@ -26,7 +28,8 @@ class Spending extends Equatable {
     this.createdDate,
     this.categoryName,
     this.otherCategory,
-  );
+    this.index,
+  });
 
   factory Spending.fromJson(Map<String, dynamic> json) =>
       _$SpendingFromJson(json);
@@ -34,5 +37,11 @@ class Spending extends Equatable {
   Map<String, dynamic> toJson() => _$SpendingToJson(this);
 
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [
+        id,
+        cost,
+        categoryId,
+        note,
+        index,
+      ];
 }

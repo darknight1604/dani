@@ -57,4 +57,11 @@ class SpendingService {
       data: spendingRequest.toJson(),
     );
   }
+
+  Future<bool> updateSpendingRequest(SpendingRequest spendingRequest) async {
+    return await firestoreService.updateDocument(
+      collectionPath: 'spending_request',
+      data: spendingRequest.toJson(),
+    );
+  }
 }

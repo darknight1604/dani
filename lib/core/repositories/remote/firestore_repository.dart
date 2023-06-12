@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dani/core/constants.dart';
 import 'package:dani/core/utils/firestore/firestore_order_by.dart';
 import 'package:dani/core/utils/firestore/firestore_query.dart';
+import 'package:dani/core/utils/string_util.dart';
 
 import '../../utils/iterable_util.dart';
 
@@ -38,6 +40,22 @@ class FirestoreRepository {
 
     return await collection
         .add(data)
+        .then((value) => true)
+        .catchError((_) => false);
+  }
+
+  Future<bool> updateDocument({
+    required String collectionPath,
+    required Map<String, dynamic> data,
+  }) async {
+    String? id = data[Constants.id];
+    if (StringUtil.isNullOrEmpty(id)) {
+      return false;
+    }
+    CollectionReference collection = _firestore.collection(collectionPath);
+    return await collection
+        .doc(id)
+        .update(data)
         .then((value) => true)
         .catchError((_) => false);
   }

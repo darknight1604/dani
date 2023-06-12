@@ -1,7 +1,6 @@
 import 'package:dani/core/app_route.dart';
 import 'package:dani/core/constants.dart';
 import 'package:dani/core/utils/extensions/text_style_extension.dart';
-import 'package:dani/core/utils/string_util.dart';
 import 'package:dani/core/widgets/my_btn.dart';
 import 'package:dani/features/login/domains/models/user.dart';
 import 'package:dani/features/spending/applications/spending_listing/spending_listing_bloc.dart';
@@ -10,7 +9,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../../core/utils/text_theme_util.dart';
 import '../../../core/widgets/my_cache_image.dart';

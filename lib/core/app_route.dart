@@ -1,4 +1,5 @@
 import 'package:dani/features/home_screen/presentations/home_screen.dart';
+import 'package:dani/features/spending/models/spending.dart';
 import 'package:flutter/material.dart';
 
 import '../features/login/presentations/login_screen.dart';
@@ -22,6 +23,7 @@ class AppRoute {
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     String? routeName = settings.name;
+    Object? arguments = settings.arguments;
     if (routeName == null || routeName.isEmpty) {}
     switch (routeName) {
       case loginScreen:
@@ -29,7 +31,13 @@ class AppRoute {
       case homeScreen:
         return MaterialPageRoute(builder: (context) => const HomeScreen());
       case spendingScreen:
-        return MaterialPageRoute(builder: (context) => const SpendingScreen());
+        return MaterialPageRoute(builder: (context) {
+          Spending? spending =
+              arguments != null && arguments is Spending ? arguments : null;
+          return SpendingScreen(
+            spending: spending,
+          );
+        });
       default:
         return null;
     }

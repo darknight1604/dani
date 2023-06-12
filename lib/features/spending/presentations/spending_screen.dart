@@ -15,22 +15,35 @@ import '../../../core/utils/string_util.dart';
 import '../../../core/widgets/input_text_field.dart';
 import '../../../core/widgets/my_btn.dart';
 import '../applications/spending/spending_bloc.dart';
+import '../models/spending.dart';
 import '../models/spending_request.dart';
 
 class SpendingScreen extends BaseStateful {
-  const SpendingScreen({super.key});
+  final Spending? spending;
+  const SpendingScreen({
+    super.key,
+    this.spending,
+  });
 
   @override
-  _SpendingScreenState createState() => _SpendingScreenState();
+  BaseStatefulState createState() => _SpendingScreenState();
 }
 
-class _SpendingScreenState extends BaseStatefulState {
+class _SpendingScreenState extends BaseStatefulState<SpendingScreen> {
+  late FocusNode _focusNode;
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       loadingBloc.add(LoadingShowEvent());
     });
+    _focusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -44,34 +57,45 @@ class _SpendingScreenState extends BaseStatefulState {
               .copyWith(color: Colors.white),
         ),
       ),
-      body: BlocProvider<SpendingBloc>(
-        create: (context) => SpendingBloc()
-          ..add(
-            FetchSpendingCategoryEvent(),
-          ),
-        child: BlocListener<SpendingBloc, SpendingState>(
-          listener: (context, state) {
-            if (state is SpendingLoaded) {
-              loadingBloc.add(LoadingDismissEvent());
+      body: Focus(
+        focusNode: _focusNode,
+        child: GestureDetector(
+          onTap: () {
+            if (!_focusNode.hasFocus) {
               return;
             }
-            if (state is CreateSpendingRequestSuccess) {
-              MySnackBarUtil.show(
-                context,
-                tr(LocaleKeys.common_createRequestSuccess),
-              );
-              Navigator.pop(context);
-              return;
-            }
-            if (state is CreateSpendingRequestFailure) {
-              MySnackBarUtil.show(
-                context,
-                tr(LocaleKeys.common_createRequestFailure),
-              );
-              return;
-            }
+            _focusNode.unfocus();
           },
-          child: _BodyScreen(),
+          child: BlocProvider<SpendingBloc>(
+            create: (context) => SpendingBloc()
+              ..add(
+                FetchSpendingCategoryEvent(),
+              ),
+            child: BlocListener<SpendingBloc, SpendingState>(
+              listener: (context, state) {
+                if (state is SpendingLoaded) {
+                  loadingBloc.add(LoadingDismissEvent());
+                  return;
+                }
+                if (state is CreateSpendingRequestSuccess) {
+                  MySnackBarUtil.show(
+                    context,
+                    tr(LocaleKeys.common_createRequestSuccess),
+                  );
+                  Navigator.pop(context);
+                  return;
+                }
+                if (state is CreateSpendingRequestFailure) {
+                  MySnackBarUtil.show(
+                    context,
+                    tr(LocaleKeys.common_createRequestFailure),
+                  );
+                  return;
+                }
+              },
+              child: _BodyScreen(widget.spending),
+            ),
+          ),
         ),
       ),
     );
@@ -79,12 +103,18 @@ class _SpendingScreenState extends BaseStatefulState {
 }
 
 class _BodyScreen extends StatefulWidget {
+  final Spending? spending;
+  _BodyScreen(
+    this.spending,
+  );
   @override
   State<_BodyScreen> createState() => _BodyScreenState();
 }
 
 class _BodyScreenState extends State<_BodyScreen> {
-  final _controller = TextEditingController();
+  late TextEditingController _controller;
+  late TextEditingController _otherController;
+  late TextEditingController _noteController;
   static const _locale = 'en';
   String _formatNumber(String s) =>
       NumberFormat.decimalPattern(_locale).format(int.parse(s));
@@ -92,12 +122,39 @@ class _BodyScreenState extends State<_BodyScreen> {
   final GlobalKey<FormState> _key = GlobalKey();
 
   late SpendingRequest _spendingRequest;
-  bool isOtherCategory = false;
+  bool _isOtherCategory = false;
 
   @override
   void initState() {
     super.initState();
-    _spendingRequest = SpendingRequest(cost: 0);
+    _spendingRequest = SpendingRequest(
+      cost: 0,
+      id: widget.spending?.id ?? '',
+      createdDate: widget.spending?.createdDate ?? DateTime.now(),
+    );
+    _otherController = TextEditingController();
+    _controller = TextEditingController();
+    _noteController = TextEditingController();
+    if (widget.spending != null) {
+      _isOtherCategory =
+          widget.spending!.categoryId == Constants.otherCategoryId;
+      String string = _formatNumber(widget.spending?.cost.toString() ?? '');
+      _controller.value = TextEditingValue(
+        text: string,
+        selection: TextSelection.collapsed(offset: string.length),
+      );
+      _otherController.text = widget.spending?.otherCategory ?? '';
+      _noteController.text = widget.spending?.note ?? '';
+      return;
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _otherController.dispose();
+    _noteController.dispose();
+    super.dispose();
   }
 
   @override
@@ -121,7 +178,6 @@ class _BodyScreenState extends State<_BodyScreen> {
                   InputTextField(
                     controller: _controller,
                     keyboardType: TextInputType.number,
-                    // labelText: tr(LocaleKeys.spendingScreen_cost),
                     hintText: tr(LocaleKeys.spendingScreen_cost),
                     labelWidget: RichText(
                       text: TextSpan(
@@ -170,6 +226,11 @@ class _BodyScreenState extends State<_BodyScreen> {
                       List<SpendingCategory> spendingCategories =
                           state.spendingCategories;
                       return DropdownButtonFormField2<SpendingCategory>(
+                        value: () {
+                          if (widget.spending == null) return null;
+                          return spendingCategories.firstWhere((element) =>
+                              element.id == widget.spending!.categoryId);
+                        }.call(),
                         style: TextThemeUtil.instance.bodyMedium,
                         decoration: InputDecoration(
                           label: Padding(
@@ -221,12 +282,12 @@ class _BodyScreenState extends State<_BodyScreen> {
                         onChanged: (value) {
                           if (value?.id == Constants.otherCategoryId) {
                             setState(() {
-                              isOtherCategory = true;
+                              _isOtherCategory = true;
                             });
                             return;
                           }
                           setState(() {
-                            isOtherCategory = false;
+                            _isOtherCategory = false;
                           });
                           return;
                         },
@@ -237,11 +298,12 @@ class _BodyScreenState extends State<_BodyScreen> {
                       );
                     },
                   ),
-                  if (isOtherCategory) ...[
+                  if (_isOtherCategory) ...[
                     SizedBox(
                       height: Constants.spacingBetweenWidget,
                     ),
                     InputTextField(
+                      controller: _otherController,
                       labelText:
                           tr(LocaleKeys.spendingScreen_spendingTypeOther),
                       hintText: tr(LocaleKeys.spendingScreen_spendingTypeOther),
@@ -254,6 +316,7 @@ class _BodyScreenState extends State<_BodyScreen> {
                     height: Constants.spacingBetweenWidget,
                   ),
                   InputTextField(
+                    controller: _noteController,
                     labelText: tr(LocaleKeys.common_note),
                     hintText: tr(LocaleKeys.common_note),
                     maxLines: Constants.maxLines,
@@ -283,8 +346,9 @@ class _BodyScreenState extends State<_BodyScreen> {
                     onTap: () {
                       if (_key.currentState?.validate() ?? false) {
                         _key.currentState?.save();
-                        BlocProvider.of<SpendingBloc>(context)
-                            .add(CreateSpendingEvent(_spendingRequest));
+                        BlocProvider.of<SpendingBloc>(context).add(
+                          CreateSpendingEvent(_spendingRequest),
+                        );
                       }
                     },
                   ),

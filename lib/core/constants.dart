@@ -11,6 +11,8 @@ class Constants {
   static const String user = 'user';
 
   static const String userEmail = 'userEmail';
+  static const String index = 'index';
+  static const String createdDate = 'createdDate';
   static const String id = 'id';
 
   static const double padding = 16.0;

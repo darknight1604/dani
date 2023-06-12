@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
-abstract class BaseStateful extends StatefulWidget {
+class BaseStateful extends StatefulWidget {
   const BaseStateful({super.key});
+
+  @override
+  State<BaseStateful> createState() => BaseStatefulState();
 }
 
-abstract class BaseStatefulState extends State<BaseStateful> {
+class BaseStatefulState<T extends BaseStateful> extends State<T> {
   late LoadingBloc loadingBloc;
   @override
   void initState() {
@@ -45,6 +48,7 @@ abstract class BaseStatefulState extends State<BaseStateful> {
     );
   }
 
-  @mustCallSuper
-  Widget buildChild(BuildContext context);
+  Widget buildChild(BuildContext context) {
+    return SizedBox.shrink();
+  }
 }

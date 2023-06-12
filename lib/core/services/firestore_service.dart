@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dani/core/constants.dart';
 import 'package:dani/core/repositories/remote/firestore_repository.dart';
 import 'package:dani/core/services/local_service.dart';
+import 'package:dani/core/utils/extensions/date_time_extension.dart';
 
 import '../../features/login/domains/models/user.dart';
 import '../utils/firestore/firestore_order_by.dart';
@@ -54,7 +55,28 @@ class FirestoreService {
     if (user == null) return false;
     Map<String, dynamic> payload = data;
     payload[Constants.userEmail] = user.email;
+    DateTime? createdDate =
+        DateTime.tryParse(data[Constants.createdDate] ?? '');
+    String index = '';
+    if (createdDate != null) {
+      index = createdDate.formatYYYYMMPlain();
+    }
+    payload[Constants.index] = index;
     return firestoreRepository.createDocument(
+      collectionPath: collectionPath,
+      data: payload,
+    );
+  }
+
+  Future<bool> updateDocument({
+    required String collectionPath,
+    required Map<String, dynamic> data,
+  }) async {
+    User? user = await localService.getUser();
+    if (user == null) return false;
+    Map<String, dynamic> payload = data;
+    payload[Constants.userEmail] = user.email;
+    return firestoreRepository.updateDocument(
       collectionPath: collectionPath,
       data: payload,
     );

@@ -17,5 +17,14 @@ class SpendingListingBloc
       final result = await spendingBusiness.getListSpending();
       emit(SpendingListingLoaded(result));
     });
+    on<LoadMoreSpendingListingEvent>((event, emit) async {
+      if (state is! SpendingListingLoaded) return;
+      if (spendingBusiness.isFinishLoadMore) {
+        emit((state as SpendingListingLoaded).copyWith(isFinishLoadMore: true));
+        return;
+      }
+      final result = await spendingBusiness.loadMore();
+      emit(SpendingListingLoaded(result));
+    });
   }
 }

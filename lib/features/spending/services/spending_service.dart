@@ -33,12 +33,19 @@ class SpendingService {
     return result;
   }
 
-  Future<List<Spending>> getListSpending() async {
+  Future<List<Spending>> getListSpending({
+    int? start,
+    int? end,
+  }) async {
     List<Spending> listSpendingRequest = [];
-    QuerySnapshot? querySnapshot = await firestoreService
-        .getCollectionByUser(_collectionSpending, listOrderBy: [
-      FirestoreOrderByDesending('createdDate'),
-    ]);
+    QuerySnapshot? querySnapshot = await firestoreService.getCollectionByUser(
+      _collectionSpending,
+      start: start,
+      end: end,
+      listOrderBy: [
+        FirestoreOrderByDesending('indexFull'),
+      ],
+    );
     if (querySnapshot == null) return listSpendingRequest;
     querySnapshot.docs.forEach((element) {
       Map<String, dynamic> data = element.data() as Map<String, dynamic>;
@@ -62,6 +69,13 @@ class SpendingService {
     return await firestoreService.updateDocument(
       collectionPath: 'spending_request',
       data: spendingRequest.toJson(),
+    );
+  }
+
+  Future<bool> updateSpendingRequestByRawJson(Map<String, dynamic> json) async {
+    return await firestoreService.updateDocument(
+      collectionPath: 'spending_request',
+      data: json,
     );
   }
 }

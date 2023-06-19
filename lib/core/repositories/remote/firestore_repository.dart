@@ -13,8 +13,11 @@ class FirestoreRepository {
     String collectionPath, {
     List<FirestoreQuery>? queries,
     List<FirestoreOrderBy>? listOrderBy,
+    int? start,
+    int? end,
   }) async {
     CollectionReference collection = _firestore.collection(collectionPath);
+
     if (IterableUtil.isNullOrEmpty(queries) &&
         IterableUtil.isNullOrEmpty(listOrderBy)) {
       return await collection.get();
@@ -24,12 +27,19 @@ class FirestoreRepository {
       return await FirestoreOrderByHelper.magicByQuery(
         FirestoreQueryHelper.magic(collection, queries!),
         listOrderBy!,
+        start: start,
+        end: end,
       ).get();
     }
     if (queries != null && queries.isNotEmpty) {
       return FirestoreQueryHelper.magic(collection, queries).get();
     }
-    return await FirestoreOrderByHelper.magic(collection, listOrderBy!).get();
+    return await FirestoreOrderByHelper.magicByQuery(
+      collection,
+      listOrderBy!,
+      start: start,
+      end: end,
+    ).get();
   }
 
   Future<bool> createDocument({

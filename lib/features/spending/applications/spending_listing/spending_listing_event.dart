@@ -8,3 +8,5 @@ abstract class SpendingListingEvent extends Equatable {
 }
 
 class FetchSpendingListingEvent extends SpendingListingEvent {}
+
+class LoadMoreSpendingListingEvent extends SpendingListingEvent {}

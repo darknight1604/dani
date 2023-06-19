@@ -15,29 +15,12 @@ class FirestoreOrderByDesending extends FirestoreOrderBy {
 }
 
 class FirestoreOrderByHelper {
-  static Query<Object?> _magic(
-      CollectionReference<Object?> collectionRef, FirestoreOrderBy orderBy) {
-    switch (orderBy.runtimeType) {
-      case FirestoreOrderByDesending:
-        return collectionRef.orderBy(orderBy.key, descending: true);
-      default:
-        return collectionRef.orderBy(orderBy.key);
-    }
-  }
-
-  static Query<Object?> magic(CollectionReference<Object?> collectionRef,
-      List<FirestoreOrderBy> listOrderBy) {
-    Query<Object?> query = collectionRef;
-    for (var orderBy in listOrderBy) {
-      query = _magic(collectionRef, orderBy);
-    }
-    return query;
-  }
-
   static Query<Object?> magicByQuery(
     Query<Object?> query,
-    List<FirestoreOrderBy> listOrderBy,
-  ) {
+    List<FirestoreOrderBy> listOrderBy, {
+    int? start,
+    int? end,
+  }) {
     for (var orderBy in listOrderBy) {
       switch (orderBy.runtimeType) {
         case FirestoreOrderByDesending:
@@ -48,6 +31,16 @@ class FirestoreOrderByHelper {
           break;
       }
     }
+    // if (start != null) {
+    //   query = query.startAt([start.toString()]);
+    // }
+    // if (end != null) {
+    // query = query.endAt([end.toString()]);
+    // }
+    query = query.startAfter([20230610]);
+    // query = query.endBefore([end]).limit(10);
+    print('end: $end');
+    // query = query.endBefore([20230611]);
     return query;
   }
 }

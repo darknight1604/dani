@@ -49,66 +49,81 @@ class _ScreenBodyState extends BaseStatefulState {
 
   @override
   Widget buildChild(BuildContext context) {
-    return BlocBuilder<SpendingListingBloc, SpendingListingState>(
-      builder: (context, state) {
-        if (state is SpendingListingLoaded) {
-          BlocProvider.of<LoadingBloc>(context).add(LoadingDismissEvent());
+    return Padding(
+      padding: const EdgeInsets.only(bottom: Constants.padding),
+      child: BlocBuilder<SpendingListingBloc, SpendingListingState>(
+        builder: (context, state) {
+          if (state is SpendingListingLoaded) {
+            BlocProvider.of<LoadingBloc>(context).add(LoadingDismissEvent());
 
-          if (state.listSpending.isEmpty) {
-            return EmptyWidget();
+            if (state.listSpending.isEmpty) {
+              return EmptyWidget();
+            }
+            Map<DateTime, List<Spending>> listSpending = state.listSpending;
+            return ListView.builder(
+              itemCount: listSpending.length  /* +1 */,
+              itemBuilder: (_, index) {
+                // if (index == listSpending.length) {
+                //   if (state.isFinishLoadMore) {
+                //     return SizedBox.shrink();
+                //   }
+                //   BlocProvider.of<SpendingListingBloc>(context)
+                //       .add(LoadMoreSpendingListingEvent());
+                //   return SizedBox(
+                //     height: 50,
+                //     child: Center(
+                //       child: CircularProgressIndicator(),
+                //     ),
+                //   );
+                // }
+                MapEntry<DateTime, List<Spending>> entry =
+                    listSpending.entries.toList()[index];
+                List<Spending> _listSpending = entry.value;
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(
+                      height: 40,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Divider(
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            entry.key.formatDDMMYYYY(),
+                            style: TextThemeUtil.instance.bodyMedium?.semiBold,
+                          ),
+                          Expanded(
+                            child: Divider(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    ListView.separated(
+                      shrinkWrap: true,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: Constants.padding),
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: _listSpending.length,
+                      separatorBuilder: (_, __) => SizedBox(
+                        height: Constants.spacingBetweenWidget,
+                      ),
+                      itemBuilder: (context, index) => SpendingItem(
+                        spending: _listSpending[index],
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
           }
-          Map<DateTime, List<Spending>> listSpending = state.listSpending;
-          return ListView.builder(
-            // padding: EdgeInsets.all(Constants.padding),
-            itemCount: listSpending.length,
-            itemBuilder: (_, index) {
-              MapEntry<DateTime, List<Spending>> entry =
-                  listSpending.entries.toList()[index];
-              List<Spending> _listSpending = entry.value;
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(
-                    height: 40,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Divider(
-                            color: Colors.black,
-                          ),
-                        ),
-                        Text(
-                          entry.key.formatDDMMYYYY(),
-                          style: TextThemeUtil.instance.bodyMedium?.semiBold,
-                        ),
-                        Expanded(
-                          child: Divider(
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  ListView.separated(
-                    shrinkWrap: true,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: Constants.padding),
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: _listSpending.length,
-                    separatorBuilder: (_, __) => SizedBox(
-                      height: Constants.spacingBetweenWidget,
-                    ),
-                    itemBuilder: (context, index) => SpendingItem(
-                      spending: _listSpending[index],
-                    ),
-                  ),
-                ],
-              );
-            },
-          );
-        }
-        return EmptyWidget();
-      },
+          return EmptyWidget();
+        },
+      ),
     );
   }
 }

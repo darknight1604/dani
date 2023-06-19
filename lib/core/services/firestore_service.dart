@@ -30,11 +30,16 @@ class FirestoreService {
   Future<QuerySnapshot?> getCollectionByUser(
     String collectionPath, {
     List<FirestoreOrderBy>? listOrderBy,
+    int? start,
+    int? end,
   }) async {
     User? user = await localService.getUser();
     if (user == null) return null;
     return await firestoreRepository.getCollection(
       collectionPath,
+      start: start,
+      end: end,
+      listOrderBy: listOrderBy,
       queries: [
         FirestoreQueryEqualTo(
           Constants.userEmail,
@@ -43,7 +48,6 @@ class FirestoreService {
           ],
         ),
       ],
-      listOrderBy: listOrderBy,
     );
   }
 
@@ -58,10 +62,13 @@ class FirestoreService {
     DateTime? createdDate =
         DateTime.tryParse(data[Constants.createdDate] ?? '');
     String index = '';
+    String indexFull = '';
     if (createdDate != null) {
       index = createdDate.formatYYYYMMPlain();
+      indexFull = createdDate.formatYYYYMMDDPlain();
     }
     payload[Constants.index] = index;
+    payload[Constants.index] = indexFull;
     return firestoreRepository.createDocument(
       collectionPath: collectionPath,
       data: payload,

@@ -12,6 +12,7 @@ class Constants {
 
   static const String userEmail = 'userEmail';
   static const String index = 'index';
+  static const String indexFull = 'indexFull';
   static const String createdDate = 'createdDate';
   static const String id = 'id';
 
@@ -47,4 +48,6 @@ class Constants {
   static const int maxLines = 3;
 
   static const String otherCategoryId = '-1';
+
+  static const int limitItems = 15;
 }

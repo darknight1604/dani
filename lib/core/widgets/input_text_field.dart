@@ -1,5 +1,8 @@
 import 'package:dani/core/constants.dart';
 import 'package:dani/core/utils/extensions/text_style_extension.dart';
+import 'package:dani/core/utils/string_util.dart';
+import 'package:dani/gen/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/text_theme_util.dart';
@@ -17,6 +20,7 @@ class InputTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final void Function(String?)? onSaved;
   final String? Function(String?)? validator;
+  final bool? isRequired;
 
   const InputTextField({
     super.key,
@@ -32,6 +36,7 @@ class InputTextField extends StatelessWidget {
     this.hintText,
     this.hintWidget,
     this.labelWidget,
+    this.isRequired = false,
   });
 
   @override
@@ -43,7 +48,7 @@ class InputTextField extends StatelessWidget {
       onChanged: onChanged,
       keyboardType: keyboardType,
       onSaved: onSaved,
-      validator: validator,
+      validator: validator ?? _onValidator,
       decoration: InputDecoration(
         // border: InputBorder()
         alignLabelWithHint: true,
@@ -66,5 +71,12 @@ class InputTextField extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String? _onValidator(String? value) {
+    if ((isRequired ?? false) && StringUtil.isNullOrEmpty(value)) {
+      return tr(LocaleKeys.common_requireField);
+    }
+    return null;
   }
 }

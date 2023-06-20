@@ -15,6 +15,8 @@ class FirestoreRepository {
     String collectionPath, {
     List<FirestoreQuery>? queries,
     List<FirestoreOrderBy>? listOrderBy,
+    DocumentSnapshot<Object?>? lastDocumentSnapshot,
+    int? limit = Constants.limitNumberOfItem,
   }) async {
     CollectionReference collection = _firestore.collection(
       _collectionNameBuilder(collectionPath),
@@ -28,12 +30,19 @@ class FirestoreRepository {
       return await FirestoreOrderByHelper.magicByQuery(
         FirestoreQueryHelper.magic(collection, queries!),
         listOrderBy!,
+        lastDocumentSnapshot: lastDocumentSnapshot,
+        limit: limit,
       ).get();
     }
     if (queries != null && queries.isNotEmpty) {
       return FirestoreQueryHelper.magic(collection, queries).get();
     }
-    return await FirestoreOrderByHelper.magic(collection, listOrderBy!).get();
+    return await FirestoreOrderByHelper.magic(
+      collection,
+      listOrderBy!,
+      lastDocumentSnapshot: lastDocumentSnapshot,
+      limit: limit,
+    ).get();
   }
 
   Future<bool> createDocument({

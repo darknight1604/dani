@@ -47,4 +47,6 @@ class Constants {
   static const int maxLines = 3;
 
   static const String otherCategoryId = '-1';
+
+  static const int limitNumberOfItem = 10;
 }

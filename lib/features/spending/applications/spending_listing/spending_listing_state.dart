@@ -11,7 +11,18 @@ class SpendingListingInitial extends SpendingListingState {}
 
 class SpendingListingLoaded extends SpendingListingState {
   final Map<DateTime, List<Spending>> listSpending;
-  SpendingListingLoaded(this.listSpending);
+  final bool isFinishLoadMore;
+  SpendingListingLoaded(this.listSpending, {this.isFinishLoadMore = false});
   @override
-  List<Object> get props => [listSpending];
+  List<Object> get props => [
+        listSpending,
+        isFinishLoadMore,
+      ];
+
+  SpendingListingLoaded copyWith({bool? isFinishLoadMore}) {
+    return SpendingListingLoaded(
+      listSpending,
+      isFinishLoadMore: isFinishLoadMore ?? this.isFinishLoadMore,
+    );
+  }
 }

@@ -20,21 +20,28 @@ class FirestoreService {
   Future<QuerySnapshot> getCollection(
     String collectionPath, {
     List<FirestoreQuery>? queries,
+    DocumentSnapshot<Object?>? lastDocumentSnapshot,
   }) async {
     return await firestoreRepository.getCollection(
       collectionPath,
       queries: queries,
+      lastDocumentSnapshot: lastDocumentSnapshot,
     );
   }
 
   Future<QuerySnapshot?> getCollectionByUser(
     String collectionPath, {
     List<FirestoreOrderBy>? listOrderBy,
+    DocumentSnapshot<Object?>? lastDocumentSnapshot,
+    int? limit = Constants.limitNumberOfItem,
   }) async {
     User? user = await localService.getUser();
     if (user == null) return null;
     return await firestoreRepository.getCollection(
       collectionPath,
+      lastDocumentSnapshot: lastDocumentSnapshot,
+      listOrderBy: listOrderBy,
+      limit: limit,
       queries: [
         FirestoreQueryEqualTo(
           Constants.userEmail,
@@ -43,7 +50,6 @@ class FirestoreService {
           ],
         ),
       ],
-      listOrderBy: listOrderBy,
     );
   }
 

@@ -17,7 +17,7 @@ class FirestoreQueryNotEqualTo extends FirestoreQuery {
 
 class FirestoreQueryHelper {
   static Query<Object?> _magic(
-    CollectionReference<Object?> collectionRef,
+    Query<Object?> collectionRef,
     FirestoreQuery query,
   ) {
     switch (query.runtimeType) {
@@ -29,7 +29,7 @@ class FirestoreQueryHelper {
   }
 
   static Query<Object?> magic(
-    CollectionReference<Object?> collectionRef,
+    Query<Object?> collectionRef,
     List<FirestoreQuery> firestoreQueries,
   ) {
     Query<Object?> query = collectionRef;

@@ -1,3 +1,5 @@
+import 'package:dani/core/constants.dart';
+import 'package:dani/core/utils/iterable_util.dart';
 import 'package:dani/core/utils/string_util.dart';
 import 'package:dani/features/spending/services/spending_service.dart';
 import 'package:dani/core/utils/extensions/date_time_extension.dart';
@@ -9,10 +11,26 @@ import '../models/spending_request.dart';
 class SpendingBusiness {
   final SpendingService spendingService;
   late List<SpendingCategory> _listSpendingCategory = [];
+  late List<Spending> _listSpending = [];
+
   SpendingBusiness(this.spendingService);
 
+  Future<Map<DateTime, List<Spending>>?> loadMoreListSpending() async {
+    List<Spending> newList = await spendingService.loadMoreListSpending();
+    if (IterableUtil.isNullOrEmpty(newList)) {
+      return null;
+    }
+    _listSpending.addAll(newList);
+    return _groupListSpendingByDate(_listSpending);
+  }
+
   Future<Map<DateTime, List<Spending>>> getListSpending() async {
-    List<Spending> listSpending = await spendingService.getListSpending();
+    _listSpending = await spendingService.getListSpending(limit: Constants.limitNumberOfItem);
+    return _groupListSpendingByDate(_listSpending);
+  }
+
+  Map<DateTime, List<Spending>> _groupListSpendingByDate(
+      List<Spending> listSpending) {
     Map<DateTime, List<Spending>> result = {};
     DateTime? base = null;
     List<Spending> listSpendingGroupByCreatedDate = [];

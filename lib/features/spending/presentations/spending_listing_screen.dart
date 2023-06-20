@@ -59,40 +59,35 @@ class _ScreenBodyState extends BaseStatefulState {
           }
           Map<DateTime, List<Spending>> listSpending = state.listSpending;
           return ListView.builder(
-            // padding: EdgeInsets.all(Constants.padding),
-            itemCount: listSpending.length,
+            itemCount: listSpending.length + 1,
             itemBuilder: (_, index) {
+              if (index == listSpending.length && state.isFinishLoadMore) {
+                return SizedBox.shrink();
+              }
+              if (index == listSpending.length) {
+                BlocProvider.of<SpendingListingBloc>(context)
+                    .add(LoadMoreSpendingListingEvent());
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
               MapEntry<DateTime, List<Spending>> entry =
                   listSpending.entries.toList()[index];
               List<Spending> _listSpending = entry.value;
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(
-                    height: 40,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Divider(
-                            color: Colors.black,
-                          ),
-                        ),
-                        Text(
-                          entry.key.formatDDMMYYYY(),
-                          style: TextThemeUtil.instance.bodyMedium?.semiBold,
-                        ),
-                        Expanded(
-                          child: Divider(
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
+                  _TitleGroupListSpendingWidget(
+                    title: entry.key.formatDDMMYYYY(),
                   ),
                   ListView.separated(
                     shrinkWrap: true,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: Constants.padding),
+                    padding: EdgeInsets.fromLTRB(
+                      Constants.padding,
+                      0,
+                      Constants.padding,
+                      Constants.padding,
+                    ),
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: _listSpending.length,
                     separatorBuilder: (_, __) => SizedBox(
@@ -109,6 +104,38 @@ class _ScreenBodyState extends BaseStatefulState {
         }
         return EmptyWidget();
       },
+    );
+  }
+}
+
+class _TitleGroupListSpendingWidget extends StatelessWidget {
+  final String title;
+  const _TitleGroupListSpendingWidget({
+    required this.title,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 40,
+      child: Row(
+        children: [
+          Expanded(
+            child: Divider(
+              color: Colors.black,
+            ),
+          ),
+          Text(
+            title,
+            style: TextThemeUtil.instance.bodyMedium?.semiBold,
+          ),
+          Expanded(
+            child: Divider(
+              color: Colors.black,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

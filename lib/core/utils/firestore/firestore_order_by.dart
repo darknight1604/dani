@@ -16,7 +16,9 @@ class FirestoreOrderByDesending extends FirestoreOrderBy {
 
 class FirestoreOrderByHelper {
   static Query<Object?> _magic(
-      CollectionReference<Object?> collectionRef, FirestoreOrderBy orderBy) {
+    Query<Object?> collectionRef,
+    FirestoreOrderBy orderBy,
+  ) {
     switch (orderBy.runtimeType) {
       case FirestoreOrderByDesending:
         return collectionRef.orderBy(orderBy.key, descending: true);
@@ -25,29 +27,36 @@ class FirestoreOrderByHelper {
     }
   }
 
-  static Query<Object?> magic(CollectionReference<Object?> collectionRef,
-      List<FirestoreOrderBy> listOrderBy) {
+  static Query<Object?> magic(
+    Query<Object?> collectionRef,
+    List<FirestoreOrderBy> listOrderBy, {
+    DocumentSnapshot<Object?>? lastDocumentSnapshot,
+    int? limit,
+  }) {
     Query<Object?> query = collectionRef;
     for (var orderBy in listOrderBy) {
       query = _magic(collectionRef, orderBy);
+    }
+    if (lastDocumentSnapshot != null) {
+      query = query.startAfterDocument(lastDocumentSnapshot);
+    }
+    if (limit != null) {
+      query = query.limit(limit);
     }
     return query;
   }
 
   static Query<Object?> magicByQuery(
     Query<Object?> query,
-    List<FirestoreOrderBy> listOrderBy,
-  ) {
-    for (var orderBy in listOrderBy) {
-      switch (orderBy.runtimeType) {
-        case FirestoreOrderByDesending:
-          query = query.orderBy(orderBy.key, descending: true);
-          break;
-        default:
-          query = query.orderBy(orderBy.key);
-          break;
-      }
-    }
-    return query;
+    List<FirestoreOrderBy> listOrderBy, {
+    DocumentSnapshot<Object?>? lastDocumentSnapshot,
+    int? limit,
+  }) {
+    return magic(
+      query,
+      listOrderBy,
+      lastDocumentSnapshot: lastDocumentSnapshot,
+      limit: limit,
+    );
   }
 }

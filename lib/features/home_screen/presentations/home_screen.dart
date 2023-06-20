@@ -62,6 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
               // Add your onPressed code here!
               Navigator.pushNamed(context, AppRoute.spendingScreen)
                   .then((value) {
+                if (value == null) return;
                 spendingListingBloc.add(FetchSpendingListingEvent());
               });
             },

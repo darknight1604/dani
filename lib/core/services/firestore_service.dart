@@ -3,6 +3,7 @@ import 'package:dani/core/constants.dart';
 import 'package:dani/core/repositories/remote/firestore_repository.dart';
 import 'package:dani/core/services/local_service.dart';
 import 'package:dani/core/utils/extensions/date_time_extension.dart';
+import 'package:dani/core/utils/iterable_util.dart';
 
 import '../../features/login/domains/models/user.dart';
 import '../utils/firestore/firestore_order_by.dart';
@@ -20,30 +21,38 @@ class FirestoreService {
   Future<QuerySnapshot> getCollection(
     String collectionPath, {
     List<FirestoreQuery>? queries,
+    DocumentSnapshot<Object?>? lastDocumentSnapshot,
   }) async {
     return await firestoreRepository.getCollection(
       collectionPath,
       queries: queries,
+      lastDocumentSnapshot: lastDocumentSnapshot,
     );
   }
 
   Future<QuerySnapshot?> getCollectionByUser(
     String collectionPath, {
     List<FirestoreOrderBy>? listOrderBy,
+    DocumentSnapshot<Object?>? lastDocumentSnapshot,
+    int? limit = Constants.limitNumberOfItem,
+    List<FirestoreQuery>? queries,
   }) async {
     User? user = await localService.getUser();
     if (user == null) return null;
     return await firestoreRepository.getCollection(
       collectionPath,
+      lastDocumentSnapshot: lastDocumentSnapshot,
+      listOrderBy: listOrderBy,
+      limit: limit,
       queries: [
         FirestoreQueryEqualTo(
-          Constants.userEmail,
+          JsonKeyConstants.userEmail,
           [
             user.email ?? '',
           ],
         ),
+        if (IterableUtil.isNotNullOrEmpty(queries)) ...queries!,
       ],
-      listOrderBy: listOrderBy,
     );
   }
 
@@ -54,14 +63,14 @@ class FirestoreService {
     User? user = await localService.getUser();
     if (user == null) return false;
     Map<String, dynamic> payload = data;
-    payload[Constants.userEmail] = user.email;
+    payload[JsonKeyConstants.userEmail] = user.email;
     DateTime? createdDate =
-        DateTime.tryParse(data[Constants.createdDate] ?? '');
+        DateTime.tryParse(data[JsonKeyConstants.createdDate] ?? '');
     String index = '';
     if (createdDate != null) {
       index = createdDate.formatYYYYMMPlain();
     }
-    payload[Constants.index] = index;
+    payload[JsonKeyConstants.index] = index;
     return firestoreRepository.createDocument(
       collectionPath: collectionPath,
       data: payload,
@@ -75,7 +84,7 @@ class FirestoreService {
     User? user = await localService.getUser();
     if (user == null) return false;
     Map<String, dynamic> payload = data;
-    payload[Constants.userEmail] = user.email;
+    payload[JsonKeyConstants.userEmail] = user.email;
     return firestoreRepository.updateDocument(
       collectionPath: collectionPath,
       data: payload,

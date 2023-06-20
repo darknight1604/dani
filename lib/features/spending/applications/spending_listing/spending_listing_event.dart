@@ -8,3 +8,13 @@ abstract class SpendingListingEvent extends Equatable {
 }
 
 class FetchSpendingListingEvent extends SpendingListingEvent {}
+
+class LoadMoreSpendingListingEvent extends SpendingListingEvent {}
+
+class DeleteSpendingListingEvent extends SpendingListingEvent {
+  final Spending spending;
+
+  DeleteSpendingListingEvent(this.spending);
+
+  
+}

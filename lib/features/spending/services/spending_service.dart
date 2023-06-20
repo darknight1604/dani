@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dani/core/constants.dart';
 import 'package:dani/core/services/firestore_service.dart';
 import 'package:dani/core/utils/firestore/firestore_order_by.dart';
+import 'package:dani/core/utils/firestore/firestore_query.dart';
 import 'package:dani/features/spending/models/spending.dart';
 import 'package:dani/features/spending/models/spending_category.dart';
 
@@ -12,56 +13,65 @@ class SpendingService {
 
   SpendingService(this.firestoreService);
 
-  List<SpendingCategory> result = [];
-
   final String _collectionName = 'spending_category';
   final String _collectionSpending = 'spending_request';
 
-  Future<List<SpendingCategory>> getListSpendingCategory() async {
-    if (result.isNotEmpty) return result;
+  late QueryDocumentSnapshot _lastDocumentSpending;
 
+  Future<List<SpendingCategory>> getListSpendingCategory() async {
     QuerySnapshot querySnapshot =
         await firestoreService.getCollection(_collectionName);
-    querySnapshot.docs.forEach((element) {
+    return querySnapshot.docs.map((element) {
       Map<String, dynamic> data = element.data() as Map<String, dynamic>;
-      data[Constants.id] = element.id;
-      result.add(
-        SpendingCategory.fromJson(data),
-      );
-    });
-
-    return result;
+      data[JsonKeyConstants.id] = element.id;
+      return SpendingCategory.fromJson(data);
+    }).toList();
   }
 
-  Future<List<Spending>> getListSpending() async {
-    List<Spending> listSpendingRequest = [];
-    QuerySnapshot? querySnapshot = await firestoreService
-        .getCollectionByUser(_collectionSpending, listOrderBy: [
-      FirestoreOrderByDesending('createdDate'),
-    ]);
-    if (querySnapshot == null) return listSpendingRequest;
-    querySnapshot.docs.forEach((element) {
+  Future<List<Spending>> getListSpending({
+    QueryDocumentSnapshot<Object?>? lastDocumentSnapshot,
+    int? limit,
+  }) async {
+    QuerySnapshot? querySnapshot = await firestoreService.getCollectionByUser(
+      limit: limit,
+      _collectionSpending,
+      lastDocumentSnapshot: lastDocumentSnapshot,
+      queries: [
+        FirestoreQueryEqualTo(JsonKeyConstants.isDeleted, [false, null]),
+      ],
+      listOrderBy: [
+        FirestoreOrderByDesending(JsonKeyConstants.createdDate),
+      ],
+    );
+    if (querySnapshot == null || querySnapshot.docs.isEmpty) return [];
+    _lastDocumentSpending = querySnapshot.docs.last;
+    return querySnapshot.docs.map((element) {
       Map<String, dynamic> data = element.data() as Map<String, dynamic>;
-      data[Constants.id] = element.id;
-      listSpendingRequest.add(
-        Spending.fromJson(data),
-      );
-    });
+      data[JsonKeyConstants.id] = element.id;
 
-    return listSpendingRequest;
+      return Spending.fromJson(data);
+    }).toList();
   }
+
+  Future<List<Spending>> loadMoreListSpending() async => getListSpending(
+        lastDocumentSnapshot: _lastDocumentSpending,
+        limit: Constants.limitNumberOfItem,
+      );
 
   Future<bool> addSpendingRequest(SpendingRequest spendingRequest) async {
     return await firestoreService.createDocument(
-      collectionPath: 'spending_request',
+      collectionPath: _collectionSpending,
       data: spendingRequest.toJson(),
     );
   }
 
-  Future<bool> updateSpendingRequest(SpendingRequest spendingRequest) async {
+  Future<bool> updateSpendingRequest(SpendingRequest spendingRequest) =>
+      updateByRawJson(spendingRequest.toJson());
+
+  Future<bool> updateByRawJson(Map<String, dynamic> json) async {
     return await firestoreService.updateDocument(
-      collectionPath: 'spending_request',
-      data: spendingRequest.toJson(),
+      collectionPath: _collectionSpending,
+      data: json,
     );
   }
 }

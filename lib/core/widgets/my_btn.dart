@@ -11,6 +11,9 @@ abstract class MyBtn extends StatelessWidget {
     required this.child,
     required this.onTap,
   });
+
+  final Size minimumSize = Size(120, 50);
+  final Size maximumSize = Size(300, 50);
 }
 
 class MyFilledBtn extends StatelessWidget {
@@ -46,8 +49,8 @@ class MyFilledWithChildBtn extends MyBtn {
     final ButtonStyle outlineButtonStyle = OutlinedButton.styleFrom(
       backgroundColor: Theme.of(context).colorScheme.primary,
       foregroundColor: Theme.of(context).colorScheme.primary,
-      maximumSize: Size(220, 50),
-      minimumSize: Size(70, 50),
+      minimumSize: minimumSize,
+      maximumSize: maximumSize,
       padding: EdgeInsets.symmetric(horizontal: 16),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(Constants.radius)),
@@ -105,11 +108,10 @@ class MyOutlineWithChildBtn extends MyBtn {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = Size(120, 50);
     final ButtonStyle outlineButtonStyle = OutlinedButton.styleFrom(
       foregroundColor: Constants.defaultTextColor,
-      minimumSize: size,
-      maximumSize: Size(300, 50),
+      minimumSize: minimumSize,
+      maximumSize: maximumSize,
       padding: EdgeInsets.symmetric(horizontal: 16),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(Constants.radius)),

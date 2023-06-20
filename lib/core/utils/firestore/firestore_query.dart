@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class FirestoreQuery {
   final String key;
-  final List<String> listValue;
+  final List<dynamic> listValue;
 
   FirestoreQuery(this.key, this.listValue);
 }
@@ -17,7 +17,7 @@ class FirestoreQueryNotEqualTo extends FirestoreQuery {
 
 class FirestoreQueryHelper {
   static Query<Object?> _magic(
-    CollectionReference<Object?> collectionRef,
+    Query<Object?> collectionRef,
     FirestoreQuery query,
   ) {
     switch (query.runtimeType) {
@@ -29,7 +29,7 @@ class FirestoreQueryHelper {
   }
 
   static Query<Object?> magic(
-    CollectionReference<Object?> collectionRef,
+    Query<Object?> collectionRef,
     List<FirestoreQuery> firestoreQueries,
   ) {
     Query<Object?> query = collectionRef;

@@ -14,7 +14,8 @@
         "createRequestFailure": "Yêu cầu của bạn đã được thất bại",
         "emptyData": "Không tồn tại dữ liệu",
         "createdDate": "Ngày tạo",
-        "date": "Ngày"
+        "date": "Ngày",
+        "areYouSureToDelete": "Bạn có chắc chắn muốn xóa?"
     },
     "loginScreen":{
         "welcomeContent": "Chào mừng bạn đến với Dani.\nHiện tại, app chỉ hỗ trợ đăng nhập với Gmail",
@@ -27,6 +28,7 @@
         "spendingTypeOther": "Danh mục khác",
         "cost": "Số tiền",
         "purpose": "Bạn dùng số tiền cho mục đích gì?",
-        "spendingListing":"Danh sách chi tiêu"   
+        "spendingListing":"Danh sách chi tiêu",
+        "totalPerDay": "Tạm tính"   
     }
 }

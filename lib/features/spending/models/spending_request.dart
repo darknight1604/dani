@@ -10,6 +10,7 @@ class SpendingRequest {
   DateTime? createdDate;
   String? otherCategory;
   String? id;
+  bool? isDeleted;
 
   SpendingRequest({
     required this.cost,
@@ -19,6 +20,7 @@ class SpendingRequest {
     this.otherCategory,
     this.categoryName,
     this.createdDate,
+    this.isDeleted = false,
   });
 
   factory SpendingRequest.fromJson(Map<String, dynamic> json) =>

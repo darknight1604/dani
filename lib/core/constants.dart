@@ -8,13 +8,6 @@ class Constants {
   static const String token = 'token';
   static const String empty = '--';
 
-  static const String user = 'user';
-
-  static const String userEmail = 'userEmail';
-  static const String index = 'index';
-  static const String createdDate = 'createdDate';
-  static const String id = 'id';
-
   static const double padding = 16.0;
 
   static const double spacingBetweenWidget = 12.0;
@@ -47,4 +40,15 @@ class Constants {
   static const int maxLines = 3;
 
   static const String otherCategoryId = '-1';
+
+  static const int limitNumberOfItem = 10;
+}
+
+class JsonKeyConstants {
+  static const String user = 'user';
+  static const String isDeleted = 'isDeleted';
+  static const String userEmail = 'userEmail';
+  static const String index = 'index';
+  static const String createdDate = 'createdDate';
+  static const String id = 'id';
 }

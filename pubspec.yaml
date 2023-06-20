@@ -86,6 +86,10 @@ dependencies:
   # https://pub.dev/packages/cached_network_image
   cached_network_image: ^3.2.3
 
+  # https://pub.dev/packages/bloc_concurrency
+  # A Dart package that exposes custom event transformers inspired by ember concurrency. Built to work with bloc.
+  bloc_concurrency: ^0.2.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -135,6 +139,7 @@ flutter:
     - "assets/images/"
     - "assets/translations/"
     - "assets/google_fonts/"
+    - "assets/configs/"
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

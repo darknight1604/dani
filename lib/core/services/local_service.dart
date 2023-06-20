@@ -15,17 +15,17 @@ class LocalService {
 
   Future<bool> saveUser(User user) async {
     return await localRepository.setString(
-        Constants.user, jsonEncode(user.toJson()));
+        JsonKeyConstants.user, jsonEncode(user.toJson()));
   }
 
   Future<User?> getUser() async {
-    String str = await localRepository.getString(Constants.user);
+    String str = await localRepository.getString(JsonKeyConstants.user);
     if (StringUtil.isNullOrEmpty(str)) return null;
     return User.fromJson(jsonDecode(str));
   }
 
   Future<bool> logout() async {
     final sharePref = await localRepository.getPref();
-    return await sharePref.remove(Constants.user);
+    return await sharePref.remove(JsonKeyConstants.user);
   }
 }

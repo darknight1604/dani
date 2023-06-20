@@ -10,18 +10,19 @@ abstract class SpendingListingState extends Equatable {
 class SpendingListingInitial extends SpendingListingState {}
 
 class SpendingListingLoaded extends SpendingListingState {
-  final Map<DateTime, List<Spending>> listSpending;
+  final List<GroupSpendingData> listGroupSpendingData;
   final bool isFinishLoadMore;
-  SpendingListingLoaded(this.listSpending, {this.isFinishLoadMore = false});
+  SpendingListingLoaded(this.listGroupSpendingData,
+      {this.isFinishLoadMore = false});
   @override
   List<Object> get props => [
-        listSpending,
+        listGroupSpendingData,
         isFinishLoadMore,
       ];
 
   SpendingListingLoaded copyWith({bool? isFinishLoadMore}) {
     return SpendingListingLoaded(
-      listSpending,
+      listGroupSpendingData,
       isFinishLoadMore: isFinishLoadMore ?? this.isFinishLoadMore,
     );
   }

@@ -44,7 +44,7 @@ class FirestoreService {
       limit: limit,
       queries: [
         FirestoreQueryEqualTo(
-          Constants.userEmail,
+          JsonKeyConstants.userEmail,
           [
             user.email ?? '',
           ],
@@ -60,14 +60,14 @@ class FirestoreService {
     User? user = await localService.getUser();
     if (user == null) return false;
     Map<String, dynamic> payload = data;
-    payload[Constants.userEmail] = user.email;
+    payload[JsonKeyConstants.userEmail] = user.email;
     DateTime? createdDate =
-        DateTime.tryParse(data[Constants.createdDate] ?? '');
+        DateTime.tryParse(data[JsonKeyConstants.createdDate] ?? '');
     String index = '';
     if (createdDate != null) {
       index = createdDate.formatYYYYMMPlain();
     }
-    payload[Constants.index] = index;
+    payload[JsonKeyConstants.index] = index;
     return firestoreRepository.createDocument(
       collectionPath: collectionPath,
       data: payload,
@@ -81,7 +81,7 @@ class FirestoreService {
     User? user = await localService.getUser();
     if (user == null) return false;
     Map<String, dynamic> payload = data;
-    payload[Constants.userEmail] = user.email;
+    payload[JsonKeyConstants.userEmail] = user.email;
     return firestoreRepository.updateDocument(
       collectionPath: collectionPath,
       data: payload,

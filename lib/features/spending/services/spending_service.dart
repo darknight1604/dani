@@ -22,7 +22,7 @@ class SpendingService {
         await firestoreService.getCollection(_collectionName);
     return querySnapshot.docs.map((element) {
       Map<String, dynamic> data = element.data() as Map<String, dynamic>;
-      data[Constants.id] = element.id;
+      data[JsonKeyConstants.id] = element.id;
       return SpendingCategory.fromJson(data);
     }).toList();
   }
@@ -36,14 +36,14 @@ class SpendingService {
       _collectionSpending,
       lastDocumentSnapshot: lastDocumentSnapshot,
       listOrderBy: [
-        FirestoreOrderByDesending(Constants.createdDate),
+        FirestoreOrderByDesending(JsonKeyConstants.createdDate),
       ],
     );
     if (querySnapshot == null || querySnapshot.docs.isEmpty) return [];
     _lastDocumentSpending = querySnapshot.docs.last;
     return querySnapshot.docs.map((element) {
       Map<String, dynamic> data = element.data() as Map<String, dynamic>;
-      data[Constants.id] = element.id;
+      data[JsonKeyConstants.id] = element.id;
 
       return Spending.fromJson(data);
     }).toList();

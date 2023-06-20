@@ -4,6 +4,7 @@ import 'package:dani/core/utils/string_util.dart';
 import 'package:dani/features/spending/services/spending_service.dart';
 import 'package:dani/core/utils/extensions/date_time_extension.dart';
 
+import '../models/group_spending_data.dart';
 import '../models/spending.dart';
 import '../models/spending_category.dart';
 import '../models/spending_request.dart';
@@ -15,7 +16,7 @@ class SpendingBusiness {
 
   SpendingBusiness(this.spendingService);
 
-  Future<Map<DateTime, List<Spending>>?> loadMoreListSpending() async {
+  Future<List<GroupSpendingData>?> loadMoreListSpending() async {
     List<Spending> newList = await spendingService.loadMoreListSpending();
     if (IterableUtil.isNullOrEmpty(newList)) {
       return null;
@@ -24,31 +25,30 @@ class SpendingBusiness {
     return _groupListSpendingByDate(_listSpending);
   }
 
-  Future<Map<DateTime, List<Spending>>> getListSpending() async {
-    _listSpending = await spendingService.getListSpending(limit: Constants.limitNumberOfItem);
+  Future<List<GroupSpendingData>> getListSpending() async {
+    _listSpending = await spendingService.getListSpending(
+        limit: Constants.limitNumberOfItem);
     return _groupListSpendingByDate(_listSpending);
   }
 
-  Map<DateTime, List<Spending>> _groupListSpendingByDate(
-      List<Spending> listSpending) {
-    Map<DateTime, List<Spending>> result = {};
+  List<GroupSpendingData> _groupListSpendingByDate(
+    List<Spending> listSpending,
+  ) {
+    List<GroupSpendingData> result = [];
+    GroupSpendingData groupSpendingData = GroupSpendingData();
     DateTime? base = null;
-    List<Spending> listSpendingGroupByCreatedDate = [];
     for (var spending in listSpending) {
-      if (!(base?.isEqualByYYYYMMDD(spending.createdDate) ?? true)) {
-        result[base!] = []..addAll(listSpendingGroupByCreatedDate);
-        listSpendingGroupByCreatedDate.clear();
-      }
       if ((base != null && !base.isEqualByYYYYMMDD(spending.createdDate)) ||
           base == null) {
         base = spending.createdDate;
+        groupSpendingData = GroupSpendingData(
+          createdData: base,
+          listSpending: [],
+        );
+        result.add(groupSpendingData);
       }
       if (base?.isEqualByYYYYMMDD(spending.createdDate) ?? false) {
-        listSpendingGroupByCreatedDate.add(spending);
-      }
-      if (spending == listSpending.last) {
-        result[base!] = []..addAll(listSpendingGroupByCreatedDate);
-        listSpendingGroupByCreatedDate.clear();
+        groupSpendingData.listSpending?.add(spending);
       }
     }
     return result;

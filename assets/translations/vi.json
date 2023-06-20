@@ -27,6 +27,7 @@
         "spendingTypeOther": "Danh mục khác",
         "cost": "Số tiền",
         "purpose": "Bạn dùng số tiền cho mục đích gì?",
-        "spendingListing":"Danh sách chi tiêu"   
+        "spendingListing":"Danh sách chi tiêu",
+        "totalPerDay": "Tạm tính"   
     }
 }

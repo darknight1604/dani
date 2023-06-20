@@ -1,8 +1,9 @@
 import 'package:bloc/bloc.dart';
-import 'package:dani/features/spending/bussinesses/spending_business.dart';
-import 'package:dani/features/spending/models/spending.dart';
-import 'package:equatable/equatable.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:dani/features/spending/bussinesses/spending_business.dart';
+import 'package:equatable/equatable.dart';
+
+import '../../models/group_spending_data.dart';
 
 part 'spending_listing_event.dart';
 part 'spending_listing_state.dart';

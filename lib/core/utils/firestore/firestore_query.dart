@@ -32,10 +32,9 @@ class FirestoreQueryHelper {
     Query<Object?> collectionRef,
     List<FirestoreQuery> firestoreQueries,
   ) {
-    Query<Object?> query = collectionRef;
     for (var firestoreQuery in firestoreQueries) {
-      query = _magic(collectionRef, firestoreQuery);
+      collectionRef = _magic(collectionRef, firestoreQuery);
     }
-    return query;
+    return collectionRef;
   }
 }

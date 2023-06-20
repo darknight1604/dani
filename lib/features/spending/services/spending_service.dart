@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dani/core/constants.dart';
 import 'package:dani/core/services/firestore_service.dart';
 import 'package:dani/core/utils/firestore/firestore_order_by.dart';
+import 'package:dani/core/utils/firestore/firestore_query.dart';
 import 'package:dani/features/spending/models/spending.dart';
 import 'package:dani/features/spending/models/spending_category.dart';
 
@@ -35,6 +36,9 @@ class SpendingService {
       limit: limit,
       _collectionSpending,
       lastDocumentSnapshot: lastDocumentSnapshot,
+      queries: [
+        FirestoreQueryEqualTo(JsonKeyConstants.isDeleted, [false, null]),
+      ],
       listOrderBy: [
         FirestoreOrderByDesending(JsonKeyConstants.createdDate),
       ],
@@ -61,10 +65,13 @@ class SpendingService {
     );
   }
 
-  Future<bool> updateSpendingRequest(SpendingRequest spendingRequest) async {
+  Future<bool> updateSpendingRequest(SpendingRequest spendingRequest) =>
+      updateByRawJson(spendingRequest.toJson());
+
+  Future<bool> updateByRawJson(Map<String, dynamic> json) async {
     return await firestoreService.updateDocument(
       collectionPath: _collectionSpending,
-      data: spendingRequest.toJson(),
+      data: json,
     );
   }
 }

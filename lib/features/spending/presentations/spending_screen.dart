@@ -188,6 +188,7 @@ class _BodyScreenState extends State<_BodyScreen> {
                   InputTextField(
                     controller: _controller,
                     keyboardType: TextInputType.number,
+                    textInputAction: TextInputAction.done,
                     hintText: tr(LocaleKeys.spendingScreen_cost),
                     labelWidget: RichText(
                       text: TextSpan(
@@ -315,6 +316,7 @@ class _BodyScreenState extends State<_BodyScreen> {
                       height: Constants.spacingBetweenWidget,
                     ),
                     InputTextField(
+                      textInputAction: TextInputAction.done,
                       controller: _otherController,
                       labelText:
                           tr(LocaleKeys.spendingScreen_spendingTypeOther),
@@ -328,6 +330,7 @@ class _BodyScreenState extends State<_BodyScreen> {
                     height: Constants.spacingBetweenWidget,
                   ),
                   InputTextField(
+                    textInputAction: TextInputAction.done,
                     controller: _noteController,
                     labelText: tr(LocaleKeys.common_note),
                     hintText: tr(LocaleKeys.common_note),

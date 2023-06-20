@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class FirestoreQuery {
   final String key;
-  final List<String> listValue;
+  final List<dynamic> listValue;
 
   FirestoreQuery(this.key, this.listValue);
 }

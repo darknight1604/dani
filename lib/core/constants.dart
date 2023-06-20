@@ -46,7 +46,7 @@ class Constants {
 
 class JsonKeyConstants {
   static const String user = 'user';
-
+  static const String isDeleted = 'isDeleted';
   static const String userEmail = 'userEmail';
   static const String index = 'index';
   static const String createdDate = 'createdDate';

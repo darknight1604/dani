@@ -19,6 +19,8 @@ class Spending extends Equatable {
 
   final String? index;
 
+  final bool? isDeleted;
+
   const Spending({
     required this.id,
     this.cost,
@@ -29,6 +31,7 @@ class Spending extends Equatable {
     this.categoryName,
     this.otherCategory,
     this.index,
+    this.isDeleted,
   });
 
   factory Spending.fromJson(Map<String, dynamic> json) =>
@@ -44,4 +47,19 @@ class Spending extends Equatable {
         note,
         index,
       ];
+
+  Spending copyWith({bool? isDeleted}) {
+    return Spending(
+      id: id,
+      cost: cost,
+      categoryId: categoryId,
+      userEmail: userEmail,
+      note: note,
+      createdDate: createdDate,
+      categoryName: categoryName,
+      otherCategory: otherCategory,
+      index: index,
+      isDeleted: isDeleted ?? this.isDeleted,
+    );
+  }
 }

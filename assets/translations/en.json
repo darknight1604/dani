@@ -14,7 +14,8 @@
         "createRequestFailure": "Your request was failed",
         "emptyData": "Your data is empty",
         "createdDate": "Created date",
-        "date": "Date"
+        "date": "Date",
+        "areYouSureToDelete": "Are you sure to delete?"
     },
     "loginScreen": {
         "welcomeContent": "Welcome to Dani.\nCurrently, we only support login with Gmail",

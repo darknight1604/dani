@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dani/core/utils/string_util.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -13,6 +11,6 @@ class DateTimeConverter implements JsonConverter<DateTime?, String?> {
 
   @override
   String? toJson(DateTime? object) {
-    return jsonEncode(object);
+    return object?.toIso8601String();
   }
 }

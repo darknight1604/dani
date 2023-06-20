@@ -52,6 +52,7 @@ class _ScreenBodyState extends BaseStatefulState {
   @override
   Widget buildChild(BuildContext context) {
     return BlocBuilder<SpendingListingBloc, SpendingListingState>(
+      buildWhen: (previous, current) => current is! DeleteSpendingListingState,
       builder: (context, state) {
         if (state is SpendingListingLoaded) {
           BlocProvider.of<LoadingBloc>(context).add(LoadingDismissEvent());

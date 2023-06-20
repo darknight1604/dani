@@ -66,4 +66,8 @@ class SpendingBusiness {
     }
     return spendingService.updateSpendingRequest(spendingRequest);
   }
+
+  Future<bool> deleteSpending(Spending spending) async {
+    return spendingService.updateByRawJson(spending.toJson());
+  }
 }

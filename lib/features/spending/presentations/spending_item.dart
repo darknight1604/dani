@@ -45,9 +45,19 @@ class SpendingItem extends StatelessWidget {
                 SizedBox(
                   width: 8,
                 ),
-                Text(
-                  noSymbolInUSFormat.format(spending.cost ?? 0),
-                  style: TextThemeUtil.instance.titleMedium,
+                Expanded(
+                  child: Text(
+                    noSymbolInUSFormat.format(spending.cost ?? 0),
+                    style: TextThemeUtil.instance.titleMedium,
+                  ),
+                ),
+                InkWell(
+                  onTap: () => _onTapDelete(context),
+                  child: Icon(
+                    Icons.delete_outline_outlined,
+                    size: Constants.iconSize,
+                    color: Colors.red,
+                  ),
                 ),
               ],
             ),
@@ -141,6 +151,47 @@ class SpendingItem extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  void _onTapDelete(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (contextBuilder) {
+        return AlertDialog(
+          title: Text(
+            tr(LocaleKeys.common_confirm),
+            style: TextThemeUtil.instance.titleMedium?.semiBold,
+          ),
+          content: Text(
+            tr(LocaleKeys.common_areYouSureToDelete),
+            style: TextThemeUtil.instance.bodyMedium?.regular,
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(
+                tr(LocaleKeys.common_cancel),
+                style: TextThemeUtil.instance.bodyMedium?.regular,
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                BlocProvider.of<SpendingListingBloc>(context).add(
+                  DeleteSpendingListingEvent(spending),
+                );
+                Navigator.pop(context);
+              },
+              child: Text(
+                tr(LocaleKeys.common_confirm),
+                style: TextThemeUtil.instance.bodyMedium?.semiBold.copyWith(
+                  color: Colors.red,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:dani/core/constants.dart';
 import 'package:dani/core/repositories/remote/firestore_repository.dart';
 import 'package:dani/core/services/local_service.dart';
 import 'package:dani/core/utils/extensions/date_time_extension.dart';
+import 'package:dani/core/utils/iterable_util.dart';
 
 import '../../features/login/domains/models/user.dart';
 import '../utils/firestore/firestore_order_by.dart';
@@ -34,6 +35,7 @@ class FirestoreService {
     List<FirestoreOrderBy>? listOrderBy,
     DocumentSnapshot<Object?>? lastDocumentSnapshot,
     int? limit = Constants.limitNumberOfItem,
+    List<FirestoreQuery>? queries,
   }) async {
     User? user = await localService.getUser();
     if (user == null) return null;
@@ -49,6 +51,7 @@ class FirestoreService {
             user.email ?? '',
           ],
         ),
+        if (IterableUtil.isNotNullOrEmpty(queries)) ...queries!,
       ],
     );
   }

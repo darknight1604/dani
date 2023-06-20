@@ -4,6 +4,7 @@ import 'package:dani/features/spending/bussinesses/spending_business.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../models/group_spending_data.dart';
+import '../../models/spending.dart';
 
 part 'spending_listing_event.dart';
 part 'spending_listing_state.dart';
@@ -33,5 +34,16 @@ class SpendingListingBloc
         emit(SpendingListingLoaded(result));
       },
     );
+    on<DeleteSpendingListingEvent>((event, emit) async {
+      final result = await spendingBusiness.deleteSpending(
+        event.spending.copyWith(isDeleted: true),
+      );
+      if (result) {
+        emit(DeleteSpendingListingSuccess());
+        add(FetchSpendingListingEvent());
+        return;
+      }
+      emit(DeleteSpendingListingFailure());
+    });
   }
 }

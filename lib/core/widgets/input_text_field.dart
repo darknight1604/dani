@@ -21,6 +21,7 @@ class InputTextField extends StatelessWidget {
   final void Function(String?)? onSaved;
   final String? Function(String?)? validator;
   final bool? isRequired;
+  final TextInputAction? textInputAction;
 
   const InputTextField({
     super.key,
@@ -37,6 +38,7 @@ class InputTextField extends StatelessWidget {
     this.hintWidget,
     this.labelWidget,
     this.isRequired = false,
+    this.textInputAction,
   });
 
   @override
@@ -47,6 +49,7 @@ class InputTextField extends StatelessWidget {
       maxLines: maxLines,
       onChanged: onChanged,
       keyboardType: keyboardType,
+      textInputAction: textInputAction,
       onSaved: onSaved,
       validator: validator ?? _onValidator,
       decoration: InputDecoration(

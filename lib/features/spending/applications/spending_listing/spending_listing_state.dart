@@ -27,3 +27,10 @@ class SpendingListingLoaded extends SpendingListingState {
     );
   }
 }
+
+
+class DeleteSpendingListingState extends SpendingListingState {}
+
+class DeleteSpendingListingSuccess extends DeleteSpendingListingState {}
+
+class DeleteSpendingListingFailure extends DeleteSpendingListingState {}

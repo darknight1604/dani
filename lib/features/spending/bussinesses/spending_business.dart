@@ -8,7 +8,7 @@ import '../models/spending_request.dart';
 
 class SpendingBusiness {
   final SpendingService spendingService;
-
+  late List<SpendingCategory> _listSpendingCategory = [];
   SpendingBusiness(this.spendingService);
 
   Future<Map<DateTime, List<Spending>>> getListSpending() async {
@@ -36,8 +36,11 @@ class SpendingBusiness {
     return result;
   }
 
-  Future<List<SpendingCategory>> getListSpendingCategory() async =>
-      spendingService.getListSpendingCategory();
+  Future<List<SpendingCategory>> getListSpendingCategory() async {
+    if (_listSpendingCategory.isNotEmpty) return _listSpendingCategory;
+    _listSpendingCategory = await spendingService.getListSpendingCategory();
+    return _listSpendingCategory;
+  }
 
   Future<bool> addSpendingRequest(SpendingRequest spendingRequest) async {
     if (StringUtil.isNullOrEmpty(spendingRequest.id)) {

@@ -12,32 +12,23 @@ class SpendingService {
 
   SpendingService(this.firestoreService);
 
-  List<SpendingCategory> result = [];
-
   final String _collectionName = 'spending_category';
   final String _collectionSpending = 'spending_request';
 
   Future<List<SpendingCategory>> getListSpendingCategory() async {
-    if (result.isNotEmpty) return result;
-
     QuerySnapshot querySnapshot =
         await firestoreService.getCollection(_collectionName);
-    querySnapshot.docs.forEach((element) {
+    return querySnapshot.docs.map((element) {
       Map<String, dynamic> data = element.data() as Map<String, dynamic>;
       data[Constants.id] = element.id;
-      result.add(
-        SpendingCategory.fromJson(data),
-      );
-    });
-
-    return result;
+      return SpendingCategory.fromJson(data);
+    }).toList();
   }
 
   Future<List<Spending>> getListSpending() async {
     List<Spending> listSpendingRequest = [];
     QuerySnapshot? querySnapshot = await firestoreService.getCollectionByUser(
       _collectionSpending,
-
       listOrderBy: [
         FirestoreOrderByDesending(Constants.createdDate),
       ],

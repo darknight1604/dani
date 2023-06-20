@@ -35,10 +35,13 @@ class SpendingService {
 
   Future<List<Spending>> getListSpending() async {
     List<Spending> listSpendingRequest = [];
-    QuerySnapshot? querySnapshot = await firestoreService
-        .getCollectionByUser(_collectionSpending, listOrderBy: [
-      FirestoreOrderByDesending('createdDate'),
-    ]);
+    QuerySnapshot? querySnapshot = await firestoreService.getCollectionByUser(
+      _collectionSpending,
+
+      listOrderBy: [
+        FirestoreOrderByDesending(Constants.createdDate),
+      ],
+    );
     if (querySnapshot == null) return listSpendingRequest;
     querySnapshot.docs.forEach((element) {
       Map<String, dynamic> data = element.data() as Map<String, dynamic>;
@@ -53,14 +56,14 @@ class SpendingService {
 
   Future<bool> addSpendingRequest(SpendingRequest spendingRequest) async {
     return await firestoreService.createDocument(
-      collectionPath: 'spending_request',
+      collectionPath: _collectionSpending,
       data: spendingRequest.toJson(),
     );
   }
 
   Future<bool> updateSpendingRequest(SpendingRequest spendingRequest) async {
     return await firestoreService.updateDocument(
-      collectionPath: 'spending_request',
+      collectionPath: _collectionSpending,
       data: spendingRequest.toJson(),
     );
   }

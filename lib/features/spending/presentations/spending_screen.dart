@@ -3,6 +3,7 @@ import 'package:dani/core/constants.dart';
 import 'package:dani/core/utils/extensions/text_style_extension.dart';
 import 'package:dani/core/utils/text_theme_util.dart';
 import 'package:dani/core/widgets/base_stateful.dart';
+import 'package:dani/core/widgets/input_date_picker.dart';
 import 'package:dani/features/spending/models/spending_category.dart';
 import 'package:dani/gen/locale_keys.g.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -82,7 +83,7 @@ class _SpendingScreenState extends BaseStatefulState<SpendingScreen> {
                     context,
                     tr(LocaleKeys.common_createRequestSuccess),
                   );
-                  Navigator.pop(context);
+                  Navigator.pop(context, true);
                   return;
                 }
                 if (state is CreateSpendingRequestFailure) {
@@ -175,6 +176,15 @@ class _BodyScreenState extends State<_BodyScreen> {
               key: _key,
               child: Column(
                 children: [
+                  InputDatePicker(
+                    initialDate: _spendingRequest.createdDate,
+                    onSubmit: (DateTime value) {
+                      _spendingRequest.createdDate = value;
+                    },
+                  ),
+                  SizedBox(
+                    height: Constants.spacingBetweenWidget,
+                  ),
                   InputTextField(
                     controller: _controller,
                     keyboardType: TextInputType.number,
@@ -228,8 +238,10 @@ class _BodyScreenState extends State<_BodyScreen> {
                       return DropdownButtonFormField2<SpendingCategory>(
                         value: () {
                           if (widget.spending == null) return null;
-                          return spendingCategories.firstWhere((element) =>
+                          final listTemp = spendingCategories.where((element) =>
                               element.id == widget.spending!.categoryId);
+                          if (listTemp.isEmpty) return null;
+                          return listTemp.first;
                         }.call(),
                         style: TextThemeUtil.instance.bodyMedium,
                         decoration: InputDecoration(

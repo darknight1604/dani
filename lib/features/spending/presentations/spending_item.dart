@@ -18,6 +18,7 @@ class SpendingItem extends StatelessWidget {
           AppRoute.spendingScreen,
           arguments: spending,
         ).then((value) {
+          if (value == null) return;
           BlocProvider.of<SpendingListingBloc>(context)
               .add(FetchSpendingListingEvent());
         });

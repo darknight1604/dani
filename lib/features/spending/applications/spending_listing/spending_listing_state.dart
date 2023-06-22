@@ -9,6 +9,8 @@ abstract class SpendingListingState extends Equatable {
 
 class SpendingListingInitial extends SpendingListingState {}
 
+class SpendingListingLoading extends SpendingListingState {}
+
 class SpendingListingLoaded extends SpendingListingState {
   final List<GroupSpendingData> listGroupSpendingData;
   final bool isFinishLoadMore;

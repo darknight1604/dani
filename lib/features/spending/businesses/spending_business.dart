@@ -4,10 +4,10 @@ import 'package:dani/core/utils/string_util.dart';
 import 'package:dani/features/spending/services/spending_service.dart';
 import 'package:dani/core/utils/extensions/date_time_extension.dart';
 
-import '../models/group_spending_data.dart';
-import '../models/spending.dart';
-import '../models/spending_category.dart';
-import '../models/spending_request.dart';
+import '../businesses/models/group_spending_data.dart';
+import '../businesses/models/spending.dart';
+import '../businesses/models/spending_category.dart';
+import '../businesses/models/spending_request.dart';
 
 class SpendingBusiness {
   final SpendingService spendingService;
@@ -27,7 +27,8 @@ class SpendingBusiness {
 
   Future<List<GroupSpendingData>> getListSpending() async {
     _listSpending = await spendingService.getListSpending(
-        limit: Constants.limitNumberOfItem);
+      limit: Constants.limitNumberOfItem,
+    );
     return _groupListSpendingByDate(_listSpending);
   }
 

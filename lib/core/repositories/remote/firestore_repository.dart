@@ -16,7 +16,7 @@ class FirestoreRepository {
     List<FirestoreQuery>? queries,
     List<FirestoreOrderBy>? listOrderBy,
     DocumentSnapshot<Object?>? lastDocumentSnapshot,
-    int? limit = Constants.limitNumberOfItem,
+    int? limit,
   }) async {
     CollectionReference collection = _firestore.collection(
       _collectionNameBuilder(collectionPath),

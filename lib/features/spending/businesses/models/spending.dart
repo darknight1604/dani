@@ -1,7 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../../core/utils/converters/date_time_converter.dart';
+import '../../../../core/utils/converters/date_time_converter.dart';
+
 part 'spending.g.dart';
 
 @JsonSerializable()
@@ -61,5 +62,10 @@ class Spending extends Equatable {
       index: index,
       isDeleted: isDeleted ?? this.isDeleted,
     );
+  }
+
+  @override
+  String toString() {
+    return 'categoryId: $categoryId, categoryName: $categoryName, cost: $cost';
   }
 }

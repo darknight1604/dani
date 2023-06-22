@@ -1,20 +1,22 @@
-import 'package:dani/core/app_route.dart';
 import 'package:dani/core/constants.dart';
 import 'package:dani/core/utils/extensions/date_time_extension.dart';
 import 'package:dani/core/utils/extensions/text_style_extension.dart';
 import 'package:dani/core/utils/string_util.dart';
 import 'package:dani/core/utils/text_theme_util.dart';
-import 'package:dani/features/spending/models/spending.dart';
+import 'package:dani/features/spending/businesses/models/spending.dart';
+import 'package:dani/features/spending/spending_route.dart';
 import 'package:dani/gen/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../core/applications/loading/loading_bloc.dart';
 import '../../../core/widgets/base_stateful.dart';
 import '../../../core/widgets/empty_widget.dart';
+import '../../../core/widgets/total_row_widget.dart';
 import '../applications/spending_listing/spending_listing_bloc.dart';
-import '../models/group_spending_data.dart';
+import '../businesses/models/group_spending_data.dart';
 
 part './spending_item.dart';
 
@@ -25,14 +27,46 @@ class SpendingListingScreen extends StatefulWidget {
   State<SpendingListingScreen> createState() => _SpendingListingScreenState();
 }
 
-class _SpendingListingScreenState extends State<SpendingListingScreen> {
+class _SpendingListingScreenState extends State<SpendingListingScreen>
+    with AutomaticKeepAliveClientMixin {
+  late SpendingListingBloc spendingListingBloc;
+  @override
+  void initState() {
+    super.initState();
+    spendingListingBloc = GetIt.I.get<SpendingListingBloc>()
+      ..add(
+        FetchSpendingListingEvent(),
+      );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.blueGrey.shade50,
-      body: _ScreenBody(),
+    super.build(context);
+    return BlocProvider(
+      create: (context) => spendingListingBloc,
+      child: Scaffold(
+        backgroundColor: Constants.scaffoldBackgroundColor,
+        body: _ScreenBody(),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            // Add your onPressed code here!
+            Navigator.pushNamed(context, GetIt.I.get<SpendingRoute>().routeName)
+                .then(
+              (value) {
+                if (value == null) return;
+                spendingListingBloc.add(FetchSpendingListingEvent());
+              },
+            );
+          },
+          backgroundColor: Theme.of(context).primaryColor,
+          child: const Icon(Icons.add),
+        ),
+      ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class _ScreenBody extends BaseStateful {
@@ -42,20 +76,20 @@ class _ScreenBody extends BaseStateful {
 
 class _ScreenBodyState extends BaseStatefulState {
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      loadingBloc.add(LoadingShowEvent());
-    });
-  }
-
-  @override
   Widget buildChild(BuildContext context) {
-    return BlocBuilder<SpendingListingBloc, SpendingListingState>(
+    return BlocConsumer<SpendingListingBloc, SpendingListingState>(
+      listener: (context, state) {
+        if (state is SpendingListingLoading) {
+          loadingBloc.add(LoadingShowEvent());
+          return;
+        }
+      },
       buildWhen: (previous, current) => current is! DeleteSpendingListingState,
       builder: (context, state) {
         if (state is SpendingListingLoaded) {
-          BlocProvider.of<LoadingBloc>(context).add(LoadingDismissEvent());
+          if (loadingBloc.state is LoadingShowState) {
+            loadingBloc.add(LoadingDismissEvent());
+          }
 
           if (state.listGroupSpendingData.isEmpty) {
             return EmptyWidget();
@@ -91,21 +125,10 @@ class _ScreenBodyState extends BaseStatefulState {
                       Constants.padding,
                       8.0,
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          '${tr(LocaleKeys.spendingScreen_totalPerDay)}: ',
-                          style: TextThemeUtil.instance.bodyMedium,
-                        ),
-                        Text(
-                          '${NumberFormat('#,##0', 'en_US').format(entry.totalPerDay)} ${Constants.currencySymbol}',
-                          style: TextThemeUtil.instance.bodyMedium?.semiBold
-                              .copyWith(
-                            color: Colors.green,
-                          ),
-                        ),
-                      ],
+                    child: TotalRowWidget(
+                      title: '${tr(LocaleKeys.spendingScreen_totalPerDay)}: ',
+                      content:
+                          '${Constants.nf.format(entry.totalPerDay)} ${Constants.currencySymbol}',
                     ),
                   ),
                   ListView.separated(

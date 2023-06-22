@@ -15,7 +15,22 @@
         "emptyData": "Your data is empty",
         "createdDate": "Created date",
         "date": "Date",
-        "areYouSureToDelete": "Are you sure to delete?"
+        "areYouSureToDelete": "Are you sure to delete?",
+        "total": "Total: ",
+        "month": {
+            "january": "January",
+            "february": "February",
+            "march": "March",
+            "april": "April",
+            "may": "May",
+            "june": "June",
+            "july": "July",
+            "august": "August",
+            "september": "September",
+            "october": "October",
+            "november": "November",
+            "december": "december"
+        }
     },
     "loginScreen": {
         "welcomeContent": "Welcome to Dani.\nCurrently, we only support login with Gmail",
@@ -30,5 +45,8 @@
         "purpose": "What is your purpose?",
         "spendingListing": "Spending listing",
         "totalPerDay": "Total per day"
+    },
+    "dashboardScreen": {
+        "statisticInMonth": "{} statistic"
     }
 }

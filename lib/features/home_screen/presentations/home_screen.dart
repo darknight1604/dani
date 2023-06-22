@@ -3,7 +3,6 @@ import 'package:dani/core/constants.dart';
 import 'package:dani/core/utils/extensions/text_style_extension.dart';
 import 'package:dani/core/widgets/my_btn.dart';
 import 'package:dani/features/login/domains/models/user.dart';
-import 'package:dani/features/spending/applications/spending_listing/spending_listing_bloc.dart';
 import 'package:dani/gen/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +11,7 @@ import 'package:get_it/get_it.dart';
 
 import '../../../core/utils/text_theme_util.dart';
 import '../../../core/widgets/my_cache_image.dart';
+import '../../dashboard/presentations/dashboard_screen.dart';
 import '../../spending/presentations/spending_listing_screen.dart';
 import '../applications/cubit/home_cubit.dart';
 
@@ -23,18 +23,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late SpendingListingBloc spendingListingBloc;
-
-  @override
-  void initState() {
-    super.initState();
-    spendingListingBloc = GetIt.I.get<SpendingListingBloc>();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<HomeCubit>(
-      create: (context) => HomeCubit(GetIt.I.get())..fetchUser(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<HomeCubit>(
+          create: (context) => HomeCubit(GetIt.I.get())..fetchUser(),
+        ),
+      ],
       child: BlocListener<HomeCubit, HomeState>(
         listener: (context, state) {
           if (state is HomeLogoutSuccessState) {
@@ -42,32 +38,36 @@ class _HomeScreenState extends State<HomeScreen> {
             return;
           }
         },
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(
-              tr(LocaleKeys.spendingScreen_spendingListing),
-              style: TextThemeUtil.instance.titleMedium?.semiBold
-                  .copyWith(color: Colors.white),
+        child: DefaultTabController(
+          initialIndex: 0,
+          length: 2,
+          child: Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              title: Text(
+                tr(LocaleKeys.common_appName),
+                style: TextThemeUtil.instance.titleMedium?.semiBold
+                    .copyWith(color: Colors.white),
+              ),
+              bottom: const TabBar(
+                tabs: <Widget>[
+                  Tab(
+                    icon: Icon(Icons.trending_up_outlined),
+                  ),
+                  Tab(
+                    icon: Icon(Icons.receipt_outlined),
+                  ),
+                ],
+              ),
             ),
-          ),
-          drawer: _MyDrawer(),
-          body: BlocProvider<SpendingListingBloc>(
-            create: (context) =>
-                spendingListingBloc..add(FetchSpendingListingEvent()),
-            lazy: false,
-            child: SpendingListingScreen(),
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              // Add your onPressed code here!
-              Navigator.pushNamed(context, AppRoute.spendingScreen)
-                  .then((value) {
-                if (value == null) return;
-                spendingListingBloc.add(FetchSpendingListingEvent());
-              });
-            },
-            backgroundColor: Theme.of(context).primaryColor,
-            child: const Icon(Icons.add),
+            drawer: _MyDrawer(),
+            body: TabBarView(
+              physics: NeverScrollableScrollPhysics(),
+              children: <Widget>[
+                DashboardScreen(),
+                SpendingListingScreen(),
+              ],
+            ),
           ),
         ),
       ),

@@ -4,7 +4,7 @@ import 'package:dani/core/utils/extensions/text_style_extension.dart';
 import 'package:dani/core/utils/text_theme_util.dart';
 import 'package:dani/core/widgets/base_stateful.dart';
 import 'package:dani/core/widgets/input_date_picker.dart';
-import 'package:dani/features/spending/models/spending_category.dart';
+import 'package:dani/features/spending/businesses/models/spending_category.dart';
 import 'package:dani/gen/locale_keys.g.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -16,8 +16,8 @@ import '../../../core/utils/string_util.dart';
 import '../../../core/widgets/input_text_field.dart';
 import '../../../core/widgets/my_btn.dart';
 import '../applications/spending/spending_bloc.dart';
-import '../models/spending.dart';
-import '../models/spending_request.dart';
+import '../businesses/models/spending.dart';
+import '../businesses/models/spending_request.dart';
 
 class SpendingScreen extends BaseStateful {
   final Spending? spending;
@@ -118,7 +118,7 @@ class _BodyScreenState extends State<_BodyScreen> {
   late TextEditingController _noteController;
   static const _locale = 'en';
   String _formatNumber(String s) =>
-      NumberFormat.decimalPattern(_locale).format(int.parse(s));
+      NumberFormat.decimalPattern(_locale).format(int.tryParse(s) ?? 0);
 
   final GlobalKey<FormState> _key = GlobalKey();
 
@@ -198,7 +198,7 @@ class _BodyScreenState extends State<_BodyScreen> {
                             style: TextThemeUtil.instance.bodyMedium,
                           ),
                           TextSpan(
-                            text: ' ',
+                            text: StringPool.space,
                           ),
                           Constants.redStar,
                         ],
@@ -248,9 +248,23 @@ class _BodyScreenState extends State<_BodyScreen> {
                         decoration: InputDecoration(
                           label: Padding(
                             padding: EdgeInsets.only(left: 10),
-                            child: Text(
-                              tr(LocaleKeys.spendingScreen_spendingType),
-                              style: TextThemeUtil.instance.bodyMedium?.regular,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  tr(LocaleKeys.spendingScreen_spendingType),
+                                  style: TextThemeUtil
+                                      .instance.bodyMedium?.regular,
+                                ),
+                                Text(StringPool.space),
+                                Text(
+                                  StringPool.star,
+                                  style: TextThemeUtil.instance.bodyMedium
+                                      ?.copyWith(
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           isDense: true,
@@ -261,10 +275,24 @@ class _BodyScreenState extends State<_BodyScreen> {
                           ),
                         ),
                         isExpanded: true,
-                        hint: Text(
-                          tr(LocaleKeys.spendingScreen_whatDidYouSpendToday),
-                          style: TextThemeUtil
-                              .instance.bodyMedium?.regular.disable,
+                        hint: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              tr(LocaleKeys
+                                  .spendingScreen_whatDidYouSpendToday),
+                              style: TextThemeUtil
+                                  .instance.bodyMedium?.regular.disable,
+                            ),
+                            Text(StringPool.space),
+                            Text(
+                              StringPool.star,
+                              style:
+                                  TextThemeUtil.instance.bodyMedium?.copyWith(
+                                color: Colors.red.withOpacity(0.8),
+                              ),
+                            ),
+                          ],
                         ),
                         buttonStyleData: const ButtonStyleData(
                           padding: EdgeInsets.zero,
@@ -303,6 +331,13 @@ class _BodyScreenState extends State<_BodyScreen> {
                             _isOtherCategory = false;
                           });
                           return;
+                        },
+                        validator: (value) {
+                          if (value == null) {
+                            return tr(LocaleKeys.common_requireField);
+                          }
+
+                          return null;
                         },
                         onSaved: (newValue) {
                           _spendingRequest.categoryId = newValue?.id ?? '';

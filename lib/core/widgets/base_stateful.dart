@@ -38,7 +38,7 @@ class BaseStatefulState<T extends BaseStateful> extends State<T> {
             _show(context);
             return;
           }
-          if (state is LoadingDismissState) {
+          if (state is LoadingDismissState && _isThereCurrentDialogShowing(context)) {
             Navigator.pop(context);
             return;
           }
@@ -51,4 +51,7 @@ class BaseStatefulState<T extends BaseStateful> extends State<T> {
   Widget buildChild(BuildContext context) {
     return SizedBox.shrink();
   }
+
+  _isThereCurrentDialogShowing(BuildContext context) =>
+      ModalRoute.of(context)?.isCurrent != true;
 }

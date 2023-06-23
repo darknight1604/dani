@@ -1,10 +1,10 @@
-import 'package:dani/features/spending/bussinesses/spending_business.dart';
+import 'package:dani/features/spending/businesses/spending_business.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../models/spending_category.dart';
-import '../../models/spending_request.dart';
+import '../../businesses/models/spending_category.dart';
+import '../../businesses/models/spending_request.dart';
 
 part 'spending_event.dart';
 part 'spending_state.dart';

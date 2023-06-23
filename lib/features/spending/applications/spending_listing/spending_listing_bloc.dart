@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:dani/features/spending/bussinesses/spending_business.dart';
+import 'package:dani/features/spending/businesses/spending_business.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../models/group_spending_data.dart';
-import '../../models/spending.dart';
+import '../../businesses/models/group_spending_data.dart';
+import '../../businesses/models/spending.dart';
 
 part 'spending_listing_event.dart';
 part 'spending_listing_state.dart';
@@ -17,6 +17,7 @@ class SpendingListingBloc
     this.spendingBusiness,
   ) : super(SpendingListingInitial()) {
     on<FetchSpendingListingEvent>((event, emit) async {
+      emit(SpendingListingLoading());
       final result = await spendingBusiness.getListSpending();
       emit(SpendingListingLoaded(result));
     });

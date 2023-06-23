@@ -1,7 +1,7 @@
 {
     "common": {
         "appName": "Dani",
-        "welcomeTitle":"Chào mừng",
+        "welcomeTitle": "Chào mừng",
         "confirm": "Xác nhận",
         "cancel": "Hủy bỏ",
         "note": "Ghi chú",
@@ -15,20 +15,38 @@
         "emptyData": "Không tồn tại dữ liệu",
         "createdDate": "Ngày tạo",
         "date": "Ngày",
-        "areYouSureToDelete": "Bạn có chắc chắn muốn xóa?"
+        "areYouSureToDelete": "Bạn có chắc chắn muốn xóa?",
+        "total": "Tổng cộng: ",
+        "month": {
+            "january": "Tháng 1",
+            "february": "Tháng 2",
+            "march": "Tháng 3",
+            "april": "Tháng 4",
+            "may": "Tháng 5",
+            "june": "Tháng 6",
+            "july": "Tháng 7",
+            "august": "Tháng 8",
+            "september": "Tháng 9",
+            "october": "Tháng 10",
+            "november": "Tháng 11",
+            "december": "Tháng 12"
+        }
     },
-    "loginScreen":{
+    "loginScreen": {
         "welcomeContent": "Chào mừng bạn đến với Dani.\nHiện tại, app chỉ hỗ trợ đăng nhập với Gmail",
-        "continueWithGmail":"Tiếp tục với Gmail"
+        "continueWithGmail": "Tiếp tục với Gmail"
     },
-    "spendingScreen":{
-        "appBarTitle":"Thêm chi tiêu",
+    "spendingScreen": {
+        "appBarTitle": "Thêm chi tiêu",
         "whatDidYouSpendToday": "Bạn đã tiêu gì hôm nay?",
         "spendingType": "Danh mục",
         "spendingTypeOther": "Danh mục khác",
         "cost": "Số tiền",
         "purpose": "Bạn dùng số tiền cho mục đích gì?",
-        "spendingListing":"Danh sách chi tiêu",
-        "totalPerDay": "Tạm tính"   
+        "spendingListing": "Danh sách chi tiêu",
+        "totalPerDay": "Tạm tính"
+    },
+    "dashboardScreen": {
+        "statisticInMonth": "Thống kê {}"
     }
 }

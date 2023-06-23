@@ -34,7 +34,7 @@ class FirestoreService {
     String collectionPath, {
     List<FirestoreOrderBy>? listOrderBy,
     DocumentSnapshot<Object?>? lastDocumentSnapshot,
-    int? limit = Constants.limitNumberOfItem,
+    int? limit,
     List<FirestoreQuery>? queries,
   }) async {
     User? user = await localService.getUser();

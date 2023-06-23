@@ -3,10 +3,11 @@ import 'package:dani/core/constants.dart';
 import 'package:dani/core/services/firestore_service.dart';
 import 'package:dani/core/utils/firestore/firestore_order_by.dart';
 import 'package:dani/core/utils/firestore/firestore_query.dart';
-import 'package:dani/features/spending/models/spending.dart';
-import 'package:dani/features/spending/models/spending_category.dart';
+import 'package:dani/core/utils/iterable_util.dart';
+import 'package:dani/features/spending/businesses/models/spending.dart';
+import 'package:dani/features/spending/businesses/models/spending_category.dart';
 
-import '../models/spending_request.dart';
+import '../businesses/models/spending_request.dart';
 
 class SpendingService {
   final FirestoreService firestoreService;
@@ -31,6 +32,7 @@ class SpendingService {
   Future<List<Spending>> getListSpending({
     QueryDocumentSnapshot<Object?>? lastDocumentSnapshot,
     int? limit,
+    List<FirestoreQuery>? queries,
   }) async {
     QuerySnapshot? querySnapshot = await firestoreService.getCollectionByUser(
       limit: limit,
@@ -38,6 +40,7 @@ class SpendingService {
       lastDocumentSnapshot: lastDocumentSnapshot,
       queries: [
         FirestoreQueryEqualTo(JsonKeyConstants.isDeleted, [false, null]),
+        if (IterableUtil.isNotNullOrEmpty(queries)) ...queries!,
       ],
       listOrderBy: [
         FirestoreOrderByDesending(JsonKeyConstants.createdDate),

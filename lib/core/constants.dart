@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'utils/text_theme_util.dart';
@@ -15,7 +16,7 @@ class Constants {
   static const String currencySymbol = 'VNĐ';
 
   static TextSpan redStar = TextSpan(
-    text: '*',
+    text: StringPool.star,
     style: TextThemeUtil.instance.bodyMedium?.copyWith(color: Colors.red),
   );
 
@@ -42,6 +43,9 @@ class Constants {
   static const String otherCategoryId = '-1';
 
   static const int limitNumberOfItem = 10;
+
+  static Color scaffoldBackgroundColor = Colors.blueGrey.shade50;
+  static NumberFormat nf = NumberFormat('#,##0', 'en_US');
 }
 
 class JsonKeyConstants {
@@ -51,4 +55,9 @@ class JsonKeyConstants {
   static const String index = 'index';
   static const String createdDate = 'createdDate';
   static const String id = 'id';
+}
+
+class StringPool {
+  static const String star = '*';
+  static const String space = ' ';
 }

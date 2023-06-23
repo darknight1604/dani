@@ -15,7 +15,7 @@ class SpendingItem extends StatelessWidget {
       onTap: () {
         Navigator.pushNamed(
           context,
-          AppRoute.spendingScreen,
+          GetIt.I.get<SpendingRoute>().routeName,
           arguments: spending,
         ).then((value) {
           if (value == null) return;

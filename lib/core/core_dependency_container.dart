@@ -2,6 +2,7 @@ import 'package:dani/core/services/firestore_service.dart';
 import 'package:dani/core/services/local_service.dart';
 import 'package:get_it/get_it.dart';
 
+import 'app_route.dart';
 import 'applications/loading/loading_bloc.dart';
 import 'repositories/local/local_repository.dart';
 import 'repositories/remote/firestore_repository.dart';
@@ -26,5 +27,10 @@ class CoreDependencyContainer {
 
     /// Applications
     instance.registerFactory<LoadingBloc>(() => LoadingBloc());
+
+    /// Utils
+    instance.registerLazySingleton<FeatureRouteFactory>(
+      () => FeatureRouteFactory(),
+    );
   }
 }

@@ -3,8 +3,10 @@ import 'package:dani/features/spending/spending_route.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../core/app_route.dart';
+import '../../core/services/background_service.dart';
 import 'applications/spending_listing/spending_listing_bloc.dart';
 import 'businesses/spending_business.dart';
+import 'services/background_service.dart';
 import 'services/spending_service.dart';
 
 class SpendingDiContainer extends DiContainer {
@@ -13,6 +15,9 @@ class SpendingDiContainer extends DiContainer {
     /// Services
     instance.registerLazySingleton<SpendingService>(
       () => SpendingService(instance.get()),
+    );
+    instance.registerLazySingleton<SpendingBackgroundService>(
+      () => SpendingBackgroundService(instance.get(), instance.get()),
     );
 
     /// Businesses
@@ -31,5 +36,8 @@ class SpendingDiContainer extends DiContainer {
       () => SpendingRoute(),
     );
     instance.get<FeatureRouteFactory>().register(instance.get<SpendingRoute>());
+
+    ///
+    instance.get<DaniBackgroundService>().register(instance.get<SpendingBackgroundService>());
   }
 }

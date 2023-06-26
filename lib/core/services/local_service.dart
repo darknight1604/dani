@@ -28,4 +28,11 @@ class LocalService {
     final sharePref = await localRepository.getPref();
     return await sharePref.remove(JsonKeyConstants.user);
   }
+
+  Future<bool> isConvertCreatedDate() async =>
+      await localRepository.getBool(JsonKeyConstants.isConvertCreatedDate);
+
+  Future<bool> checkConvertCreatedDate(bool value) async =>
+      await localRepository.setBool(
+          JsonKeyConstants.isConvertCreatedDate, value);
 }

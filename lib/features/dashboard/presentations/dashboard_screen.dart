@@ -75,6 +75,21 @@ class _DashboardScreenState extends State<DashboardScreen>
                       },
                       child: ListView(
                         children: [
+                          TextButton(
+                            onPressed: () {
+                              showDateRangePicker(
+                                context: context,
+                                initialEntryMode: DatePickerEntryMode.calendarOnly,
+                                firstDate: DateTime(2023, DateTime.january, 1),
+                                lastDate: DateTime(2023, DateTime.december, 31),
+                                initialDateRange: DateTimeRange(
+                                  start: DateTime(2023, DateTime.june, 1),
+                                  end: DateTime(2023, DateTime.june, 30),
+                                ),
+                              );
+                            },
+                            child: Text('hello-world'),
+                          ),
                           BlocBuilder<SpendingDashboardBloc,
                               SpendingDashboardState>(
                             builder: (context, state) {

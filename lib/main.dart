@@ -1,5 +1,6 @@
 import 'package:dani/core/app_config.dart';
 import 'package:dani/core/app_route.dart';
+import 'package:dani/core/services/background_service.dart';
 import 'package:dani/core/utils/text_theme_util.dart';
 import 'package:dani/dependency_container.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -12,10 +13,12 @@ import 'core/constants.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  await Firebase.initializeApp();
   await EasyLocalization.ensureInitialized();
   DependencyContainer.setup(GetIt.instance);
   await AppConfig.instance.initial();
-  await Firebase.initializeApp();
+
+  await GetIt.I.get<DaniBackgroundService>().perform();
 
   runApp(
     EasyLocalization(

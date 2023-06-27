@@ -1,3 +1,4 @@
+import 'package:dani/core/app_config.dart';
 import 'package:dani/core/app_route.dart';
 import 'package:dani/core/constants.dart';
 import 'package:dani/core/utils/extensions/text_style_extension.dart';
@@ -102,7 +103,7 @@ class _MyDrawer extends StatelessWidget {
                           child: Row(
                             children: [
                               MyCacheImage(
-                                imageUrl: user?.photoUrl ?? '',
+                                imageUrl: user?.photoUrl ?? StringPool.empty,
                                 imageBuilder: (context, imageProvider) {
                                   return CircleAvatar(
                                     radius: avtSize,
@@ -129,7 +130,7 @@ class _MyDrawer extends StatelessWidget {
                                       height: Constants.padding,
                                     ),
                                     Text(
-                                      user?.displayName ?? '',
+                                      user?.displayName ?? StringPool.empty,
                                       style: TextThemeUtil
                                           .instance.titleMedium?.semiBold
                                           .copyWith(color: Colors.white),
@@ -176,6 +177,18 @@ class _MyDrawer extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+            SizedBox(
+              height: Constants.padding,
+            ),
+            Text(
+              tr(
+                LocaleKeys.common_version,
+                args: [
+                  AppConfig.instance.version,
+                ],
+              ),
+              style: TextThemeUtil.instance.bodyMedium?.copyWith(color: Constants.disableColor,),
             ),
             SizedBox(
               height: Constants.padding,

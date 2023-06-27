@@ -95,6 +95,7 @@ dependencies:
   # Bar Chart, Pie Chart, Scatter Chart, and Radar Chart
   fl_chart: ^0.63.0
   flutter_launcher_icons: ^0.13.1
+  package_info_plus: ^4.0.2
 
 dev_dependencies:
   flutter_test:

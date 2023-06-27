@@ -48,7 +48,7 @@ class FirestoreService {
         FirestoreQueryEqualTo(
           JsonKeyConstants.userEmail,
           [
-            user.email ?? '',
+            user.email ?? StringPool.empty,
           ],
         ),
         if (IterableUtil.isNotNullOrEmpty(queries)) ...queries!,
@@ -67,14 +67,14 @@ class FirestoreService {
     DateTime? createdDate = () {
       dynamic createdDateData = data[JsonKeyConstants.createdDate];
       if (createdDateData is String) {
-        return DateTime.tryParse(data[JsonKeyConstants.createdDate] ?? '');
+        return DateTime.tryParse(data[JsonKeyConstants.createdDate] ?? StringPool.empty);
       }
       if (createdDateData is! Timestamp) {
         return null;
       }
       return createdDateData.toDate();
     }.call();
-    String index = '';
+    String index = StringPool.empty;
     if (createdDate != null) {
       index = createdDate.formatYYYYMMPlain();
     }

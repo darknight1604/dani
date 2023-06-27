@@ -1,5 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../constants.dart';
+
 class LocalRepository {
   late SharedPreferences? _prefs;
 
@@ -19,7 +21,7 @@ class LocalRepository {
 
   Future<String> getString(String key) async {
     SharedPreferences prefs = await getPref();
-    return prefs.getString(key) ?? '';
+    return prefs.getString(key) ?? StringPool.empty;
   }
 
   Future<bool> setBool(String key, bool value) async {

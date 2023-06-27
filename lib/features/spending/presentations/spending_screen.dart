@@ -130,7 +130,7 @@ class _BodyScreenState extends State<_BodyScreen> {
     super.initState();
     _spendingRequest = SpendingRequest(
       cost: 0,
-      id: widget.spending?.id ?? '',
+      id: widget.spending?.id ?? StringPool.empty,
       createdDate: widget.spending?.createdDate ?? DateTime.now(),
     );
     _otherController = TextEditingController();
@@ -139,13 +139,15 @@ class _BodyScreenState extends State<_BodyScreen> {
     if (widget.spending != null) {
       _isOtherCategory =
           widget.spending!.categoryId == Constants.otherCategoryId;
-      String string = _formatNumber(widget.spending?.cost.toString() ?? '');
+      String string =
+          _formatNumber(widget.spending?.cost.toString() ?? StringPool.empty);
       _controller.value = TextEditingValue(
         text: string,
         selection: TextSelection.collapsed(offset: string.length),
       );
-      _otherController.text = widget.spending?.otherCategory ?? '';
-      _noteController.text = widget.spending?.note ?? '';
+      _otherController.text =
+          widget.spending?.otherCategory ?? StringPool.empty;
+      _noteController.text = widget.spending?.note ?? StringPool.empty;
       return;
     }
   }
@@ -212,7 +214,8 @@ class _BodyScreenState extends State<_BodyScreen> {
                       return null;
                     },
                     onChanged: (string) {
-                      string = '${_formatNumber(string.replaceAll(',', ''))}';
+                      string =
+                          '${_formatNumber(string.replaceAll(StringPool.comma, StringPool.empty))}';
                       _controller.value = TextEditingValue(
                         text: string,
                         selection:
@@ -222,7 +225,7 @@ class _BodyScreenState extends State<_BodyScreen> {
                     onSaved: (value) {
                       if (StringUtil.isNullOrEmpty(value)) return;
                       _spendingRequest.cost = int.parse(
-                        value!.replaceAll(',', ''),
+                        value!.replaceAll(StringPool.comma, StringPool.empty),
                       );
                     },
                   ),
@@ -316,7 +319,8 @@ class _BodyScreenState extends State<_BodyScreen> {
                               (spendingCategory) => DropdownMenuItem(
                                 onTap: () {},
                                 value: spendingCategory,
-                                child: Text(spendingCategory.name ?? ''),
+                                child: Text(
+                                    spendingCategory.name ?? StringPool.empty),
                               ),
                             )
                             .toList(),
@@ -340,8 +344,10 @@ class _BodyScreenState extends State<_BodyScreen> {
                           return null;
                         },
                         onSaved: (newValue) {
-                          _spendingRequest.categoryId = newValue?.id ?? '';
-                          _spendingRequest.categoryName = newValue?.name ?? '';
+                          _spendingRequest.categoryId =
+                              newValue?.id ?? StringPool.empty;
+                          _spendingRequest.categoryName =
+                              newValue?.name ?? StringPool.empty;
                         },
                       );
                     },

@@ -116,7 +116,7 @@ class _ScreenBodyState extends BaseStatefulState {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   _TitleGroupListSpendingWidget(
-                    title: entry.createdData?.formatDDMMYYYY() ?? '',
+                    title: entry.createdData?.formatDDMMYYYY() ?? StringPool.empty,
                   ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(

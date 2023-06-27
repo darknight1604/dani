@@ -60,5 +60,6 @@ class JsonKeyConstants {
 
 class StringPool {
   static const String star = '*';
+  static const String empty = '';
   static const String space = ' ';
 }

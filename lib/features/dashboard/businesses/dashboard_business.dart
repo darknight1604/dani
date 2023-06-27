@@ -1,4 +1,5 @@
 import 'package:dani/core/constants.dart';
+import 'package:dani/core/utils/extensions/date_time_extension.dart';
 import 'package:dani/core/utils/firestore/firestore_query.dart';
 import 'package:dani/core/utils/iterable_util.dart';
 import 'package:dani/features/spending/businesses/models/spending.dart';
@@ -12,12 +13,22 @@ class DashboardBusiness {
 
   DashboardBusiness(this.spendingService);
 
-  Future<SpendingPieChartData> initData(int month, int year) async {
-    String value = '${year}0$month';
-    List<Spending> listSpendingInMonth =
-        await spendingService.getListSpending(queries: [
-      FirestoreQueryEqualTo(JsonKeyConstants.index, [value])
-    ]);
+  Future<SpendingPieChartData> initData(
+    DateTime startDate,
+    DateTime endDate,
+  ) async {
+    List<Spending> listSpendingInMonth = await spendingService.getListSpending(
+      queries: [
+        FirestoreQueryGreaterThanOrEqualTo(
+          JsonKeyConstants.createdDate,
+          [startDate.beginOfDate],
+        ),
+        FirestoreQueryLessThanOrEqualTo(
+          JsonKeyConstants.createdDate,
+          [endDate.endOfDate],
+        ),
+      ],
+    );
     int total = 0;
     List<GroupSpendingDataByCategoryId> listData = [];
     var biggest = GroupSpendingDataByCategoryId.init();
@@ -46,6 +57,7 @@ class DashboardBusiness {
     }
 
     // Calculate percent of each group category & find biggest spending group
+    double tempPercent = 0;
     for (var groupData in listData) {
       int totalEachGroupData = groupData.total;
       //Find the biggest
@@ -62,11 +74,19 @@ class DashboardBusiness {
         minimumCost = totalEachGroupData;
         smallest = groupData;
       }
+      
       // Calculate percent
       double percent = double.tryParse(
             (totalEachGroupData * 100 / total).toDouble().toStringAsFixed(2),
           ) ??
           0;
+      if (listData.last == groupData) {
+        groupData.percent = double.tryParse(
+                (100 - tempPercent).toDouble().toStringAsFixed(2)) ??
+            0;
+        continue;
+      }
+      tempPercent += percent;
       groupData.percent = percent;
     }
     listData.sort((a, b) => a.compareTo(b));

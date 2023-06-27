@@ -40,4 +40,17 @@ class GroupSpendingDataByCategoryId implements Comparable {
     if (otherPercent < currentPercent) return 1;
     return 0;
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other.runtimeType != runtimeType) {
+      return false;
+    }
+    return other is GroupSpendingDataByCategoryId &&
+        other.categoryId == categoryId &&
+        other.categoryId == categoryName;
+  }
 }

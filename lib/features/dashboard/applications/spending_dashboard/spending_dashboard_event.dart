@@ -8,9 +8,11 @@ abstract class SpendingDashboardEvent extends Equatable {
 }
 
 class GenerateDataDashboardEvent extends SpendingDashboardEvent {
-  final int month;
-  final int year;
+  final DateTime? startDate;
+  final DateTime? endDate;
 
-  GenerateDataDashboardEvent(this.month, this.year);
-  
+  GenerateDataDashboardEvent({
+    this.startDate,
+    this.endDate,
+  });
 }

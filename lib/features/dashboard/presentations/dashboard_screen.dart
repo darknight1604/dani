@@ -20,18 +20,32 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen>
     with AutomaticKeepAliveClientMixin {
-  late int _month;
-  late int _year;
-
   final DateTime _now = DateTime.now();
   late SpendingDashboardBloc _spendingDashboardBloc;
+
+  late DateTime _initStartDate;
+  late DateTime _initEndDate;
+  late DateTime _firstDate;
+  late DateTime _lastDate;
+
+  late DateTime _startDate;
+  late DateTime _endDate;
 
   @override
   void initState() {
     super.initState();
-    _month = _now.month;
-    _year = _now.year;
     _spendingDashboardBloc = GetIt.I.get<SpendingDashboardBloc>();
+
+    _initStartDate = DateTime(_now.year, _now.month, 1);
+    _initEndDate = DateTime(
+      _now.year,
+      _now.month,
+      DateTime(_now.year, _now.month + 1, 0).day,
+    );
+    _startDate = _initStartDate;
+    _endDate = _initEndDate;
+    _firstDate = DateTime(_now.year, DateTime.january, 1);
+    _lastDate = DateTime(_now.year, DateTime.december, 31);
   }
 
   @override
@@ -40,74 +54,104 @@ class _DashboardScreenState extends State<DashboardScreen>
     return BlocProvider<SpendingDashboardBloc>(
       create: (context) => _spendingDashboardBloc
         ..add(
-          GenerateDataDashboardEvent(_month, _year),
+          GenerateDataDashboardEvent(
+            startDate: _startDate,
+            endDate: _endDate,
+          ),
         ),
-      child: Scaffold(
-        backgroundColor: Constants.scaffoldBackgroundColor,
-        body: Padding(
-          padding: const EdgeInsets.all(Constants.padding),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(
-                Constants.radius,
+      child: BlocListener<SpendingDashboardBloc, SpendingDashboardState>(
+        listener: (context, state) {
+          if (state is! SpendingPieChartDashboardState) return;
+
+          _startDate = state.startDate ?? _startDate;
+          _endDate = state.endDate ?? _endDate;
+        },
+        child: Scaffold(
+          backgroundColor: Constants.scaffoldBackgroundColor,
+          body: Padding(
+            padding: const EdgeInsets.all(Constants.padding),
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(
+                  Constants.radius,
+                ),
               ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(Constants.padding),
-              child: Column(
-                children: [
-                  Text(
-                    tr(
-                      LocaleKeys.dashboardScreen_statisticInMonth,
-                      args: [
-                        _now.monthTitle,
-                      ],
-                    ),
-                    style: TextThemeUtil.instance.titleLarge,
-                  ),
-                  Expanded(
-                    child: RefreshIndicator(
-                      onRefresh: () async {
-                        await Future.delayed(const Duration(milliseconds: 100));
-                        _spendingDashboardBloc
-                            .add(GenerateDataDashboardEvent(_month, _year));
-                      },
-                      child: ListView(
-                        children: [
-                          TextButton(
-                            onPressed: () {
-                              showDateRangePicker(
-                                context: context,
-                                initialEntryMode: DatePickerEntryMode.calendarOnly,
-                                firstDate: DateTime(2023, DateTime.january, 1),
-                                lastDate: DateTime(2023, DateTime.december, 31),
-                                initialDateRange: DateTimeRange(
-                                  start: DateTime(2023, DateTime.june, 1),
-                                  end: DateTime(2023, DateTime.june, 30),
-                                ),
-                              );
-                            },
-                            child: Text('hello-world'),
-                          ),
-                          BlocBuilder<SpendingDashboardBloc,
-                              SpendingDashboardState>(
-                            builder: (context, state) {
-                              return TotalRowWidget(
-                                title: tr(LocaleKeys.common_total),
-                                content: state
-                                        is! SpendingPieChartDashboardState
-                                    ? Constants.empty
-                                    : '${Constants.nf.format(state.spendingPieChartData.total)} ${Constants.currencySymbol}',
-                              );
-                            },
-                          ),
-                          PieChartSample(),
-                        ],
+              child: Padding(
+                padding: const EdgeInsets.all(Constants.padding),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: RefreshIndicator(
+                        onRefresh: () async {
+                          await Future.delayed(
+                              const Duration(milliseconds: 100));
+                          _spendingDashboardBloc.add(
+                            GenerateDataDashboardEvent(
+                              startDate: _startDate,
+                              endDate: _endDate,
+                            ),
+                          );
+                        },
+                        child: ListView(
+                          children: [
+                            SizedBox(
+                              height: 50,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  InkWell(
+                                    onTap: _pickRangeDate,
+                                    child: BlocBuilder<SpendingDashboardBloc,
+                                        SpendingDashboardState>(
+                                      builder: (context, state) {
+                                        return Text(
+                                          tr(
+                                            LocaleKeys
+                                                .dashboardScreen_statisticFromDayToDay,
+                                            args: [
+                                              state.startDate
+                                                      ?.formatDDMMYYYY() ??
+                                                  StringPool.empty,
+                                              state.endDate?.formatDDMMYYYY() ??
+                                                  StringPool.empty,
+                                            ],
+                                          ),
+                                          style:
+                                              TextThemeUtil.instance.titleMedium,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: _pickRangeDate,
+                                    child: Icon(
+                                      Icons.expand_more,
+                                      size: Constants.iconSize,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            BlocBuilder<SpendingDashboardBloc,
+                                SpendingDashboardState>(
+                              builder: (context, state) {
+                                return TotalRowWidget(
+                                  title: tr(LocaleKeys.common_total),
+                                  content: state
+                                          is! SpendingPieChartDashboardState
+                                      ? Constants.empty
+                                      : '${Constants.nf.format(state.spendingPieChartData.total)} ${Constants.currencySymbol}',
+                                );
+                              },
+                            ),
+                            PieChartSample(),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -117,5 +161,28 @@ class _DashboardScreenState extends State<DashboardScreen>
   }
 
   @override
-  bool get wantKeepAlive => false;
+  bool get wantKeepAlive => true;
+
+  Future _pickRangeDate() async {
+    DateTimeRange? dateTimeRange = await showDateRangePicker(
+      context: context,
+      initialEntryMode: DatePickerEntryMode.calendarOnly,
+      firstDate: _firstDate,
+      lastDate: _lastDate,
+      initialDateRange: DateTimeRange(
+        start: _initStartDate,
+        end: _initEndDate,
+      ),
+    );
+    if (dateTimeRange == null) {
+      return;
+    }
+
+    _spendingDashboardBloc.add(
+      GenerateDataDashboardEvent(
+        startDate: dateTimeRange.start,
+        endDate: dateTimeRange.end,
+      ),
+    );
+  }
 }

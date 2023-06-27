@@ -116,7 +116,10 @@ class _PieChartSampleState extends State {
     0xFF673AB7,
     0xFF607D8B,
     0xFF795548,
-    0xFF82B1FF
+    0xFF82B1FF,
+    0xFFC0CA33,
+    0xFFAED581,
+    0xFF263238,
   ];
 
   int generateIndexColor() {

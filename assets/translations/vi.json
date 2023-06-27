@@ -47,6 +47,8 @@
         "totalPerDay": "Tạm tính"
     },
     "dashboardScreen": {
-        "statisticInMonth": "Thống kê {}"
+        "statisticInMonth": "Thống kê {}",
+        "statisticFromDayToDay": "Thống kê từ {} đến {}",
+        "statistic": "Thống kê"
     }
 }

@@ -117,8 +117,8 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                   StringPool.empty,
                                             ],
                                           ),
-                                          style:
-                                              TextThemeUtil.instance.titleMedium,
+                                          style: TextThemeUtil
+                                              .instance.titleMedium,
                                         );
                                       },
                                     ),

@@ -23,7 +23,7 @@ class _PieChartSampleState extends State {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1.3,
+      aspectRatio: 1,
       child: BlocBuilder<SpendingDashboardBloc, SpendingDashboardState>(
         builder: (context, state) {
           if (state is! SpendingPieChartDashboardState) {

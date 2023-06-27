@@ -170,8 +170,8 @@ class _DashboardScreenState extends State<DashboardScreen>
       firstDate: _firstDate,
       lastDate: _lastDate,
       initialDateRange: DateTimeRange(
-        start: _initStartDate,
-        end: _initEndDate,
+        start: _startDate,
+        end: _endDate,
       ),
     );
     if (dateTimeRange == null) {

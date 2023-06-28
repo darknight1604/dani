@@ -86,17 +86,25 @@ class _ScreenBodyState extends BaseStatefulState {
       },
       buildWhen: (previous, current) => current is! DeleteSpendingListingState,
       builder: (context, state) {
-        if (state is SpendingListingLoaded) {
-          if (loadingBloc.state is LoadingShowState) {
-            loadingBloc.add(LoadingDismissEvent());
-          }
+        if (state is! SpendingListingLoaded) {
+          return EmptyWidget();
+        }
+        if (loadingBloc.state is LoadingShowState) {
+          loadingBloc.add(LoadingDismissEvent());
+        }
 
-          if (state.listGroupSpendingData.isEmpty) {
-            return EmptyWidget();
-          }
-          List<GroupSpendingData> listGroupSpendingData =
-              state.listGroupSpendingData;
-          return ListView.builder(
+        if (state.listGroupSpendingData.isEmpty) {
+          return EmptyWidget();
+        }
+        List<GroupSpendingData> listGroupSpendingData =
+            state.listGroupSpendingData;
+        return RefreshIndicator(
+          onRefresh: () async {
+            await Future.delayed(const Duration(milliseconds: 100));
+            BlocProvider.of<SpendingListingBloc>(context)
+                .add(FetchSpendingListingEvent());
+          },
+          child: ListView.builder(
             itemCount: listGroupSpendingData.length + 1,
             itemBuilder: (_, index) {
               if (index == listGroupSpendingData.length &&
@@ -116,7 +124,8 @@ class _ScreenBodyState extends BaseStatefulState {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   _TitleGroupListSpendingWidget(
-                    title: entry.createdData?.formatDDMMYYYY() ?? StringPool.empty,
+                    title:
+                        entry.createdData?.formatDDMMYYYY() ?? StringPool.empty,
                   ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(
@@ -151,9 +160,8 @@ class _ScreenBodyState extends BaseStatefulState {
                 ],
               );
             },
-          );
-        }
-        return EmptyWidget();
+          ),
+        );
       },
     );
   }

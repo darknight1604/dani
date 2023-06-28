@@ -62,4 +62,6 @@ class StringPool {
   static const String star = '*';
   static const String empty = '';
   static const String space = ' ';
+  static const String comma = ',';
+  static const String plus = '+';
 }

@@ -30,7 +30,8 @@
             "october": "October",
             "november": "November",
             "december": "december"
-        }
+        },
+        "version": "Version {}"
     },
     "loginScreen": {
         "welcomeContent": "Welcome to Dani.\nCurrently, we only support login with Gmail",

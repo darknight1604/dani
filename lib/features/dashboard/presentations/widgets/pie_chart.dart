@@ -8,6 +8,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/constants.dart';
 import '../../applications/spending_dashboard/spending_dashboard_bloc.dart';
 
 class PieChartSample extends StatefulWidget {
@@ -96,7 +97,7 @@ class _PieChartSampleState extends State {
 
                   return _Indicator(
                     color: listColorChart[index],
-                    title: listCategoryData[index].categoryName ?? '',
+                    title: listCategoryData[index].categoryName ?? StringPool.empty,
                   );
                 }).toList(),
               ),

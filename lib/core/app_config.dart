@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dani/core/constants.dart';
 import 'package:dani/core/services/local_service.dart';
 import 'package:dani/core/utils/string_util.dart';
 import 'package:flutter/foundation.dart';
@@ -7,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 
 import '../features/login/domains/models/user.dart';
+
+import 'package:package_info_plus/package_info_plus.dart';
 
 class AppConfig {
   late String? _token;
@@ -25,6 +28,8 @@ class AppConfig {
   final String _keyProdPath = 'prodPath';
 
   late bool _isConvertCreatedDate = false;
+  late String _version = StringPool.empty;
+  late String _buildNumber = StringPool.empty;
 
   Future<void> initial() async {
     LicenseRegistry.addLicense(() async* {
@@ -34,7 +39,7 @@ class AppConfig {
     final localService = GetIt.I.get<LocalService>();
     _isConvertCreatedDate = await localService.isConvertCreatedDate();
     User? user = await localService.getUser();
-    _token = user?.accessToken ?? '';
+    _token = user?.accessToken ?? StringPool.empty;
 
     final configStr = await rootBundle.loadString('assets/configs/config.json');
     Map<String, dynamic> jsonConfig = jsonDecode(configStr);
@@ -45,10 +50,25 @@ class AppConfig {
         jsonConfig[_keyEnvironment][_keyProdPath],
       ),
     );
+
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    // String appName = packageInfo.appName;
+    // String packageName = packageInfo.packageName;
+    _version = packageInfo.version;
+    _buildNumber = packageInfo.buildNumber;
   }
 
   bool get isLogged => StringUtil.isNotNullOrEmpty(_token);
   bool get isConvertCreatedDate => _isConvertCreatedDate;
+
+  String get version {
+    if (appConfigData?.isDevelop ?? true) {
+      return '$_version${StringPool.plus}$buildNumber';
+    }
+    return _version;
+  }
+
+  String get buildNumber => _buildNumber;
 }
 
 class AppConfigData {

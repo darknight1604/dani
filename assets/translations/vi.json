@@ -30,7 +30,8 @@
             "october": "Tháng 10",
             "november": "Tháng 11",
             "december": "Tháng 12"
-        }
+        },
+        "version": "Phiên bản {}"
     },
     "loginScreen": {
         "welcomeContent": "Chào mừng bạn đến với Dani.\nHiện tại, app chỉ hỗ trợ đăng nhập với Gmail",

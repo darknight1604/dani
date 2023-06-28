@@ -4,12 +4,15 @@ import 'package:dani/core/utils/extensions/text_style_extension.dart';
 import 'package:dani/core/utils/iterable_util.dart';
 import 'package:dani/core/utils/text_theme_util.dart';
 import 'package:dani/core/widgets/empty_widget.dart';
+import 'package:dani/gen/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constants.dart';
 import '../../applications/spending_dashboard/spending_dashboard_bloc.dart';
+import '../../businesses/models/group_spending_data_by_category_id.dart';
 
 class PieChartSample extends StatefulWidget {
   const PieChartSample({super.key});
@@ -97,32 +100,9 @@ class _PieChartSampleState extends State {
             //     );
             //   }).toList(),
             // ),
-            Expanded(
-              child: ListView.separated(
-                separatorBuilder: (context, index) => SizedBox(
-                  height: Constants.spacingBetweenWidget,
-                ),
-                itemCount: listColorChart.length,
-                itemBuilder: (context, index) {
-                  final data = listCategoryData[index];
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _Indicator(
-                        color: listColorChart[index],
-                        title: data.categoryName ?? StringPool.empty,
-                      ),
-                      Text(
-                        '${Constants.nf.format(data.total)} ${Constants.currencySymbol}',
-                        style: TextThemeUtil.instance.bodyMedium?.semiBold
-                            .copyWith(
-                          color: Colors.green,
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              ),
+            _ListSpendingCategoryStatisticWidget(
+              listColor: listColorChart,
+              listSpendingCategoryStatistic: listCategoryData,
             ),
           ],
         );
@@ -189,6 +169,100 @@ class _Indicator extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _ListSpendingCategoryStatisticWidget extends StatefulWidget {
+  final List<Color> listColor;
+  final List<GroupSpendingDataByCategoryId> listSpendingCategoryStatistic;
+  const _ListSpendingCategoryStatisticWidget({
+    required this.listColor,
+    required this.listSpendingCategoryStatistic,
+  });
+
+  @override
+  State<_ListSpendingCategoryStatisticWidget> createState() =>
+      _ListSpendingCategoryStatisticWidgetState();
+}
+
+class _ListSpendingCategoryStatisticWidgetState
+    extends State<_ListSpendingCategoryStatisticWidget> {
+  late List<Color> _listColor;
+  late List<GroupSpendingDataByCategoryId> _listSpendingCategoryStatistic;
+
+  @override
+  void initState() {
+    super.initState();
+    _listColor = widget.listColor;
+    _listSpendingCategoryStatistic = widget.listSpendingCategoryStatistic;
+  }
+
+  void _sort() {
+    setState(() {
+      _listColor = _listColor.reversed.toList();
+      _listSpendingCategoryStatistic =
+          _listSpendingCategoryStatistic.reversed.toList();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          InkWell(
+            onTap: () => _sort(),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  tr(LocaleKeys.common_sort),
+                  style: TextThemeUtil.instance.bodyMedium,
+                ),
+                SizedBox(
+                  width: Constants.padding,
+                ),
+                Icon(
+                  Icons.sort_outlined,
+                  size: Constants.iconSize,
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: ListView.separated(
+              separatorBuilder: (context, index) => SizedBox(
+                height: Constants.spacingBetweenWidget,
+              ),
+              itemCount: _listColor.length,
+              itemBuilder: (context, index) {
+                final data = _listSpendingCategoryStatistic[index];
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _Indicator(
+                      color: _listColor[index],
+                      title: data.categoryName ?? StringPool.empty,
+                    ),
+                    Text(
+                      '${Constants.nf.format(data.total)} ${Constants.currencySymbol}',
+                      style:
+                          TextThemeUtil.instance.bodyMedium?.semiBold.copyWith(
+                        color: Colors.green,
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

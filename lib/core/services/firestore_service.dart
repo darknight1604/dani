@@ -64,8 +64,16 @@ class FirestoreService {
     if (user == null) return false;
     Map<String, dynamic> payload = data;
     payload[JsonKeyConstants.userEmail] = user.email;
-    DateTime? createdDate =
-        DateTime.tryParse(data[JsonKeyConstants.createdDate] ?? '');
+    DateTime? createdDate = () {
+      dynamic createdDateData = data[JsonKeyConstants.createdDate];
+      if (createdDateData is String) {
+        return DateTime.tryParse(data[JsonKeyConstants.createdDate] ?? '');
+      }
+      if (createdDateData is! Timestamp) {
+        return null;
+      }
+      return createdDateData.toDate();
+    }.call();
     String index = '';
     if (createdDate != null) {
       index = createdDate.formatYYYYMMPlain();

@@ -15,6 +15,14 @@ class FirestoreQueryNotEqualTo extends FirestoreQuery {
   FirestoreQueryNotEqualTo(super.key, super.listValue);
 }
 
+class FirestoreQueryGreaterThanOrEqualTo extends FirestoreQuery {
+  FirestoreQueryGreaterThanOrEqualTo(super.key, super.listValue);
+}
+
+class FirestoreQueryLessThanOrEqualTo extends FirestoreQuery {
+  FirestoreQueryLessThanOrEqualTo(super.key, super.listValue);
+}
+
 class FirestoreQueryHelper {
   static Query<Object?> _magic(
     Query<Object?> collectionRef,
@@ -23,6 +31,12 @@ class FirestoreQueryHelper {
     switch (query.runtimeType) {
       case FirestoreQueryEqualTo:
         return collectionRef.where(query.key, isEqualTo: query.listValue.first);
+      case FirestoreQueryGreaterThanOrEqualTo:
+        return collectionRef.where(query.key,
+            isGreaterThanOrEqualTo: query.listValue.first);
+      case FirestoreQueryLessThanOrEqualTo:
+        return collectionRef.where(query.key,
+            isLessThanOrEqualTo: query.listValue.first);
       default:
     }
     return collectionRef;

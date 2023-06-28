@@ -53,4 +53,12 @@ extension DateTimeExtension on DateTime {
         return tr(LocaleKeys.common_month_december);
     }
   }
+
+  DateTime get beginOfDate {
+    return DateTime(year, month, day);
+  }
+
+  DateTime get endOfDate {
+    return DateTime(year, month, day, 23, 59, 59, 999);
+  }
 }

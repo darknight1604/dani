@@ -1,8 +1,8 @@
 import 'package:dani/core/constants.dart';
+import 'package:dani/core/utils/extensions/date_time_extension.dart';
 import 'package:dani/core/utils/iterable_util.dart';
 import 'package:dani/core/utils/string_util.dart';
 import 'package:dani/features/spending/services/spending_service.dart';
-import 'package:dani/core/utils/extensions/date_time_extension.dart';
 
 import '../businesses/models/group_spending_data.dart';
 import '../businesses/models/spending.dart';
@@ -11,10 +11,13 @@ import '../businesses/models/spending_request.dart';
 
 class SpendingBusiness {
   final SpendingService spendingService;
+
   late List<SpendingCategory> _listSpendingCategory = [];
   late List<Spending> _listSpending = [];
 
-  SpendingBusiness(this.spendingService);
+  SpendingBusiness(
+    this.spendingService,
+  );
 
   Future<List<GroupSpendingData>?> loadMoreListSpending() async {
     List<Spending> newList = await spendingService.loadMoreListSpending();

@@ -24,13 +24,16 @@ class AppConfig {
   final String _keyDevPath = 'devPath';
   final String _keyProdPath = 'prodPath';
 
+  late bool _isConvertCreatedDate = false;
+
   Future<void> initial() async {
     LicenseRegistry.addLicense(() async* {
       final license = await rootBundle.loadString('google_fonts/OFL.txt');
       yield LicenseEntryWithLineBreaks(['google_fonts'], license);
     });
-
-    User? user = await GetIt.I.get<LocalService>().getUser();
+    final localService = GetIt.I.get<LocalService>();
+    _isConvertCreatedDate = await localService.isConvertCreatedDate();
+    User? user = await localService.getUser();
     _token = user?.accessToken ?? '';
 
     final configStr = await rootBundle.loadString('assets/configs/config.json');
@@ -45,6 +48,7 @@ class AppConfig {
   }
 
   bool get isLogged => StringUtil.isNotNullOrEmpty(_token);
+  bool get isConvertCreatedDate => _isConvertCreatedDate;
 }
 
 class AppConfigData {

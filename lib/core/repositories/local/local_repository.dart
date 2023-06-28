@@ -21,4 +21,14 @@ class LocalRepository {
     SharedPreferences prefs = await getPref();
     return prefs.getString(key) ?? '';
   }
+
+  Future<bool> setBool(String key, bool value) async {
+    SharedPreferences prefs = await getPref();
+    return prefs.setBool(key, value);
+  }
+
+  Future<bool> getBool(String key) async {
+    SharedPreferences prefs = await getPref();
+    return prefs.getBool(key) ?? false;
+  }
 }

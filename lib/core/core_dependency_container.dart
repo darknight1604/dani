@@ -1,3 +1,4 @@
+import 'package:dani/core/services/background_service.dart';
 import 'package:dani/core/services/firestore_service.dart';
 import 'package:dani/core/services/local_service.dart';
 import 'package:get_it/get_it.dart';
@@ -24,6 +25,8 @@ class CoreDependencyContainer {
     );
     instance.registerLazySingleton<LocalService>(
         () => LocalService(instance.get()));
+    instance.registerLazySingleton<DaniBackgroundService>(
+        () => DaniBackgroundService());
 
     /// Applications
     instance.registerFactory<LoadingBloc>(() => LoadingBloc());

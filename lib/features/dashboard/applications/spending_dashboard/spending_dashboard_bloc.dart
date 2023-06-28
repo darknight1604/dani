@@ -15,9 +15,15 @@ class SpendingDashboardBloc
   ) : super(SpendingDashboardInitial()) {
     on<GenerateDataDashboardEvent>((event, emit) async {
       emit(SpendingDashboardLoading());
-      SpendingPieChartData data =
-          await dashboardBusiness.initData(event.month, event.year);
-      emit(SpendingPieChartDashboardState(data));
+      SpendingPieChartData data = await dashboardBusiness.initData(
+        event.startDate ?? DateTime.now(),
+        event.endDate ?? DateTime.now(),
+      );
+      emit(SpendingPieChartDashboardState(
+        data,
+        startDate: event.startDate,
+        endDate: event.endDate,
+      ));
     });
   }
 }

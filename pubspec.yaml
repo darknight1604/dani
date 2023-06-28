@@ -94,6 +94,7 @@ dependencies:
   # FL Chart is a highly customizable Flutter chart library that supports Line Chart, 
   # Bar Chart, Pie Chart, Scatter Chart, and Radar Chart
   fl_chart: ^0.63.0
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -128,6 +129,11 @@ flutter_gen:
 
   colors:
     inputs:
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  image_path: "assets/images/ic_launcher.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

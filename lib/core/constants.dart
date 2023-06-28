@@ -55,9 +55,11 @@ class JsonKeyConstants {
   static const String index = 'index';
   static const String createdDate = 'createdDate';
   static const String id = 'id';
+  static const String isConvertCreatedDate = 'isConvertCreatedDate';
 }
 
 class StringPool {
   static const String star = '*';
+  static const String empty = '';
   static const String space = ' ';
 }

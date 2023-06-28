@@ -19,7 +19,8 @@ class Spending extends Equatable {
   final DateTime? createdDate;
 
   final String? index;
-
+  
+  @JsonKey(defaultValue: false)
   final bool? isDeleted;
 
   const Spending({

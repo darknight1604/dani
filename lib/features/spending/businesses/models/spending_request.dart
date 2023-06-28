@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import '../../../../core/utils/converters/date_time_converter.dart';
 part 'spending_request.g.dart';
 
 @JsonSerializable()
@@ -7,6 +10,8 @@ class SpendingRequest {
   String? categoryId;
   String? categoryName;
   String? note;
+
+  @TimestampConverter()
   DateTime? createdDate;
   String? otherCategory;
   String? id;

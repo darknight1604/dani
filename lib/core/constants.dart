@@ -45,7 +45,7 @@ class Constants {
   static const int limitNumberOfItem = 10;
 
   static Color scaffoldBackgroundColor = Colors.blueGrey.shade50;
-  static NumberFormat nf = NumberFormat('#,##0', 'en_US');
+  static NumberFormat nf = NumberFormat(null, 'vi_VI');
 }
 
 class JsonKeyConstants {

@@ -23,88 +23,110 @@ class _PieChartSampleState extends State {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1,
-      child: BlocBuilder<SpendingDashboardBloc, SpendingDashboardState>(
-        builder: (context, state) {
-          if (state is! SpendingPieChartDashboardState) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (IterableUtil.isNullOrEmpty(
-              state.spendingPieChartData.listCategoryData)) {
-            return Center(
-              child: EmptyWidget(),
-            );
-          }
-          listIndexColor.clear();
-          final spendingPieChartData = state.spendingPieChartData;
-          final listCategoryData = spendingPieChartData.listCategoryData;
-
-          List<Color> listColorChart = List.generate(
-            listCategoryData.length,
-            (_) {
-              int indexColor = generateIndexColor();
-
-              return Color(colors[indexColor]);
-            },
+    return BlocBuilder<SpendingDashboardBloc, SpendingDashboardState>(
+      builder: (context, state) {
+        if (state is! SpendingPieChartDashboardState) {
+          return Center(
+            child: CircularProgressIndicator(),
           );
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Expanded(
-                child: AspectRatio(
-                  aspectRatio: 1,
-                  child: PieChart(
-                    PieChartData(
-                      pieTouchData: PieTouchData(),
-                      borderData: FlBorderData(
-                        show: false,
-                      ),
-                      sectionsSpace: 0,
-                      centerSpaceRadius: 40,
-                      sections: listCategoryData.map(
-                        (e) {
-                          final isTouched = e.categoryId ==
-                              spendingPieChartData.smallest.categoryId;
-                          final radius = isTouched ? 60.0 : 50.0;
-                          int index = listCategoryData.indexOf(e);
-                          Color color = listColorChart[index];
-                          return PieChartSectionData(
-                            color: color,
-                            value: e.percent,
-                            title: e.percent.toString(),
-                            radius: radius,
-                            titleStyle: isTouched
-                                ? TextThemeUtil.instance.titleMedium?.semiBold
-                                    .copyWith(color: Colors.white)
-                                : TextThemeUtil.instance.titleSmall?.semiBold
-                                    .copyWith(color: Colors.white),
-                          );
-                        },
-                      ).toList(),
-                    ),
+        }
+        if (IterableUtil.isNullOrEmpty(
+            state.spendingPieChartData.listCategoryData)) {
+          return Center(
+            child: EmptyWidget(),
+          );
+        }
+        listIndexColor.clear();
+        final spendingPieChartData = state.spendingPieChartData;
+        final listCategoryData = spendingPieChartData.listCategoryData;
+
+        List<Color> listColorChart = List.generate(
+          listCategoryData.length,
+          (_) {
+            int indexColor = generateIndexColor();
+
+            return Color(colors[indexColor]);
+          },
+        );
+        return Column(
+          children: <Widget>[
+            SizedBox(
+              height: 200,
+              child: PieChart(
+                PieChartData(
+                  pieTouchData: PieTouchData(),
+                  borderData: FlBorderData(
+                    show: false,
                   ),
+                  sectionsSpace: 0,
+                  centerSpaceRadius: 40,
+                  sections: listCategoryData.map(
+                    (e) {
+                      final isTouched = e.categoryId ==
+                          spendingPieChartData.smallest.categoryId;
+                      final radius = isTouched ? 60.0 : 50.0;
+                      int index = listCategoryData.indexOf(e);
+                      Color color = listColorChart[index];
+                      return PieChartSectionData(
+                        color: color,
+                        value: e.percent,
+                        title: e.percent.toString(),
+                        radius: radius,
+                        titleStyle: isTouched
+                            ? TextThemeUtil.instance.titleMedium?.semiBold
+                                .copyWith(color: Colors.white)
+                            : TextThemeUtil.instance.titleSmall?.semiBold
+                                .copyWith(color: Colors.white),
+                      );
+                    },
+                  ).toList(),
                 ),
               ),
-              Wrap(
-                spacing: 4.0,
-                runSpacing: 14.0,
-                runAlignment: WrapAlignment.end,
-                children: listColorChart.map((color) {
-                  int index = listColorChart.indexOf(color);
+            ),
+            // Wrap(
+            //   spacing: 4.0,
+            //   runSpacing: 14.0,
+            //   runAlignment: WrapAlignment.end,
+            //   children: listColorChart.map((color) {
+            //     int index = listColorChart.indexOf(color);
 
-                  return _Indicator(
-                    color: listColorChart[index],
-                    title: listCategoryData[index].categoryName ?? StringPool.empty,
+            //     return _Indicator(
+            //       color: listColorChart[index],
+            //       title: listCategoryData[index].categoryName ??
+            //           StringPool.empty,
+            //     );
+            //   }).toList(),
+            // ),
+            Expanded(
+              child: ListView.separated(
+                separatorBuilder: (context, index) => SizedBox(
+                  height: Constants.spacingBetweenWidget,
+                ),
+                itemCount: listColorChart.length,
+                itemBuilder: (context, index) {
+                  final data = listCategoryData[index];
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _Indicator(
+                        color: listColorChart[index],
+                        title: data.categoryName ?? StringPool.empty,
+                      ),
+                      Text(
+                        '${Constants.nf.format(data.total)} ${Constants.currencySymbol}',
+                        style: TextThemeUtil.instance.bodyMedium?.semiBold
+                            .copyWith(
+                          color: Colors.green,
+                        ),
+                      ),
+                    ],
                   );
-                }).toList(),
+                },
               ),
-            ],
-          );
-        },
-      ),
+            ),
+          ],
+        );
+      },
     );
   }
 

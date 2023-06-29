@@ -4,12 +4,15 @@ import 'package:dani/core/utils/extensions/text_style_extension.dart';
 import 'package:dani/core/utils/iterable_util.dart';
 import 'package:dani/core/utils/text_theme_util.dart';
 import 'package:dani/core/widgets/empty_widget.dart';
+import 'package:dani/gen/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constants.dart';
 import '../../applications/spending_dashboard/spending_dashboard_bloc.dart';
+import '../../businesses/models/group_spending_data_by_category_id.dart';
 
 class PieChartSample extends StatefulWidget {
   const PieChartSample({super.key});
@@ -23,88 +26,87 @@ class _PieChartSampleState extends State {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1,
-      child: BlocBuilder<SpendingDashboardBloc, SpendingDashboardState>(
-        builder: (context, state) {
-          if (state is! SpendingPieChartDashboardState) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (IterableUtil.isNullOrEmpty(
-              state.spendingPieChartData.listCategoryData)) {
-            return Center(
-              child: EmptyWidget(),
-            );
-          }
-          listIndexColor.clear();
-          final spendingPieChartData = state.spendingPieChartData;
-          final listCategoryData = spendingPieChartData.listCategoryData;
-
-          List<Color> listColorChart = List.generate(
-            listCategoryData.length,
-            (_) {
-              int indexColor = generateIndexColor();
-
-              return Color(colors[indexColor]);
-            },
+    return BlocBuilder<SpendingDashboardBloc, SpendingDashboardState>(
+      builder: (context, state) {
+        if (state is! SpendingPieChartDashboardState) {
+          return Center(
+            child: CircularProgressIndicator(),
           );
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Expanded(
-                child: AspectRatio(
-                  aspectRatio: 1,
-                  child: PieChart(
-                    PieChartData(
-                      pieTouchData: PieTouchData(),
-                      borderData: FlBorderData(
-                        show: false,
-                      ),
-                      sectionsSpace: 0,
-                      centerSpaceRadius: 40,
-                      sections: listCategoryData.map(
-                        (e) {
-                          final isTouched = e.categoryId ==
-                              spendingPieChartData.smallest.categoryId;
-                          final radius = isTouched ? 60.0 : 50.0;
-                          int index = listCategoryData.indexOf(e);
-                          Color color = listColorChart[index];
-                          return PieChartSectionData(
-                            color: color,
-                            value: e.percent,
-                            title: e.percent.toString(),
-                            radius: radius,
-                            titleStyle: isTouched
-                                ? TextThemeUtil.instance.titleMedium?.semiBold
-                                    .copyWith(color: Colors.white)
-                                : TextThemeUtil.instance.titleSmall?.semiBold
-                                    .copyWith(color: Colors.white),
-                          );
-                        },
-                      ).toList(),
-                    ),
+        }
+        if (IterableUtil.isNullOrEmpty(
+            state.spendingPieChartData.listCategoryData)) {
+          return Center(
+            child: EmptyWidget(),
+          );
+        }
+        listIndexColor.clear();
+        final spendingPieChartData = state.spendingPieChartData;
+        final listCategoryData = spendingPieChartData.listCategoryData;
+
+        List<Color> listColorChart = List.generate(
+          listCategoryData.length,
+          (_) {
+            int indexColor = generateIndexColor();
+
+            return Color(colors[indexColor]);
+          },
+        );
+        return Column(
+          children: <Widget>[
+            SizedBox(
+              height: 200,
+              child: PieChart(
+                PieChartData(
+                  pieTouchData: PieTouchData(),
+                  borderData: FlBorderData(
+                    show: false,
                   ),
+                  sectionsSpace: 0,
+                  centerSpaceRadius: 40,
+                  sections: listCategoryData.map(
+                    (e) {
+                      final isTouched = e.categoryId ==
+                          spendingPieChartData.smallest.categoryId;
+                      final radius = isTouched ? 60.0 : 50.0;
+                      int index = listCategoryData.indexOf(e);
+                      Color color = listColorChart[index];
+                      return PieChartSectionData(
+                        color: color,
+                        value: e.percent,
+                        title: e.percent.toString(),
+                        radius: radius,
+                        titleStyle: isTouched
+                            ? TextThemeUtil.instance.titleMedium?.semiBold
+                                .copyWith(color: Colors.white)
+                            : TextThemeUtil.instance.titleSmall?.semiBold
+                                .copyWith(color: Colors.white),
+                      );
+                    },
+                  ).toList(),
                 ),
               ),
-              Wrap(
-                spacing: 4.0,
-                runSpacing: 14.0,
-                runAlignment: WrapAlignment.end,
-                children: listColorChart.map((color) {
-                  int index = listColorChart.indexOf(color);
+            ),
+            // Wrap(
+            //   spacing: 4.0,
+            //   runSpacing: 14.0,
+            //   runAlignment: WrapAlignment.end,
+            //   children: listColorChart.map((color) {
+            //     int index = listColorChart.indexOf(color);
 
-                  return _Indicator(
-                    color: listColorChart[index],
-                    title: listCategoryData[index].categoryName ?? StringPool.empty,
-                  );
-                }).toList(),
-              ),
-            ],
-          );
-        },
-      ),
+            //     return _Indicator(
+            //       color: listColorChart[index],
+            //       title: listCategoryData[index].categoryName ??
+            //           StringPool.empty,
+            //     );
+            //   }).toList(),
+            // ),
+            _ListSpendingCategoryStatisticWidget(
+              listColor: listColorChart,
+              listSpendingCategoryStatistic: listCategoryData,
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -167,6 +169,100 @@ class _Indicator extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _ListSpendingCategoryStatisticWidget extends StatefulWidget {
+  final List<Color> listColor;
+  final List<GroupSpendingDataByCategoryId> listSpendingCategoryStatistic;
+  const _ListSpendingCategoryStatisticWidget({
+    required this.listColor,
+    required this.listSpendingCategoryStatistic,
+  });
+
+  @override
+  State<_ListSpendingCategoryStatisticWidget> createState() =>
+      _ListSpendingCategoryStatisticWidgetState();
+}
+
+class _ListSpendingCategoryStatisticWidgetState
+    extends State<_ListSpendingCategoryStatisticWidget> {
+  late List<Color> _listColor;
+  late List<GroupSpendingDataByCategoryId> _listSpendingCategoryStatistic;
+
+  @override
+  void initState() {
+    super.initState();
+    _listColor = widget.listColor;
+    _listSpendingCategoryStatistic = widget.listSpendingCategoryStatistic;
+  }
+
+  void _sort() {
+    setState(() {
+      _listColor = _listColor.reversed.toList();
+      _listSpendingCategoryStatistic =
+          _listSpendingCategoryStatistic.reversed.toList();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          InkWell(
+            onTap: () => _sort(),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  tr(LocaleKeys.common_sort),
+                  style: TextThemeUtil.instance.bodyMedium,
+                ),
+                SizedBox(
+                  width: Constants.padding,
+                ),
+                Icon(
+                  Icons.sort_outlined,
+                  size: Constants.iconSize,
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: ListView.separated(
+              separatorBuilder: (context, index) => SizedBox(
+                height: Constants.spacingBetweenWidget,
+              ),
+              itemCount: _listColor.length,
+              itemBuilder: (context, index) {
+                final data = _listSpendingCategoryStatistic[index];
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _Indicator(
+                      color: _listColor[index],
+                      title: data.categoryName ?? StringPool.empty,
+                    ),
+                    Text(
+                      '${Constants.nf.format(data.total)} ${Constants.currencySymbol}',
+                      style:
+                          TextThemeUtil.instance.bodyMedium?.semiBold.copyWith(
+                        color: Colors.green,
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

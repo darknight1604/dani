@@ -15,6 +15,4 @@ class DeleteSpendingListingEvent extends SpendingListingEvent {
   final Spending spending;
 
   DeleteSpendingListingEvent(this.spending);
-
-  
 }

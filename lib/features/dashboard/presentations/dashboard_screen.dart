@@ -81,75 +81,53 @@ class _DashboardScreenState extends State<DashboardScreen>
                 padding: const EdgeInsets.all(Constants.padding),
                 child: Column(
                   children: [
-                    Expanded(
-                      child: RefreshIndicator(
-                        onRefresh: () async {
-                          await Future.delayed(
-                              const Duration(milliseconds: 100));
-                          _spendingDashboardBloc.add(
-                            GenerateDataDashboardEvent(
-                              startDate: _startDate,
-                              endDate: _endDate,
-                            ),
-                          );
-                        },
-                        child: ListView(
-                          children: [
-                            SizedBox(
-                              height: 50,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  InkWell(
-                                    onTap: _pickRangeDate,
-                                    child: BlocBuilder<SpendingDashboardBloc,
-                                        SpendingDashboardState>(
-                                      builder: (context, state) {
-                                        return Text(
-                                          tr(
-                                            LocaleKeys
-                                                .dashboardScreen_statisticFromDayToDay,
-                                            args: [
-                                              state.startDate
-                                                      ?.formatDDMMYYYY() ??
-                                                  StringPool.empty,
-                                              state.endDate?.formatDDMMYYYY() ??
-                                                  StringPool.empty,
-                                            ],
-                                          ),
-                                          style: TextThemeUtil
-                                              .instance.titleMedium,
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  InkWell(
-                                    onTap: _pickRangeDate,
-                                    child: Icon(
-                                      Icons.expand_more,
-                                      size: Constants.iconSize,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            BlocBuilder<SpendingDashboardBloc,
+                    SizedBox(
+                      height: 50,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          InkWell(
+                            onTap: _pickRangeDate,
+                            child: BlocBuilder<SpendingDashboardBloc,
                                 SpendingDashboardState>(
                               builder: (context, state) {
-                                return TotalRowWidget(
-                                  title: tr(LocaleKeys.common_total),
-                                  content: state
-                                          is! SpendingPieChartDashboardState
-                                      ? Constants.empty
-                                      : '${Constants.nf.format(state.spendingPieChartData.total)} ${Constants.currencySymbol}',
+                                return Text(
+                                  tr(
+                                    LocaleKeys
+                                        .dashboardScreen_statisticFromDayToDay,
+                                    args: [
+                                      state.startDate?.formatDDMMYYYY() ??
+                                          StringPool.empty,
+                                      state.endDate?.formatDDMMYYYY() ??
+                                          StringPool.empty,
+                                    ],
+                                  ),
+                                  style: TextThemeUtil.instance.titleMedium,
                                 );
                               },
                             ),
-                            PieChartSample(),
-                          ],
-                        ),
+                          ),
+                          InkWell(
+                            onTap: _pickRangeDate,
+                            child: Icon(
+                              Icons.expand_more,
+                              size: Constants.iconSize,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
+                    BlocBuilder<SpendingDashboardBloc, SpendingDashboardState>(
+                      builder: (context, state) {
+                        return TotalRowWidget(
+                          title: tr(LocaleKeys.common_total),
+                          content: state is! SpendingPieChartDashboardState
+                              ? Constants.empty
+                              : '${Constants.nf.format(state.spendingPieChartData.total)} ${Constants.currencySymbol}',
+                        );
+                      },
+                    ),
+                    Expanded(child: PieChartSample()),
                   ],
                 ),
               ),
@@ -161,7 +139,7 @@ class _DashboardScreenState extends State<DashboardScreen>
   }
 
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => false;
 
   Future _pickRangeDate() async {
     DateTimeRange? dateTimeRange = await showDateRangePicker(

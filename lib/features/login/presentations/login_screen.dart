@@ -52,8 +52,25 @@ class _BodyScreen extends StatelessWidget {
             Expanded(
               child: DecoratedBox(
                 decoration: BoxDecoration(color: Colors.blue),
-                child: SizedBox(
-                  width: double.infinity,
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    double marginTop = constraints.maxHeight / 6;
+                    return SizedBox(
+                      width: double.infinity,
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Container(
+                          margin: EdgeInsets.only(top: marginTop),
+                          child: CircleAvatar(
+                            radius: 50,
+                            backgroundColor: Colors.transparent,
+                            backgroundImage:
+                                Assets.images.icLauncher.provider(),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),

@@ -1,4 +1,5 @@
 import 'package:dani/core/app_route.dart';
+import 'package:dani/core/constants.dart';
 import 'package:flutter/src/material/page.dart';
 
 import 'presentations/login_screen.dart';
@@ -10,5 +11,5 @@ class LoginRoute extends FeatureRoute {
   }
 
   @override
-  String get routeName => '/loginScreen';
+  String get routeName => ScreenPath.loginScreen;
 }

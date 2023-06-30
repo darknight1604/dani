@@ -56,6 +56,7 @@ class JsonKeyConstants {
   static const String createdDate = 'createdDate';
   static const String id = 'id';
   static const String isConvertCreatedDate = 'isConvertCreatedDate';
+  static const String isMaintenance = 'isMaintenance';
 }
 
 class StringPool {
@@ -64,4 +65,12 @@ class StringPool {
   static const String space = ' ';
   static const String comma = ',';
   static const String plus = '+';
+}
+
+class ScreenPath {
+  static const String maintenanceScreen = '/maintenanceScreen';
+  static const String loginScreen = '/loginScreen';
+  static const String homeScreen = '/homeScreen';
+  static const String dashboardScreen = '/dashboardScreen';
+  static const String spendingScreen = '/spendingScreen';
 }

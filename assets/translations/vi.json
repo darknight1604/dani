@@ -32,7 +32,10 @@
             "december": "Tháng 12"
         },
         "version": "Phiên bản {}",
-        "sort": "Sắp xếp"
+        "sort": "Sắp xếp",
+        "exit": "Thoát",
+        "maintenanceDescription1": "Ứng dụng đang được bảo trì",
+        "maintenanceDescription2": "Vui lòng đợi trong giây lát"
     },
     "loginScreen": {
         "welcomeContent": "Chào mừng bạn đến với Dani.\nHiện tại, app chỉ hỗ trợ đăng nhập với Gmail",

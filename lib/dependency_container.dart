@@ -5,6 +5,7 @@ import 'core/core_dependency_container.dart';
 import 'features/dashboard/dashboard_di_container.dart';
 import 'features/home_screen/home_di_container.dart';
 import 'features/login/login_di_container.dart';
+import 'features/maintenance/maintenance_di_container.dart';
 
 abstract class DiContainer {
   void setup(GetIt instance);
@@ -19,5 +20,6 @@ class DependencyContainer {
     SpendingDiContainer().setup(instance);
     LoginDiContainer().setup(instance);
     DashboardDiContainer().setup(instance);
+    MaintenanceDiContainer().setup(instance);
   }
 }

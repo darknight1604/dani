@@ -1,11 +1,11 @@
-import 'package:dani/core/app_route.dart';
 import 'package:dani/core/constants.dart';
+import 'package:dani/core/utils/extensions/text_style_extension.dart';
 import 'package:dani/gen/assets.gen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:dani/core/utils/extensions/text_style_extension.dart';
+
 import '../../../core/utils/text_theme_util.dart';
 import '../../../core/widgets/my_btn.dart';
 import '../../../gen/locale_keys.g.dart';
@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
               print('LoginFailState');
             }
             if (state is LoginSuccessState) {
-              Navigator.pushReplacementNamed(context, AppRoute.homeScreen);
+              Navigator.pushReplacementNamed(context, ScreenPath.homeScreen);
             }
           },
           child: _BodyScreen(),

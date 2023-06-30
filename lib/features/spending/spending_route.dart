@@ -1,4 +1,5 @@
 import 'package:dani/core/app_route.dart';
+import 'package:dani/core/constants.dart';
 import 'package:flutter/src/material/page.dart';
 
 import 'businesses/models/spending.dart';
@@ -17,5 +18,5 @@ class SpendingRoute extends FeatureRoute {
   }
 
   @override
-  String get routeName => '/spendingScreen';
+  String get routeName => ScreenPath.spendingScreen;
 }

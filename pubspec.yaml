@@ -94,8 +94,15 @@ dependencies:
   # FL Chart is a highly customizable Flutter chart library that supports Line Chart, 
   # Bar Chart, Pie Chart, Scatter Chart, and Radar Chart
   fl_chart: ^0.63.0
-  flutter_launcher_icons: ^0.13.1
+  
+  # https://pub.dev/packages/package_info_plus
+  # This Flutter plugin provides an API for querying information about an application package
   package_info_plus: ^4.0.2
+
+  # https://pub.dev/packages/firebase_remote_config
+  # A Flutter plugin to use the Firebase Remote Config API
+  firebase_remote_config: ^4.2.3
+  # firebase_analytics: ^10.4.3
 
 dev_dependencies:
   flutter_test:

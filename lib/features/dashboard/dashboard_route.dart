@@ -1,4 +1,5 @@
 import 'package:dani/core/app_route.dart';
+import 'package:dani/core/constants.dart';
 import 'package:flutter/src/material/page.dart';
 
 import 'presentations/dashboard_screen.dart';
@@ -12,5 +13,5 @@ class DashboardRoute extends FeatureRoute {
   }
 
   @override
-  String get routeName => '/dashboardScreen';
+  String get routeName => ScreenPath.dashboardScreen;
 }

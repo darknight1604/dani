@@ -29,10 +29,13 @@
             "september": "September",
             "october": "October",
             "november": "November",
-            "december": "december"
+            "december": "December"
         },
         "version": "Version {}",
-        "sort": "Sort"
+        "sort": "Sort",
+        "exit": "Exit",
+        "maintenanceDescription1": "We're down for a bit of maintenance",
+        "maintenanceDescription2": "We will be back soon"
     },
     "loginScreen": {
         "welcomeContent": "Welcome to Dani.\nCurrently, we only support login with Gmail",

@@ -7,6 +7,7 @@ import 'app_route.dart';
 import 'applications/loading/loading_bloc.dart';
 import 'repositories/local/local_repository.dart';
 import 'repositories/remote/firestore_repository.dart';
+import 'services/remote_config_service.dart';
 
 class CoreDependencyContainer {
   static void setup(GetIt instance) {
@@ -27,6 +28,8 @@ class CoreDependencyContainer {
         () => LocalService(instance.get()));
     instance.registerLazySingleton<DaniBackgroundService>(
         () => DaniBackgroundService());
+    instance.registerLazySingleton<RemoteConfigService>(
+        () => RemoteConfigService());
 
     /// Applications
     instance.registerFactory<LoadingBloc>(() => LoadingBloc());

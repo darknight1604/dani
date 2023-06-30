@@ -1,3 +1,4 @@
+import 'package:dani/core/constants.dart';
 import 'package:dani/core/utils/iterable_util.dart';
 import 'package:dani/core/utils/string_util.dart';
 import 'package:flutter/material.dart';
@@ -7,15 +8,15 @@ import 'app_config.dart';
 
 class AppRoute {
   AppRoute._();
-  static const String loginScreen = "/loginScreen";
-
-  static const String homeScreen = "/homeScreen";
 
   static String initialRoute(AppConfig appConfig) {
-    if (appConfig.isLogged) {
-      return homeScreen;
+    if (appConfig.isMaintenance) {
+      return ScreenPath.maintenanceScreen;
     }
-    return loginScreen;
+    if (appConfig.isLogged) {
+      return ScreenPath.homeScreen;
+    }
+    return ScreenPath.loginScreen;
   }
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {

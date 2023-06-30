@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: BlocListener<HomeCubit, HomeState>(
         listener: (context, state) {
           if (state is HomeLogoutSuccessState) {
-            AppRoute.pushReplacement(context, AppRoute.loginScreen);
+            AppRoute.pushReplacement(context, ScreenPath.loginScreen);
             return;
           }
         },
@@ -188,7 +188,9 @@ class _MyDrawer extends StatelessWidget {
                   AppConfig.instance.version,
                 ],
               ),
-              style: TextThemeUtil.instance.bodyMedium?.copyWith(color: Constants.disableColor,),
+              style: TextThemeUtil.instance.bodyMedium?.copyWith(
+                color: Constants.disableColor,
+              ),
             ),
             SizedBox(
               height: Constants.padding,

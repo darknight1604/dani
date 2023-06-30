@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:dani/core/constants.dart';
 import 'package:dani/core/services/local_service.dart';
+import 'package:dani/core/services/remote_config_service.dart';
 import 'package:dani/core/utils/string_util.dart';
+import 'package:dani/gen/assets.gen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
@@ -31,9 +33,11 @@ class AppConfig {
   late String _version = StringPool.empty;
   late String _buildNumber = StringPool.empty;
 
+  late bool _isMaintenance = false;
+
   Future<void> initial() async {
     LicenseRegistry.addLicense(() async* {
-      final license = await rootBundle.loadString('google_fonts/OFL.txt');
+      final license = await rootBundle.loadString(Assets.googleFonts.ofl);
       yield LicenseEntryWithLineBreaks(['google_fonts'], license);
     });
     final localService = GetIt.I.get<LocalService>();
@@ -41,7 +45,7 @@ class AppConfig {
     User? user = await localService.getUser();
     _token = user?.accessToken ?? StringPool.empty;
 
-    final configStr = await rootBundle.loadString('assets/configs/config.json');
+    final configStr = await rootBundle.loadString(Assets.configs.config);
     Map<String, dynamic> jsonConfig = jsonDecode(configStr);
     appConfigData = AppConfigData(
       jsonConfig[_keyIsDevelop],
@@ -56,6 +60,8 @@ class AppConfig {
     // String packageName = packageInfo.packageName;
     _version = packageInfo.version;
     _buildNumber = packageInfo.buildNumber;
+
+    _isMaintenance = await GetIt.I.get<RemoteConfigService>().isMaintenance();
   }
 
   bool get isLogged => StringUtil.isNotNullOrEmpty(_token);
@@ -69,6 +75,7 @@ class AppConfig {
   }
 
   String get buildNumber => _buildNumber;
+  bool get isMaintenance => _isMaintenance;
 }
 
 class AppConfigData {

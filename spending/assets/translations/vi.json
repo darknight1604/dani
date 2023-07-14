@@ -52,5 +52,8 @@
         "statisticInMonth": "Thống kê {}",
         "statisticFromDayToDay": "Thống kê từ {} đến {}",
         "statistic": "Thống kê"
+    },
+    "flappy": {
+        "gameName": "Flappy bird"
     }
 }

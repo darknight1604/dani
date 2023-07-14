@@ -4,6 +4,7 @@ import 'package:dani/core/constants.dart';
 import 'package:dani/core/utils/extensions/text_style_extension.dart';
 import 'package:dani/core/widgets/my_btn.dart';
 import 'package:dani/features/login/domains/models/user.dart';
+import 'package:dani/gen/assets.gen.dart';
 import 'package:dani/gen/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ import '../../../core/widgets/my_cache_image.dart';
 import '../../dashboard/presentations/dashboard_screen.dart';
 import '../../spending/presentations/spending_listing_screen.dart';
 import '../applications/cubit/home_cubit.dart';
+import 'flappy_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -145,11 +147,44 @@ class _MyDrawer extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    child: Center(
-                      child: Text(
-                        tr(LocaleKeys.common_featureWorkInProgress),
-                        style: TextThemeUtil.instance.titleMedium?.regular,
-                      ),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: 1,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          width: double.infinity,
+                          height: 50,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute<void>(
+                                  builder: (BuildContext context) =>
+                                      const FlappyScreen(),
+                                ),
+                              );
+                            },
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: Constants.padding,
+                                ),
+                                Assets.images.icFlappy.image(
+                                  width: Constants.iconSize,
+                                ),
+                                SizedBox(
+                                  width: Constants.padding,
+                                ),
+                                Text(
+                                  tr(LocaleKeys.flappy_gameName),
+                                  style: TextThemeUtil
+                                      .instance.bodyMedium?.regular,
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ],
@@ -188,7 +223,9 @@ class _MyDrawer extends StatelessWidget {
                   AppConfig.instance.version,
                 ],
               ),
-              style: TextThemeUtil.instance.bodyMedium?.copyWith(color: Constants.disableColor,),
+              style: TextThemeUtil.instance.bodyMedium?.copyWith(
+                color: Constants.disableColor,
+              ),
             ),
             SizedBox(
               height: Constants.padding,

@@ -25,7 +25,7 @@ class Bird extends SpriteAnimationComponent with HasGameRef<FlappyGame> {
         Sprite(upflapImage),
       ],
     );
-    position = Vector2(20, game.canvasSize.y / 2);
+    position = Vector2(50, game.canvasSize.y / 2);
     anchor = Anchor.centerLeft;
     angle = -45;
     add(RectangleHitbox());

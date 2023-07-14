@@ -52,5 +52,8 @@
         "statisticInMonth": "{} statistic",
         "statisticFromDayToDay": "Statistic from {} to {}",
         "statistic": "Statistic"
+    },
+    "flappy": {
+        "gameName": "Flappy bird"
     }
 }

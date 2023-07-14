@@ -12,12 +12,12 @@ class FlappyGame extends FlameGame with HasCollisionDetection, TapDetector {
   final world = World();
   late final CameraComponent cameraComponent;
 
-  final double gameSpeed = 50;
+  final double gameSpeed = 100;
 
   late double baseHeight = 0;
   late Timer timer;
 
-  final double timeCreateNextPipes = 3.7;
+  final double timeCreateNextPipes = 2.3;
 
   bool isGameOver = false;
   late Bird _bird;
@@ -25,6 +25,7 @@ class FlappyGame extends FlameGame with HasCollisionDetection, TapDetector {
   @override
   void onLoad() async {
     super.onLoad();
+
     await images.loadAll([
       'background.png',
       'base.png',

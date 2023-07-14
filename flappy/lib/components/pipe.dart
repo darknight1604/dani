@@ -9,7 +9,7 @@ import 'bird.dart';
 
 class Pipes extends Component with HasGameRef<FlappyGame>, CollisionCallbacks {
   final Vector2 abovePipePosition;
-  final double space = 200;
+  final double space = 185;
   final double minHeightPipe = 50;
 
   late Vector2 velocity = Vector2.zero();

@@ -8,6 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
+import 'package:flutter/services.dart';
 import 'core/constants.dart';
 
 void main() async {
@@ -19,7 +20,11 @@ void main() async {
   await AppConfig.instance.initial();
 
   await GetIt.I.get<DaniBackgroundService>().perform();
-
+  
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(
     EasyLocalization(
       supportedLocales: [

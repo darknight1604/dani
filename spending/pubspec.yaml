@@ -99,6 +99,8 @@ dependencies:
 
   flappy:
     path: ../flappy
+    
+  flame: ^1.8.0
 
 dev_dependencies:
   flutter_test:
